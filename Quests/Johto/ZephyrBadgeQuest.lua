@@ -51,7 +51,7 @@ function ZephyrBadgeQuest:VioletCityPokemart()
 end
 
 function ZephyrBadgeQuest:VioletCity()
-	if self:needPokecenter() or not game.isTeamFullyHealed() or not self.registeredPokecenter == "Pokecenter Violet City" then
+	if self:needPokecenter() or not game.isTeamFullyHealed() or self.registeredPokecenter ~= "Pokecenter Violet City" then
 		return moveToMap("Pokecenter Violet City")
 	elseif self:needPokemart() then
 		return moveToMap("Violet City Pokemart")	
@@ -75,7 +75,7 @@ function ZephyrBadgeQuest:Route32()
 		if isNpcOnCell(26,23) then
 			return talkToNpcOnCell(26,23)
 		else
-			if not game.isTeamFullyHealed() or not self.registeredPokecenter == "Pokecenter Route 32" then
+			if not game.isTeamFullyHealed() or self.registeredPokecenter ~= "Pokecenter Route 32" then
 				return moveToMap("Pokecenter Route 32")
 			else
 				return moveToMap("Union Cave 1F")

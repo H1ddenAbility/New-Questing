@@ -44,7 +44,7 @@ end
 
 
 function RisingBadgeQuest:MahoganyTown()
-	if self:needPokecenter() or not game.isTeamFullyHealed() or not self.registeredPokecenter == "Pokecenter Mahogany Town" then
+	if self:needPokecenter() or not game.isTeamFullyHealed() or self.registeredPokecenter ~= "Pokecenter Mahogany Town" then
 		moveToMap("Pokecenter Mahogany")
 	else moveToMap("Route 44")
 	end
@@ -82,7 +82,7 @@ function RisingBadgeQuest:IcePathB3F()
 end
 
 function RisingBadgeQuest:BlackthornCity()
-	if self:needPokecenter() or not game.isTeamFullyHealed() or not self.registeredPokecenter == "Pokecenter Blackthorn City" then
+	if self:needPokecenter() or not game.isTeamFullyHealed() or self.registeredPokecenter ~= "Pokecenter Blackthorn City" then
 		moveToMap("Pokecenter Blackthorn" )
 	elseif not self:isTrainingOver() then 
 		moveToMap("Dragons Den Entrance")

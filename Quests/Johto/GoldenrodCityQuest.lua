@@ -77,7 +77,7 @@ end
 
 
 function GoldenrodCityQuest:Route34()
-	if self:needPokecenter() or not self.registeredPokecenter == "Pokecenter Goldenrod" then
+	if self:needPokecenter() or self.registeredPokecenter ~= "Pokecenter Goldenrod" then
 		return moveToMap("Goldenrod City")
 	elseif not self:isTrainingOver() then
 		return moveToGrass()
@@ -87,7 +87,7 @@ function GoldenrodCityQuest:Route34()
 end
 
 function GoldenrodCityQuest:Route34StopHouse()
-	if self:needPokecenter() or not self.registeredPokecenter == "Pokecenter Goldenrod" then
+	if self:needPokecenter() or self.registeredPokecenter ~= "Pokecenter Goldenrod" then
 		return moveToMap("Route 34")
 	else
 		return moveToMap("Route 34")

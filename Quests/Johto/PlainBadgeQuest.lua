@@ -40,7 +40,7 @@ function PlainBadgeQuest:PokecenterGoldenrod()
 end
 
 function PlainBadgeQuest:GoldenrodCity()
-	if self:needPokecenter() or not game.isTeamFullyHealed() or not self.registeredPokecenter == "Pokecenter Goldenrod" then
+	if self:needPokecenter() or not game.isTeamFullyHealed() or self.registeredPokecenter ~= "Pokecenter Goldenrod" then
 		return moveToMap("Pokecenter Goldenrod")	
 	elseif not self:isTrainingOver() then
 		return moveToMap("Route 34")

@@ -69,7 +69,7 @@ function MineralBadgeQuest:Route40()
 end
 
 function MineralBadgeQuest:OlivineCity()
-	if self:needPokecenter() or not game.isTeamFullyHealed() or not self.registeredPokecenter == "Pokecenter Olivine City" then
+	if self:needPokecenter() or not game.isTeamFullyHealed() or self.registeredPokecenter ~= "Pokecenter Olivine City" then
 		moveToMap("Olivine Pokecenter")
 	elseif not dialogs.phare.state then 
 		moveToMap("Glitter Lighthouse 1F")

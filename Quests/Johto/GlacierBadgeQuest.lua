@@ -60,7 +60,7 @@ function GlacierBadgeQuest:OlivineCityGym()
 end
 
 function GlacierBadgeQuest:OlivineCity()
-	if self:needPokecenter() or not game.isTeamFullyHealed() or not self.registeredPokecenter == "Pokecenter Olivine City" then
+	if self:needPokecenter() or not game.isTeamFullyHealed() or self.registeredPokecenter ~= "Pokecenter Olivine City" then
 		moveToMap("Olivine Pokecenter")
 	else moveToMap("Route 39")
 	end

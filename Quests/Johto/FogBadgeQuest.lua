@@ -125,7 +125,7 @@ function FogBadgeQuest:Route37()
 end
 
 function FogBadgeQuest:EcruteakCity()
-	if self:needPokecenter() or not game.isTeamFullyHealed() or not self.registeredPokecenter == "Pokecenter Ecruteak" then
+	if self:needPokecenter() or not game.isTeamFullyHealed() or self.registeredPokecenter ~= "Pokecenter Ecruteak" then
 		return moveToMap("Pokecenter Ecruteak")
 	elseif not self:isTrainingOver() then
 		moveToMap("Route 37")

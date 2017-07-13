@@ -40,7 +40,7 @@ function HiveBadgeQuest:AzaleaPokemart()
 end
 
 function HiveBadgeQuest:AzaleaTown()
-	if self:needPokecenter() or not game.isTeamFullyHealed() or not self.registeredPokecenter == "Pokecenter Azalea" then
+	if self:needPokecenter() or not game.isTeamFullyHealed() or self.registeredPokecenter ~= "Pokecenter Azalea" then
 		return moveToMap("Pokecenter Azalea")
 	elseif self:needPokemart() then
 		return moveToMap("Azalea Pokemart")	
@@ -58,7 +58,7 @@ function HiveBadgeQuest:AzaleaTown()
 end
 
 function HiveBadgeQuest:Route33()
-	if self:needPokecenter() or self:needPokemart() or not self.registeredPokecenter == "Pokecenter Azalea" then
+	if self:needPokecenter() or self:needPokemart() or self.registeredPokecenter ~= "Pokecenter Azalea" then
 		return moveToMap("Azalea Town")
 	elseif not self:isTrainingOver() then
 		return moveToGrass()

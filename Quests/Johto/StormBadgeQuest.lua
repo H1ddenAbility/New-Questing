@@ -50,7 +50,7 @@ function StormBadgeQuest:EcruteakGym()
 end
 
 function StormBadgeQuest:EcruteakCity()
-	if self:needPokecenter() or not game.isTeamFullyHealed() or not self.registeredPokecenter == "Pokecenter Ecruteak" then
+	if self:needPokecenter() or not game.isTeamFullyHealed() or self.registeredPokecenter ~= "Pokecenter Ecruteak" then
 		moveToMap("Pokecenter Ecruteak")
 	else moveToMap("Ecruteak Stop House 2")
 	end
