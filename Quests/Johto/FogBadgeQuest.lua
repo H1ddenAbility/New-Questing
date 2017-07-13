@@ -49,7 +49,7 @@ function FogBadgeQuest:GoldenrodCityGym()
 end
 
 function FogBadgeQuest:GoldenrodCity()
-	if self:needPokecenter() or not game.isTeamFullyHealed() or not self.registeredPokecenter == "Pokecenter Goldenrod" then
+	if self:needPokecenter() or not game.isTeamFullyHealed() or self.registeredPokecenter ~= "Pokecenter Goldenrod" then
 		return moveToMap("Pokecenter Goldenrod")
 	elseif not hasItem("SquirtBottle") then 
 		moveToMap("Goldenrod City Flower Shop")
