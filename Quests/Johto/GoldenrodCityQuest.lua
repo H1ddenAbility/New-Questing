@@ -55,7 +55,7 @@ function GoldenrodCityQuest:PokecenterGoldenrod()
 end
 
 function GoldenrodCityQuest:GoldenrodCity()
-	if self:needPokecenter() or not game.isTeamFullyHealed() or not self.registeredPokecenter == "Pokecenter Goldenrod" then
+	if self:needPokecenter() or not game.isTeamFullyHealed() or self.registeredPokecenter ~= "Pokecenter Goldenrod" then
 		return moveToMap("Pokecenter Goldenrod")
 	elseif hasItem("Bike Voucher") then
 		return moveToMap("Goldenrod City Bike Shop")
