@@ -19,9 +19,11 @@ local dialogs = {
 	profCheck = Dialog:new({ 
 		"i gave her a task"
 	}),
-	jirachiCheck = Dialog:new({
-		"JIRACHI"
-		
+	npc1 = Dialog:new({
+		"are some things money"
+	}),
+	npc2 = Dialog:new({
+		"faced with a decision and you let someone"
 	}),
 	mayCheck = Dialog:new({ 
 		"I heard much",
@@ -77,10 +79,16 @@ function FromLittlerootToWoodsQuest:PokecenterPetalburgCity()
 end
 
 function FromLittlerootToWoodsQuest:Route104()
-	if game.inRectangle(7,0,41,67) then 
-		moveToMap("Rustboro City")
-	elseif self:needPokecenter() or self.registeredPokecenter ~= "Pokecenter Petalburg City" then
-		return moveToMap("Petalburg City")
+	if not self:isTrainingOver() and game.inRectangle(1,70,78,142) then
+		moveToGrass()
+	elseif game.inRectangle(1,70,78,142) then 
+		moveToCell(36,79)
+	elseif isNpcOnCell(31,45) and not dialogs.npc1.state then
+			talkToNpcOnCell (31,45)
+	elseif isNpcOnCell(60,42) and not dialogs.npc2.state then
+			talkToNpcOnCell (60,42)
+	elseif game.inRectangle(7,0,74,59) then 
+		moveToCell(40,0)
 	else moveToCell(36,79)
 	end
 end	

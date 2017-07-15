@@ -22,9 +22,9 @@ function Quest:new(name, description, level, dialogs)
 	return o
 end
 
---function onStop()
-	--return relog(10,"This script was made by Hiddenability, enjoy botting...")
---end
+function onStop()
+	return relog(10,"This script was made by Hiddenability, enjoy botting...")
+end
 
 function Quest:isDoable()
 	sys.error("Quest:isDoable", "function is not overloaded in quest: " .. self.name)
@@ -148,7 +148,7 @@ function Quest:useBike()
 	if isTeamInspectionEnabled() then
      return  disableTeamInspection() 
 	end
-	if getTeamSize() >= 1 and getPokemonLevel(1) >= 27 and getPokemonName(1) == "Mudkip"  then 
+	if getTeamSize() >= 1 and getPokemonLevel(1) >= 47 and getPokemonName(1) == "Mudkip"  then 
 		enableAutoEvolve()
 	elseif getTeamSize() >= 1 and getPokemonLevel(1) >= 95 and getPokemonName(1) == "Marshtomp " then
 		enableAutoEvolve()

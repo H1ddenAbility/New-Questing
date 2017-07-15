@@ -17,6 +17,57 @@ local guitare = false
 N = 2
 local DynamoBadge = Quest:new()
 
+local dialogs = {
+	npc11 = Dialog:new({
+		"got the entire footage right with my"
+	}),
+	npc12 = Dialog:new({
+		"us your Pokemon again sometime",
+	}),
+	npc13 = Dialog:new({
+		"Let's battle again sometime",
+	}),
+	npc14 = Dialog:new({
+		"out your Pokemon had even more",
+	}),
+	npc15 = Dialog:new({
+		"it is important to treat all you"
+	}),
+	npc16 = Dialog:new({
+		"you be interested in doing volunteer work",
+	}),
+	npc17 = Dialog:new({
+		"I still find Bug type Pokemon to be the",
+	}),
+	npc18 = Dialog:new({
+		"really team up someday. Maybe we'll",
+	}),
+	npc19 = Dialog:new({
+		"even think about touching Meg",
+	}),
+	npc20 = Dialog:new({
+		"place looks beautiful though",
+	}),
+	npc21 = Dialog:new({
+		"need to recharge my batteries",
+	}),
+	npc22 = Dialog:new({
+		"Still looking, still no luck",
+	}),
+	npc23 = Dialog:new({
+		"to trounce over Wattson",
+	}),
+	npc24 = Dialog:new({
+		"you navigated your way through the puzzle",
+	}),
+	npc25 = Dialog:new({
+		"find the sequential combination to this puzzle",
+	}),
+	relog = Dialog:new({
+		"have deactivated one string of",
+	})
+}
+
 function DynamoBadge:new()
 	o = Quest.new(DynamoBadge, name, description, level, dialogs)
 	o.pokemonId = 1
@@ -24,6 +75,8 @@ function DynamoBadge:new()
 
 	return o
 end
+
+
 
 function DynamoBadge:isDoable()
 	if self:hasMap() and not  hasItem("Dynamo Badge") then
@@ -33,7 +86,7 @@ function DynamoBadge:isDoable()
 end
 
 function DynamoBadge:isDone()
-	if ( hasItem("Dynamo Badge") and getMapName() == "Mauville City Gym" ) or  getMapName() == "Mauville City Stop House 3" then
+	if  hasItem("Dynamo Badge") and ( getMapName() == "Mauville City Gym"  or  getMapName() == "Mauville City Stop House 3" ) then
 		return true
 	else
 		return false
@@ -53,6 +106,8 @@ function DynamoBadge:MauvilleCity()
 			else
 				fatal("No pokemon in this team can learn Ice Beam")
 			end
+	elseif self:needPokecenter() or not game.isTeamFullyHealed() or self.registeredPokecenter ~= "Pokecenter Mauville City" then
+		moveToMap("Pokecenter Mauville City")
 	elseif not game.hasPokemonWithMove("Rock Smash") then
 			if self.pokemonId < getTeamSize() then
 				useItemOnPokemon("TM114", self.pokemonId)
@@ -61,21 +116,91 @@ function DynamoBadge:MauvilleCity()
 			else
 				fatal("No pokemon in this team can learn Rock Smash")
 			end
-	elseif self:needPokecenter() or not game.isTeamFullyHealed() or self.registeredPokecenter ~= "Pokecenter Mauville City" then
-		moveToMap("Pokecenter Mauville City")
 	elseif isNpcOnCell(13,14) then
 		talkToNpcOnCell(13,14)
-	else
-		
+	elseif 	 not dialogs.npc14.state then
 		moveToMap("Mauville City Stop House 3")
+	elseif 	 not dialogs.npc19.state then
+		moveToMap("Mauville City Stop House 2")
+	elseif 	 not dialogs.npc22.state then
+		moveToMap("Mauville City Stop House 4")
+	else 
+		moveToMap("Mauville City Gym")
 	end
 	
 	
 end
 
+function DynamoBadge:MauvilleCityStopHouse4()
+	if not dialogs.npc22.state then
+		moveToMap("Route 118")
+	else 
+		moveToMap("Mauville City")
+	end
+end
+
+function DynamoBadge:Route118()
+	if not dialogs.npc22.state then
+		if isNpcOnCell(10,13) and not dialogs.npc20.state then
+			talkToNpcOnCell (10,13)
+		elseif isNpcOnCell(16,21) and not dialogs.npc21.state then
+			talkToNpcOnCell (16,21)
+		elseif isNpcOnCell(28,14) and not dialogs.npc22.state then
+			talkToNpcOnCell (28,14)
+		end
+	else 
+		moveToMap("Mauville City Stop House 4")
+	end
+end
+
+
+function DynamoBadge:MauvilleCityStopHouse2()
+	if not dialogs.npc19.state then
+		moveToMap("Route 117")
+	else 
+		moveToMap("Mauville City")
+	end
+end
+ 
+
+
+function DynamoBadge:MauvilleCityStopHouse3()
+	if not dialogs.npc14.state then
+		moveToMap("Route 111 South")
+	else 
+		moveToMap("Mauville City")
+	end
+end
+
+function DynamoBadge:Route111South()	
+	if not dialogs.npc14.state then
+		if isNpcOnCell(33,91) and not dialogs.npc11.state then
+			talkToNpcOnCell (33,91)
+		elseif isNpcOnCell(33,90) and not dialogs.npc12.state then
+			talkToNpcOnCell (33,90)
+		elseif isNpcOnCell(23,70) and not dialogs.npc13.state then
+			talkToNpcOnCell (23,70)
+		elseif isNpcOnCell(31,64) and not dialogs.npc14.state then
+			talkToNpcOnCell (31,64)
+		end
+	else 
+		moveToMap("Mauville City Stop House 3")
+	end
+end
+	
 function DynamoBadge:Route117()
-	if self:needPokecenter() then
-		moveToMap("Mauville City Stop House 2")
+	if not dialogs.npc19.state then
+		if isNpcOnCell(98,28) and not dialogs.npc15.state then
+			talkToNpcOnCell (98,28)
+		elseif isNpcOnCell(80,17) and not dialogs.npc16.state then
+			talkToNpcOnCell (80,17)
+		elseif isNpcOnCell(95,40) and not dialogs.npc17.state then
+			talkToNpcOnCell (95,40)
+		elseif isNpcOnCell(7,26) and not dialogs.npc18.state then
+			talkToNpcOnCell (7,26)
+		elseif isNpcOnCell(6,26) and not dialogs.npc19.state then
+			talkToNpcOnCell (6,26)
+		end
 	elseif not self:isTrainingOver() then
 		moveToGrass()
 	else moveToMap("Mauville City Stop House 2")
@@ -112,11 +237,21 @@ function DynamoBadge:MauvilleCityStopHouse2()
 	end
 end
 
+
 function DynamoBadge:MauvilleCityGym()
 	if not hasItem("Dynamo Badge") then
-		if not isNpcOnCell(7,9) then 
+		if not isNpcOnCell(7,9) and not isNpcOnCell(7,13) and not isNpcOnCell(9,15) and not  isNpcOnCell(11,13) then 
+			if isNpcOnCell(4,10) and not dialogs.npc23.state then
+				talkToNpcOnCell (4,10)
+			elseif isNpcOnCell(1,17) and not dialogs.npc24.state then
+				talkToNpcOnCell (1,17)
+			elseif isNpcOnCell(13,12) and not dialogs.npc25.state then
+				talkToNpcOnCell (13,12)
+			else 
+				talkToNpcOnCell (7,1)
+			end
+		elseif not isNpcOnCell(7,9) then 
 			return talkToNpcOnCell(7,1) or talkToNpcOnCell(11,11)
-			
 		elseif isNpcOnCell(5,15) then 
 			talkToNpcOnCell(1,17)
 			log("2")

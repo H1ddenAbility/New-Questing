@@ -12,7 +12,7 @@ local Dialog = require "Quests/Dialog"
 local name        = 'To Mauville City'
 local description = 'Beat Museum,May and go to Mauville '
 
-local level       = 30
+local level       = 35
 local toMauville = Quest:new()
 
 
@@ -30,6 +30,9 @@ local dialogs = {
 		"What is going on?"
 
 	}),
+	npc10 = Dialog:new({
+		"give my best next time too"
+	})
 }
 
 function toMauville:new()
@@ -83,7 +86,13 @@ function toMauville:DewfordTown()
 end
 
 function toMauville:Route109()
-	moveToMap("Slateport City")
+	if self.registeredPokecenter ~= "Pokecenter Slateport" then
+		moveToMap("Slateport City")
+	elseif not self:isTrainingOver() then
+		moveToRectangle(26,2,38,2)
+	else 
+		moveToMap("Slateport City")
+	end
 	
 end
 
@@ -124,7 +133,7 @@ end
 function toMauville:SlateportCity()
 	if self:needPokecenter() or not game.isTeamFullyHealed() or self.registeredPokecenter ~= "Pokecenter Slateport" then
 		 moveToCell(32,25)
-	elseif not hasItem("Devon Goods") or not self:isTrainingOver() then 
+	elseif not hasItem("Devon Goods")  then 
 		moveToMap("Route 110")
 	elseif not dialogs.ingenieur.state and not dialogs.devonVic.state then 
 		moveToCell(39,54)
@@ -172,12 +181,10 @@ end
 end 
 
 function toMauville:Route110()
-	if self:needPokecenter() then
-		moveToMap("Slateport City")
-	elseif not self:isTrainingOver() then
-		moveToRectangle(10,127,20,132)
-	elseif isNpcOnCell(43,78) then 
+	if isNpcOnCell(43,78) then 
 		talkToNpcOnCell(43,78)
+	elseif isNpcOnCell(24,60) and not dialogs.npc10.state then
+			talkToNpcOnCell (24,60)
 	else moveToMap("Mauville City Stop House 1")
 	end
 end

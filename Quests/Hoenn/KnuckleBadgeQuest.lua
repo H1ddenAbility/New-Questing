@@ -13,7 +13,7 @@ local Dialog = require "Quests/Dialog"
 local name        = 'Knuckle Badge'
 local description = 'Will meet Steven, earn 2nd badge and get back to Devon corp '
 
-local level       = 28
+local level       = 30
 local clock = os.clock
 
 
@@ -26,6 +26,21 @@ local dialogs = {
 	Steven = Dialog:new({ 
 		"Steven",
 	}),
+	npc5 = Dialog:new({
+		"Leave me alone"
+	}),
+	npc6 = Dialog:new({
+		"Atchoo"
+	}),
+	npc7 = Dialog:new({
+		"already battled recently",
+	}),
+	npc8 = Dialog:new({
+		"you are pretty balanced",
+	}),
+	npc9 = Dialog:new({
+		"looking to protect yourself",
+	})
 	
 }
 
@@ -143,7 +158,11 @@ function KnuckleBadgeQuest:GraniteCaveB1F()
 	elseif game.inRectangle(27,14,32,17) and not hasItem("SLetter") then 
 		moveToCell(31,15)
 	elseif hasItem("SLetter") then 
-		moveToCell(30,24)
+		if isNpcOnCell(7,15) and not dialogs.npc5.state then
+			talkToNpcOnCell (7,15)
+		else
+			moveToCell(30,24)
+		end
 	else moveToCell(5,23)
 	end
 end
@@ -157,13 +176,25 @@ end
 
 function KnuckleBadgeQuest:GraniteCaveB2F()
 	if hasItem("SLetter") then 
-		moveToCell(30,18)
+		if isNpcOnCell(20,19) and not dialogs.npc6.state then
+			talkToNpcOnCell (20,19)
+		else
+			moveToCell(30,18)
+		end
 	else moveToCell(29,26)
 	end
 end
 
 function KnuckleBadgeQuest:DewfordTownGym()
-	if not hasItem("Knuckle Badge") then 
+	if getPokemonHealthPercent(1) <= 80  then
+		return moveToMap("Dewford Town")
+	elseif isNpcOnCell(8,42) and not dialogs.npc7.state then
+			talkToNpcOnCell (8,42)
+	elseif isNpcOnCell(24,36) and not dialogs.npc8.state then
+			talkToNpcOnCell (24,36)  
+	elseif isNpcOnCell(13,22) and not dialogs.npc9.state then
+			talkToNpcOnCell (13,22)  
+	elseif not hasItem("Knuckle Badge") then 
 		talkToNpcOnCell(16,12)
 	else moveToMap("Dewford Town")
 	end

@@ -13,7 +13,7 @@ local Dialog = require "Quests/Dialog"
 local name        = 'StoneBadgeQuestQuest'
 local description = 'Will get the 1st badge'
 
-local level       = 11
+local level       = 13
 local clock = os.clock
 
 
@@ -26,6 +26,12 @@ local dialogs = {
 	magmaCheck = Dialog:new({ 
 		"you deal with him"
 	}),
+		npc3 = Dialog:new({
+		"just kidding, come back"
+	}),
+	npc4 = Dialog:new({
+		"already have my badge"
+	})
 	
 }
 
@@ -89,8 +95,12 @@ function StoneBadgeQuest:PokecenterRustboroCity()
 end
 
 function StoneBadgeQuest:RustboroCityGym()
-	if self:needPokecenter() or self.registeredPokecenter ~= "Pokecenter Rustboro City" then
+	if getPokemonHealthPercent(1) <= 80  then
 		return moveToMap("Rustboro City")
+	elseif isNpcOnCell(15,23) and not dialogs.npc3.state then
+			talkToNpcOnCell (15,23)
+	elseif isNpcOnCell(6,15) and not dialogs.npc4.state then
+			talkToNpcOnCell (6,15) 
 	elseif not hasItem("Stone Badge") then 
 		talkToNpcOnCell(10,3)
 	end
