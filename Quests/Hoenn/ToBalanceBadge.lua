@@ -12,7 +12,7 @@ local Dialog = require "Quests/Dialog"
 
 local name		  = 'To Balance Badge'
 local description = 'Will earn the 4th and the 5th badge'
-local level = 41
+local level = 50
 local joey = false 
 local sarah = false
 local stan = false
@@ -21,6 +21,36 @@ local dialogs = {
 	dsf = Dialog:new({ 
 		"good luck getting to",
 		"Come back later"
+	}),
+	npc26 = Dialog:new({
+		"still trying to master Senjutsu",
+	}),
+	npc27 = Dialog:new({
+		"are still gathering the",
+	}),
+	npc28 = Dialog:new({
+		"starting to get a headache",
+	}),
+	npc29 = Dialog:new({
+		"Sometimes I can't stand the",
+	}),
+	npc30 = Dialog:new({
+		"like to rest in a hot spring",
+	}),
+	npc31 = Dialog:new({
+		"life is filled with battle",
+	}),
+	npc32 = Dialog:new({
+		"Come back later!",
+	}),
+	npc33 = Dialog:new({
+		"Sometimes I can't stand the",
+	}),
+	npc34 = Dialog:new({
+		"like to rest in a hot spring",
+	}),
+	npc35 = Dialog:new({
+		"life is filled with battle",
 	})
 
 }
@@ -48,17 +78,27 @@ end
 
 function ToBalanceBadge:LavaridgeTownGym1F()
 	if (game.inRectangle(21,35,32,40) or  game.inRectangle(21,25,23,40)) and not hasItem("Heat Badge") then
-		moveToCell(21,26)
-	elseif game.inRectangle(17,27,18,40) or game.inRectangle(4,38,18,40) then
-		moveToCell(6,35)
+		if isNpcOnCell(21,30) and not dialogs.npc26.state then
+			talkToNpcOnCell (21,30)
+		else 
+			moveToCell(21,26)
+		end
 	elseif game.inRectangle(7,26,13,40) then
-		moveToCell(7,28)
+		if isNpcOnCell(12,31) and not dialogs.npc28.state then
+			talkToNpcOnCell (12,31)
+		else 
+			moveToCell(7,28)
+		end
 	elseif game.inRectangle(7,4,30,13) and not game.inRectangle(19,4,25,12) then
-		moveToCell(11,8)
-	elseif game.inRectangle(19,4,25,12) and not game.inRectangle(25,5,25,5)    then
-		moveToCell(25,5)
+			moveToCell(11,7)
+	elseif game.inRectangle(19,4,25,7) and not game.inRectangle(25,5,25,6)    then
+			moveToCell(25,6)
 	elseif game.inRectangle(19,4,25,12)   then
-		moveToCell(25,13)
+		if isNpcOnCell(19,9) and not dialogs.npc30.state then
+			talkToNpcOnCell (19,9)
+		else 
+			moveToCell(25,13)
+		end
 	elseif game.inRectangle(26,25,32,25) or not hasItem("Heat Badge")  then 
 		talkToNpcOnCell(29,26)
 	else moveToMap("lavaridge Town")	
@@ -68,18 +108,29 @@ end
 
 function ToBalanceBadge:LavaridgeTownGymB1F()
 	if game.inRectangle(17,27,18,40) or game.inRectangle(4,38,18,40) or game.inRectangle(4,32,10,40) then
-		moveToCell(6,35)
+		if isNpcOnCell(16,38) and not dialogs.npc27.state then
+			talkToNpcOnCell (16,38)
+		else 
+			moveToCell(6,35)
+		end
 	elseif game.inRectangle(4,12,10,30) and not game.inRectangle(10,29,10,29) then
-		moveToCell(10,29)
-		log("cf")
+		if isNpcOnCell(5,22) and not dialogs.npc29.state then
+			talkToNpcOnCell (5,22)
+		else 
+			moveToCell(10,29)
+		end
 	elseif game.inRectangle(4,12,10,30)   then
 		log("dsssqs")
 		moveToCell(4,13)
 	elseif game.inRectangle(7,0,26,11) then	
 		log("fff")
 		moveToCell(16,5)
-	elseif game.inRectangle(19,4,25,17) then
-		moveToCell(25,33)
+	elseif game.inRectangle(21,12,26,36) then
+		if isNpcOnCell(25,31) and not dialogs.npc31.state then
+			talkToNpcOnCell (25,31)
+		else 
+			moveToCell(25,33)
+		end
 	end
 end
 
@@ -161,6 +212,14 @@ end
 function ToBalanceBadge:VerdanturfTown()
 	if not self:isTrainingOver() then
 		moveToMap("Route 117") 
+	elseif not game.hasPokemonWithMove("Rock Smash") then
+			if self.pokemonId < getTeamSize() then
+				useItemOnPokemon("TM114", self.pokemonId)
+				log("Pokemon: " .. self.pokemonId .. " Try Learning:TM114 - Rock Smash")
+				self.pokemonId = self.pokemonId + 1
+			else
+				fatal("No pokemon in this team can learn Rock Smash")
+			end
 	else moveToMap("Rusturf Tunnel")
 	end
 end
@@ -212,9 +271,20 @@ function ToBalanceBadge:PetalburgCity()
 		moveToMap("Pokecenter Petalburg City")
 	elseif not self:isTrainingOver() then 
 		moveToMap("Route 104") 
+	elseif getTeamSize() <= 2 then
+		moveToMap("Route 102")
 	else moveToMap("Petalburg City Gym")
 	end
 end
+
+function ToBalanceBadge:Route102()
+	if getTeamSize() <= 2 then
+		moveToGrass()
+	else 	
+		moveToMap("Petalburg City")
+	end
+end
+
 
 function ToBalanceBadge:PokecenterPetalburgCity()
 	return self:pokecenter("Petalburg City")

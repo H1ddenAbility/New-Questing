@@ -12,7 +12,7 @@ local Dialog = require "Quests/Dialog"
 
 local name		  = 'Dynamo Badge'
 local description = 'Will earn Dynamo Badge'
-local level = 32
+local level = 48
 local guitare = false
 N = 2
 local DynamoBadge = Quest:new()
@@ -62,9 +62,6 @@ local dialogs = {
 	}),
 	npc25 = Dialog:new({
 		"find the sequential combination to this puzzle",
-	}),
-	relog = Dialog:new({
-		"have deactivated one string of",
 	})
 }
 
@@ -75,7 +72,6 @@ function DynamoBadge:new()
 
 	return o
 end
-
 
 
 function DynamoBadge:isDoable()
@@ -106,25 +102,21 @@ function DynamoBadge:MauvilleCity()
 			else
 				fatal("No pokemon in this team can learn Ice Beam")
 			end
-	elseif self:needPokecenter() or not game.isTeamFullyHealed() or self.registeredPokecenter ~= "Pokecenter Mauville City" then
+	elseif  not game.isTeamFullyHealed() or self.registeredPokecenter ~= "Pokecenter Mauville City" then
 		moveToMap("Pokecenter Mauville City")
-	elseif not game.hasPokemonWithMove("Rock Smash") then
-			if self.pokemonId < getTeamSize() then
-				useItemOnPokemon("TM114", self.pokemonId)
-				log("Pokemon: " .. self.pokemonId .. " Try Learning:TM114 - Rock Smash")
-				self.pokemonId = self.pokemonId + 1
-			else
-				fatal("No pokemon in this team can learn Rock Smash")
-			end
 	elseif isNpcOnCell(13,14) then
 		talkToNpcOnCell(13,14)
+	elseif dialogs.npc25.state and not self:isTrainingOver() then
+		return moveToMap("Mauville City Stop House 2")
+	elseif dialogs.npc25.state and self:isTrainingOver() then
+		moveToMap("Mauville City Gym")
 	elseif 	 not dialogs.npc14.state then
 		moveToMap("Mauville City Stop House 3")
 	elseif 	 not dialogs.npc19.state then
 		moveToMap("Mauville City Stop House 2")
 	elseif 	 not dialogs.npc22.state then
 		moveToMap("Mauville City Stop House 4")
-	else 
+	elseif not dialogs.npc25.state then
 		moveToMap("Mauville City Gym")
 	end
 	
@@ -155,7 +147,11 @@ end
 
 
 function DynamoBadge:MauvilleCityStopHouse2()
-	if not dialogs.npc19.state then
+	if dialogs.npc25.state and not self:isTrainingOver() then
+		moveToMap("Route 117")
+	elseif dialogs.npc25.state and self:isTrainingOver() then
+		moveToMap("Mauville City")
+	elseif not dialogs.npc19.state then
 		moveToMap("Route 117")
 	else 
 		moveToMap("Mauville City")
@@ -173,7 +169,6 @@ function DynamoBadge:MauvilleCityStopHouse3()
 end
 
 function DynamoBadge:Route111South()	
-	if not dialogs.npc14.state then
 		if isNpcOnCell(33,91) and not dialogs.npc11.state then
 			talkToNpcOnCell (33,91)
 		elseif isNpcOnCell(33,90) and not dialogs.npc12.state then
@@ -182,14 +177,17 @@ function DynamoBadge:Route111South()
 			talkToNpcOnCell (23,70)
 		elseif isNpcOnCell(31,64) and not dialogs.npc14.state then
 			talkToNpcOnCell (31,64)
+		else 
+			moveToMap("Mauville City Stop House 3")
 		end
-	else 
-		moveToMap("Mauville City Stop House 3")
-	end
 end
 	
 function DynamoBadge:Route117()
-	if not dialogs.npc19.state then
+	if dialogs.npc25.state and not self:isTrainingOver() then
+		moveToGrass()
+	elseif dialogs.npc25.state and self:isTrainingOver() then
+		moveToMap("Mauville City Stop House 2")
+	elseif not dialogs.npc19.state then
 		if isNpcOnCell(98,28) and not dialogs.npc15.state then
 			talkToNpcOnCell (98,28)
 		elseif isNpcOnCell(80,17) and not dialogs.npc16.state then
@@ -201,8 +199,6 @@ function DynamoBadge:Route117()
 		elseif isNpcOnCell(6,26) and not dialogs.npc19.state then
 			talkToNpcOnCell (6,26)
 		end
-	elseif not self:isTrainingOver() then
-		moveToGrass()
 	else moveToMap("Mauville City Stop House 2")
 	end
 	
@@ -230,12 +226,6 @@ function DynamoBadge:PokecenterMauvilleCity()
 	return self:pokecenter("Mauville City")
 end
 
-function DynamoBadge:MauvilleCityStopHouse2()
-	if not self:isTrainingOver() and not self:needPokecenter() then 
-		moveToMap("Route 117")
-	else moveToMap("Mauville City")
-	end
-end
 
 
 function DynamoBadge:MauvilleCityGym()
@@ -247,6 +237,8 @@ function DynamoBadge:MauvilleCityGym()
 				talkToNpcOnCell (1,17)
 			elseif isNpcOnCell(13,12) and not dialogs.npc25.state then
 				talkToNpcOnCell (13,12)
+			elseif dialogs.npc25.state and not self:isTrainingOver() then
+				moveToMap("Mauville City")
 			else 
 				talkToNpcOnCell (7,1)
 			end

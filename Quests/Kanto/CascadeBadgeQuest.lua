@@ -45,17 +45,24 @@ function CascadeBadgeQuest:isDone()
 end
 
 function CascadeBadgeQuest:CeruleanCity()
-	if self:needPokecenter()
-		or self.registeredPokecenter ~= "Pokecenter Cerulean"
-	then
+	if self:needPokecenter() or self.registeredPokecenter ~= "Pokecenter Cerulean" then
 		return moveToMap("Pokecenter Cerulean")
 	elseif self:needPokemart() then
 		return moveToMap("Cerulean Pokemart")
-	elseif not dialogs.billTicketDone.state
-	then
+	elseif not dialogs.billTicketDone.state then
 		return moveToCell(39,0)-- Route 24 Bridge
+	elseif not hasItem("TM28") then
+		return moveToMap("Cerulean House 6")
 	else
 		return moveToCell(23,50) -- Route 5
+	end
+end
+
+function CascadeBadgeQuest:CeruleanHouse6()
+	if not hasItem("TM28") then
+		return talkToNpcOnCell(9,8)
+	else 
+		moveToMap("Cerulean City")
 	end
 end
 

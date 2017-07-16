@@ -19,6 +19,9 @@ local dialogs = {
 	profCheck = Dialog:new({ 
 		"i gave her a task"
 	}),
+	jirachiCheck = Dialog:new({
+ 		"JIRACHI"
+	}),
 	npc1 = Dialog:new({
 		"are some things money"
 	}),
@@ -52,6 +55,8 @@ function FromLittlerootToWoodsQuest:Route102()
 		moveToMap("Oldale Town")
 	elseif not game.hasPokemonWithMove("Surf") then
 			return game.tryTeachMove("Surf","HM03 - Surf")
+	elseif hasItem("TM28") and not game.hasPokemonWithMove("Dig") then
+		return useItemOnPokemon("TM28",1)
 	elseif not self:isTrainingOver()  then
 		moveToGrass()
 	else moveToMap("Petalburg City")

@@ -22,9 +22,9 @@ function Quest:new(name, description, level, dialogs)
 	return o
 end
 
-function onStop()
-	return relog(10,"This script was made by Hiddenability, enjoy botting...")
-end
+--function onStop()
+	--return relog(10,"This script was made by Hiddenability, enjoy botting...")
+--end
 
 function Quest:isDoable()
 	sys.error("Quest:isDoable", "function is not overloaded in quest: " .. self.name)
@@ -148,7 +148,7 @@ function Quest:useBike()
 	if isTeamInspectionEnabled() then
      return  disableTeamInspection() 
 	end
-	if getTeamSize() >= 1 and getPokemonLevel(1) >= 47 and getPokemonName(1) == "Mudkip"  then 
+	if getTeamSize() >= 1 and getPokemonLevel(1) >= 48 and getPokemonName(1) == "Mudkip"  then 
 		enableAutoEvolve()
 	elseif getTeamSize() >= 1 and getPokemonLevel(1) >= 95 and getPokemonName(1) == "Marshtomp " then
 		enableAutoEvolve()
@@ -315,7 +315,7 @@ function Quest:wildBattle()
 		if useItem("Ultra Ball") or useItem("Great Ball") or useItem("Pokeball") or sendUsablePokemon() or run() or sendAnyPokemon() then
 			return true
 		end
-	elseif getTeamSize() == 1 and getOpponentName() ~= "Rattata"  then 
+	elseif getTeamSize() <= 2 and hasItem("Heat Badge") then 
 		if useItem("Ultra Ball") or useItem("Great Ball") or useItem("Pokeball") or sendUsablePokemon() or run() or sendAnyPokemon() then
 			return true
 		end 
@@ -355,9 +355,20 @@ function Quest:trainerBattle()
 		return attack() or game.useAnyMove() or useMove("Tackle") or useMove("Curse") or useMove("Lick")
 	elseif getOpponentName() == "Drifblim" then
 		return sendPokemon(3) or attack()  or sendUsablePokemon() or sendAnyPokemon() or useMove("Tackle") or useMove("Growl") or useMove("Curse") or useMove("Lick")
-	
+	elseif getOpponentName() == "Slaking" then
+		if getOpponentHealthPercent() == 100 and isPokemonUsable(2) then
+			return sendPokemon(2)
+		elseif not isPokemonUsable(2) and getOpponentHealthPercent() == 100 and getRemainingPowerPoints(1,"Dig") >= 8 then	
+			return sendPokemon(1) or useMove("Dig") or attack()
+		elseif not isPokemonUsable(2) and isPokemonUsable(3) and getOpponentHealthPercent() == 100 and getRemainingPowerPoints(1,"Dig") <= 8 then	
+			return sendPokemon(3) or useMove("Dig") or attack()
+		elseif not isPokemonUsable(3) and getOpponentHealthPercent() == 100 then		
+			return sendPokemon(1) or useMove("Dig") or attack()
+		else
+			return useMove("Dig") or attack()
+		end	
 	else
-	return attack()  or sendUsablePokemon() or sendAnyPokemon() or useMove("Tackle") or useMove("Growl") or useMove("Curse") or useMove("Lick")
+		return attack()  or sendUsablePokemon() or sendAnyPokemon() or useMove("Tackle") or useMove("Growl") or useMove("Curse") or useMove("Lick")
 	end
 end
 
@@ -410,7 +421,7 @@ local hmMoves = {
 
 
 function Quest:learningMove(moveName, pokemonIndex)
-	return forgetAnyMoveExcept({"Earthquake", "Ice Beam", "Rock Smash", "Surf"}) 
+	return forgetAnyMoveExcept({"Earthquake", "Ice Beam", "Dig", "Surf"}) 
 end
 
 return Quest
