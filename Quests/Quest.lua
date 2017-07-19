@@ -319,9 +319,9 @@ function Quest:wildBattle()
 		if useItem("Ultra Ball") or useItem("Great Ball") or useItem("Pokeball") or sendUsablePokemon() or run() or sendAnyPokemon() then
 			return true
 		end
-	elseif (getMapName() == "Victory Road Kanto 1F" or getMapName() == "Victory Road Kanto 2F") and getTeamSize() ==6 then 
+	elseif (getMapName() == "Victory Road Kanto 1F" or getMapName() == "Victory Road Kanto 2F" or getMapName() == "Victory Road Kanto 3F") and getTeamSize() ==6 and self.registeredPokecenter_ ~= "Indigo Plateau Center" then 
 		return  run() or sendUsablePokemon() or sendAnyPokemon() or attack() 
-	elseif getMapName() == "Victory Road Kanto 3F" and getTeamSize() ==6 and getPokemonName(1) == "Crobat" then
+	elseif  getTeamSize() ==6 and getPokemonName(1) == "Crobat" then
 			if isPokemonUsable(2) and getPokemonName(2) == "Golbat" then
 				return sendPokemon(2) or attack()  or sendUsablePokemon() or run() or sendAnyPokemon()
 			elseif  isPokemonUsable(3) and getPokemonName(3)  == "Golbat" then 

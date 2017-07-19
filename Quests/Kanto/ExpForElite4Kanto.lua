@@ -76,30 +76,74 @@ function ExpForElite4Kanto:canBuyReviveItems()
 	return getMoney() > (cost_hyperpot + cost_revive)
 end
 
-function ExpForElite4Kanto:changeZoneExp() --False if is not necessary
-	if os.clock() > (self.timeSeed + (self.minuteZones * 60)) then
-		self.timeSeed = os.clock()
-		self.zoneExp = math.random(1,1)
-		log("LOG:  Changing with ExpZone N*: " .. self.zoneExp)
-		return false
-	end
-	return false
-end
+
 
 function ExpForElite4Kanto:useZoneExp()
-	if self:changeZoneExp() == false then
 		if self.zoneExp == 1 then
-			return moveToRectangle(36,36,42,41) --Road1F
+			return moveToRectangle(46,15,47,21)
 		elseif self.zoneExp == 2 then
-			return moveToRectangle(23,22,39,24) --Road1F
+			return moveToRectangle(33,16,37,18) 
 		elseif self.zoneExp == 3 then
-			return moveToRectangle(12,27,28,30) --Road2F
+			return moveToRectangle(40,21,47,22) 
 		elseif self.zoneExp == 4 then
-			return moveToRectangle(40,23,55,26) --Road2F
+			return moveToRectangle(28,19,32,21) 
+		elseif self.zoneExp == 5 then
+			return moveToRectangle(25,26,42,26) 
+		elseif self.zoneExp == 6 then
+			return moveToRectangle(23,27,36,28) 
+		elseif self.zoneExp == 7 then
+			return moveToRectangle(21,34,31,35) 
+		elseif self.zoneExp == 8 then
+			if getMapName() == "Victory Road Kanto 3F" then
+				return moveToCell(29,17)
+			else
+				return moveToRectangle(16,9,29,9)
+			end
+		elseif self.zoneExp == 9 then
+			if getMapName() == "Victory Road Kanto 3F" then
+				return moveToCell(29,17)
+			else
+				return moveToRectangle(19,14,24,15)
+			end
+		elseif self.zoneExp == 10 then
+			if getMapName() == "Victory Road Kanto 3F" then
+				return moveToCell(29,17)
+			else
+				return moveToRectangle(12,17,16,19)
+			end	
+		elseif self.zoneExp == 11 then
+			if getMapName() == "Victory Road Kanto 3F" then
+				return moveToCell(29,17)
+			else
+				return moveToRectangle(13,27,28,29)
+			end	
+		elseif self.zoneExp == 12 then
+			if getMapName() == "Victory Road Kanto 3F" then
+				return moveToCell(29,17)
+			else
+				return moveToRectangle(18,24,29,25)
+			end	
+		elseif self.zoneExp == 13 then
+			if getMapName() == "Victory Road Kanto 3F" then
+				return moveToCell(29,17)
+			else
+				return moveToRectangle(21,19,27,22)
+			end	
+		elseif self.zoneExp == 14 then
+			if getMapName() == "Victory Road Kanto 3F" then
+				return moveToCell(29,17)
+			else
+				return moveToRectangle(28,19,44,21)
+			end	
+		elseif self.zoneExp == 15 then
+			if getMapName() == "Victory Road Kanto 3F" then
+				return moveToCell(29,17)
+			else
+				return moveToRectangle(40,23,58,23)
+			end	
 		else
-		    fatal("Error zone exp")
+		    return moveToRectangle(46,15,47,21)
 		end
-	end
 end
 
 function ExpForElite4Kanto:buyReviveItems() --return false if all items are on the bag (32x Revives 32x HyperPotions)
@@ -214,14 +258,18 @@ end
 
 function ExpForElite4Kanto:VictoryRoadKanto1F()
 	if   getTeamSize() <= 5 then 
-		return self:useZoneExp()
+		return moveToRectangle(36,36,42,41)
 	elseif getTeamSize() == 6 then
 		return moveToMap("Victory Road Kanto 2F")
 	end
 end
 
 function ExpForElite4Kanto:VictoryRoadKanto2F()
+	if self.registeredPokecenter_ ~= "Indigo Plateau Center" then 
 		return moveToMap("Victory Road Kanto 3F")
+	else 
+		return self:useZoneExp()
+	end
 end
 
 function ExpForElite4Kanto:VictoryRoadKanto3F()
@@ -230,7 +278,7 @@ function ExpForElite4Kanto:VictoryRoadKanto3F()
 	elseif  self.registeredPokecenter_ ~= "Indigo Plateau Center" then
 			return moveToMap("Indigo Plateau")
 	elseif  not self:canBuyReviveItems() or not self:isTrainingOver() then
-			return moveToRectangle(46,15,47,21)
+			return self:useZoneExp()
 	else
 			return moveToMap("Indigo Plateau")
 	end
@@ -241,6 +289,7 @@ function ExpForElite4Kanto:IndigoPlateau()
 		if self:needPokecenter() or self.registeredPokecenter_ ~= "Indigo Plateau Center" then
 			return moveToMap("Indigo Plateau Center")
 		elseif not self:canBuyReviveItems() or not self:isTrainingOver() then
+			self.zoneExp = math.random(1,15)
 			return moveToMap("Victory Road Kanto 3F") 
 		else
 			return moveToMap("Indigo Plateau Center")

@@ -315,6 +315,10 @@ function Quest:wildBattle()
 		if useItem("Ultra Ball") or useItem("Great Ball") or useItem("Pokeball") or sendUsablePokemon() or run() or sendAnyPokemon() then
 			return true
 		end
+	elseif  getTeamSize() == 1 then
+		if useItem("Ultra Ball") or useItem("Great Ball") or useItem("Pokeball") or sendUsablePokemon() or run() or sendAnyPokemon() then
+			return true
+		end 
 	elseif getTeamSize() <= 2 and hasItem("Heat Badge") then 
 		if useItem("Ultra Ball") or useItem("Great Ball") or useItem("Pokeball") or sendUsablePokemon() or run() or sendAnyPokemon() then
 			return true
