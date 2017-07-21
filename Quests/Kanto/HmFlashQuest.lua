@@ -72,14 +72,52 @@ return moveToMap("Saffron City")
 end
 
 function HmFlashQuest:SaffronCity()
-return moveToMap("Route 7 Stop House")
+	if hasItem("Bike Voucher") then
+		moveToMap("Route 5 Stop House")
+	else
+		return moveToMap("Route 7 Stop House")
+	end
+end
+
+function HmFlashQuest:Route5StopHouse()
+	if hasItem("Bike Voucher") then
+		moveToMap("Route 5")
+	else
+		return moveToMap("Saffron City")
+	end
+end
+
+function HmFlashQuest:Route5()
+	if hasItem("Bike Voucher") then
+		moveToMap("Cerulean City")
+	else
+		return moveToMap("Route 5 Stop House")
+	end
+end
+
+function HmFlashQuest:CeruleanCity()
+	if hasItem("Bike Voucher") then
+		moveToMap("Cerulean City Bike Shop")
+	else
+		return moveToMap("Route 5")
+	end
+end
+
+function HmFlashQuest:CeruleanCityBikeShop()
+	if hasItem("Bike Voucher") then
+		talkToNpcOnCell(11,7)
+	else
+		return moveToMap("Cerulean City")
+	end
 end
 
 function HmFlashQuest:Route7StopHouse()
-return moveToMap("Route 7")
+	return moveToMap("Route 7")
 end
 
-
+function HmFlashQuest:PokecenterCerulean()
+	return moveToMap("Cerulean City")
+end
 
 
 return HmFlashQuest

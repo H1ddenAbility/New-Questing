@@ -49,7 +49,7 @@ end
 function RainbowBadgeQuest:CeladonCity()
 	if isNpcOnCell(21,51) and getPlayerX() == 21 and getPlayerY() == 50 and hasItem("Rainbow Badge") then --NPC: Trainer OP
 		return talkToNpcOnCell(21,51)
-	elseif self:needPokecenter() or not game.isTeamFullyHealed() or not self.registeredPokecenter == "Pokecenter Celadon" then
+	elseif  self.registeredPokecenter ~= "Pokecenter Celadon" then
 		return moveToMap("Pokecenter Celadon")
 	elseif isNpcOnCell(46,49) then --NPC: Rocket Guy
 		return talkToNpcOnCell(46,49)

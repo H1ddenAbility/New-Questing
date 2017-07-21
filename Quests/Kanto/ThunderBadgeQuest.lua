@@ -101,8 +101,10 @@ function ThunderBadgeQuest:VermilionCity()
 		self.dialogs.surgeVision.state = true
 	end
 
-	if self:needPokecenter() or  not self.registeredPokecenter == "Pokecenter Vermilion" then
+	if  self.registeredPokecenter ~= "Pokecenter Vermilion" then
 		return moveToMap("Pokecenter Vermilion")
+	elseif not hasItem("Bike Voucher") and not hasItem("Bicycle") then
+			return moveToMap("VermilionHouse2Bottom")
 	elseif not dialogs.surgeVision.state then
 		return talkToNpcOnCell(38, 63) -- Surge
 	elseif not hasItem("HM01 - Cut") then -- Need do SSanne Quest
@@ -113,6 +115,14 @@ function ThunderBadgeQuest:VermilionCity()
 		end
 	else
 		return moveToMap("Route 11")
+	end
+end
+
+function ThunderBadgeQuest:VermilionHouse2Bottom()
+	if not hasItem("Bike Voucher") then
+		return talkToNpcOnCell(8,6)
+	else 
+		return moveToMap("Vermilion City")
 	end
 end
 
