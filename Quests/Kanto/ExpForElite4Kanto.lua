@@ -20,6 +20,9 @@ local dialogs = {
 	}),
 	e4Done = Dialog:new({ 
 		"i see you are Champion of Kanto, you may continue",
+	}),
+	readyE4 = Dialog:new({ 
+		"already the champ, don't need to go",
 	})
 }
 
@@ -307,6 +310,8 @@ function ExpForElite4Kanto:IndigoPlateauCenter()
 			return moveToMap("Indigo Plateau") 
 		elseif self:buyReviveItems() ~= false then
 			return 
+		elseif dialogs.readyE4.state then
+			return talkToNpcOnCell(13,23)
 		else
 			return moveToCell(10,3) --Start E4
 		end
