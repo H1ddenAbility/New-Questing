@@ -163,9 +163,7 @@ function SoulBadgeQuest:Route6()
 	return moveToMap("Vermilion City")
 end
 function SoulBadgeQuest:FuchsiaCity()
-	if self:needPokecenter() or not game.isTeamFullyHealed() or self.registeredPokecenter ~= "Pokecenter Fuchsia" then
-		return moveToMap("Pokecenter Fuchsia")
-	elseif self:needPokemart_() and not hasItem("HM03 - Surf") then --It buy balls if not have badge, at blackoutleveling no
+	if self:needPokemart_() and not hasItem("HM03 - Surf") then --It buy balls if not have badge, at blackoutleveling no
 		return moveToMap("Safari Stop")
 	elseif not self:canEnterSafari() then
 		return moveToMap("Route 18")	

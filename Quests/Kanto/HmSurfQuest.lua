@@ -82,7 +82,7 @@ function HmSurfQuest:SafariHouse4()
 		return talkToNpcOnCell(11,3)
 			
 	elseif hasItem("HM03 - Surf") then
-		return relog(4,"Relogging")
+		return  relog(4,"Relogging")
 	end
 end
 

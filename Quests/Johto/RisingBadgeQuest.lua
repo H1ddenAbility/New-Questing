@@ -82,8 +82,8 @@ function RisingBadgeQuest:IcePathB3F()
 end
 
 function RisingBadgeQuest:BlackthornCity()
-	if self:needPokecenter() or not game.isTeamFullyHealed() or self.registeredPokecenter ~= "Pokecenter Blackthorn City" then
-		moveToMap("Pokecenter Blackthorn" )
+	if self:needPokecenter() or not game.isTeamFullyHealed() or self.registeredPokecenter ~= "Pokecenter Blackthorn" then
+		moveToMap("Pokecenter Blackthorn")
 	elseif not self:isTrainingOver() then 
 		moveToMap("Dragons Den Entrance")
 	else moveToMap("Blackthorn City Gym")

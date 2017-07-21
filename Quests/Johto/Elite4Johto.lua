@@ -74,7 +74,7 @@ function Elite4Johto:BlackthornCityGym()
 end
 
 function Elite4Johto:BlackthornCity()
-	if not game.isTeamFullyHealed() or self.registeredPokecenter ~= "Pokecenter Blackthorn City" then
+	if not game.isTeamFullyHealed() or self.registeredPokecenter ~= "Pokecenter Blackthorn" then
 		return moveToMap("Pokecenter Blackthorn")
 	else 
 		return moveToMap("Route 45")
