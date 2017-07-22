@@ -114,7 +114,7 @@ function Quest:leftovers()
 		return false
 	end
 	
-	if getMapName() == "Indigo Plateau Center Johto" or getMapName() == "Elite Four Will Room" or getMapName() == "Elite Four Koga Room" or getMapName() == "Elite Four Bruno Room Johto" or  getMapName() == "Elite Four Karen Room" or getMapName() == "Elite Four Champion Room Johto" or ( getMapName() == "Victory Road Kanto 3F" and getPokemonName(6) == "Rattata" ) then
+	if getMapName() == "Indigo Plateau Center Johto" or getMapName() == "Elite Four Will Room" or getMapName() == "Elite Four Koga Room" or getMapName() == "Elite Four Bruno Room Johto" or  getMapName() == "Elite Four Karen Room" or getMapName() == "Elite Four Champion Room Johto" or ( getMapName() == "Victory Road Kanto 3F" and getPokemonName(1) ~= "Rattata" ) then
 		if PokemonWithLeftovers > 0 then
 			takeItemFromPokemon(PokemonWithLeftovers)
 			return true
