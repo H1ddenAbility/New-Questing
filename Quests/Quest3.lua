@@ -113,8 +113,8 @@ function Quest:leftovers()
 		end
 		return false
 	end
-	
-	if getMapName() == "Indigo Plateau Center Johto" or getMapName() == "Elite Four Will Room" or getMapName() == "Elite Four Koga Room" or getMapName() == "Elite Four Bruno Room Johto" or  getMapName() == "Elite Four Karen Room" or getMapName() == "Elite Four Champion Room Johto" or ( getMapName() == "Victory Road Kanto 3F" and getPokemonName(1) ~= "Rattata" ) then
+
+	if getMapName() == "Indigo Plateau Center Johto" or getMapName() == "Indigo Plateau" or getMapName() == "Elite Four Will Room" or getMapName() == "Elite Four Koga Room" or getMapName() == "Elite Four Bruno Room Johto" or  getMapName() == "Elite Four Karen Room" or getMapName() == "Elite Four Champion Room Johto" or ( getMapName() == "Victory Road Kanto 3F" and getPokemonName(1) ~= "Rattata" ) then
 		if PokemonWithLeftovers > 0 then
 			takeItemFromPokemon(PokemonWithLeftovers)
 			return true
@@ -423,7 +423,7 @@ local hmMoves = {
 
 
 function Quest:learningMove(moveName, pokemonIndex)
-	return forgetAnyMoveExcept({"Crunch", "Ice Fang", "Aqua Tail", "Surf", "Sucker Punch"}) 
+	return forgetAnyMoveExcept({"Crunch", "Ice Fang", "Aqua Tail", "Double Edge", "Sucker Punch"}) 
 end
 
 return Quest

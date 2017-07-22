@@ -125,6 +125,8 @@ function ToBalanceBadge:LavaridgeTownGymB1F()
 	elseif game.inRectangle(7,0,26,11) then	
 		log("fff")
 		moveToCell(16,5)
+	elseif game.inRectangle(17,12,19,25) then	
+		moveToCell(18,26)
 	elseif game.inRectangle(21,12,26,36) then
 		if isNpcOnCell(25,31) and not dialogs.npc31.state then
 			talkToNpcOnCell (25,31)
@@ -189,11 +191,24 @@ end
 function ToBalanceBadge:MauvilleCity()
 	if self:needPokecenter() then
 		moveToMap("Pokecenter Mauville City")
+	elseif not hasItem("TM114") and not game.hasPokemonWithMove("Rock Smash")  then
+		moveToMap("Mauville City House 2")
+	elseif hasItem("TM114") and not game.hasPokemonWithMove("Rock Smash")  then
+		return useItemOnPokemon("TM114",2)
 	elseif not self:isTrainingOver() then
 		moveToMap("Mauville City Stop House 3")
 	else moveToMap("Mauville City Stop House 2")
 	end
 end
+
+function ToBalanceBadge:MauvilleCityHouse2()
+	if not hasItem("TM114") then
+		talkToNpc("Nerd Julian")
+	else moveToMap("Mauville City")
+	end
+	
+end
+
 
 function ToBalanceBadge:MauvilleCityStopHouse2()
 	if not self:isTrainingOver() then
@@ -208,6 +223,9 @@ function ToBalanceBadge:Route117()
 	else moveToMap("Verdanturf Town")
 	end
 end
+
+
+
 
 function ToBalanceBadge:VerdanturfTown()
 	if not self:isTrainingOver() then

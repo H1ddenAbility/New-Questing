@@ -139,7 +139,11 @@ function ToLavaridgeTown:RustboroCity()
 end
 
 function ToLavaridgeTown:Route116()
-	moveToMap("Rusturf Tunnel")	
+	if not game.hasPokemonWithMove("Rock Smash") and hasItem("TM114") and getPokemonName(2) == "Poochyena" then
+		return useItemOnPokemon("TM114",2)
+	else
+		moveToMap("Rusturf Tunnel")	
+	end
 end
 
 function ToLavaridgeTown:RusturfTunnel()
