@@ -105,20 +105,11 @@ function StartJohtoQuest:Route30()
 		return moveToCell(8,96) --Cherrygrove City
 	elseif getTeamSize() <= 1 or not self:isTrainingOver() then --Get some pokemons for fill the team
 		return moveToGrass()
-	elseif self.BUY_BIKE and getMoney() > 75000 and not hasItem("Bicycle") and not hasItem("Bike Voucher") then
-		return moveToMap("Route 30 House 2")
 	else
 		return moveToMap("Route 31")
 	end
 end
 
-function StartJohtoQuest:Route30House2()
-	if self.BUY_BIKE and getMoney() > 75000 and not hasItem("Bicycle") and not hasItem("Bike Voucher") then
-		return talkToNpcOnCell(2,6)
-	else
-		return moveToMap("Route 30")
-	end
-end
 
 function StartJohtoQuest:Route31()
 		return moveToMap("Violet City Stop House")
