@@ -175,8 +175,14 @@ function ExpForElite4Kanto:canBuyReviveItems()
 end
 
 function ExpForElite4Kanto:Route22()
-	if dialogs.leagueKantoNotDone.state and not hasItem("HM03 - Surf") then
+	if getMoney() >= 55000 and not hasItem("Bicycle") then
+		return moveToMap("Viridian City")
+	elseif dialogs.leagueKantoNotDone.state and not hasItem("HM03 - Surf") then
 		return moveToMap("Pokemon League Reception Gate")
+	elseif hasItem("HM03 - Surf") and getTeamSize() <=5 then 
+		return moveToMap("Viridian City") 
+	elseif hasItem("HM03 - Surf") and game.minTeamLevel() <= 47 then
+		return moveToMap("Viridian City") 
 	elseif hasItem("HM03 - Surf") and dialogs.leagueKantoNotDone.state then
 		return moveToMap("Pokemon League Reception Gate")
 	elseif  not hasItem("HM03 - Surf") and dialogs.e4Done.state then
@@ -193,10 +199,20 @@ function ExpForElite4Kanto:ViridianCity()
 		return moveToMap("Route 2")
 	elseif self:needPokecenter() or dialogs.e4Done.state  then 
 		return moveToMap("Pokecenter Viridian") 
-	elseif   dialogs.leagueKantoNotDone.state and not hasItem("HM03 - Surf")  then
-		return moveToMap("Route 22") 
 	elseif hasItem("HM03 - Surf") and dialogs.e4Done.state then
 		return moveToMap("Route 22")
+	elseif getMoney() >= 55000 and not hasItem("Bicycle") and ( hasPokemonInTeam("Sentret") or hasPokemonInTeam("Furret") ) then
+		return moveToMap("Route 2")
+	elseif getMoney() >= 55000 and not hasItem("Bicycle") and getTeamSize() == 5 then
+		return moveToMap("Route 1 Stop House")
+	elseif getMoney() >= 55000 and not hasItem("Bicycle") and getTeamSize() == 6 and ( not hasPokemonInTeam("Sentret") or not hasPokemonInTeam("Furret") ) then
+		return moveToMap("Pokecenter Viridian")
+	elseif   dialogs.leagueKantoNotDone.state and not hasItem("HM03 - Surf")  then
+		return moveToMap("Route 22") 
+	elseif hasItem("HM03 - Surf") and getTeamSize() <=5 and game.maxTeamLevel() <= 96 then
+		return moveToMap("Pokecenter Viridian")
+	elseif hasItem("HM03 - Surf") and getTeamSize() ==6 and game.minTeamLevel() <= 47 and game.maxTeamLevel() <= 96 then
+		return moveToMap("Pokecenter Viridian")
 	else 
 		return moveToMap("Route 22") 
 	end
@@ -215,14 +231,14 @@ function ExpForElite4Kanto:Route1()
 	if getTeamSize() == 6 then 
 		return moveToMap("Route 1 Stop House")
 	elseif isNight() and getTeamSize() == 5  then 
-		return relog(18,"It is night time, you need to wait night time over before catch a sentret")
+		return relog(180,"It is night time, you need to wait morning to catch a sentret")
 	else 
 		return moveToRectangle(23,11,26,13) 
 	end
 end
 
 function ExpForElite4Kanto:PokecenterViridian()
-	if not hasItem("HM03 - Surf") and dialogs.e4Done.state then
+	if getMoney() >= 55000 and not hasItem("Bicycle") and getTeamSize() == 6 then
 		if   ( getPokemonName(1) ~= "Sentret"   or  getPokemonName(1) ~= "Furret" ) and getTeamSize() == 6 then
 			if isPCOpen() then
 				if isCurrentPCBoxRefreshed() then
@@ -235,6 +251,42 @@ function ExpForElite4Kanto:PokecenterViridian()
 		else 
 			return moveToMap("Viridian City")
 		end
+	elseif hasItem("Bicycle") and getTeamSize() <= 5 then 
+		if isPCOpen() then
+			if isCurrentPCBoxRefreshed() then
+				if getCurrentPCBoxSize() ~= 0 then
+					for pokemon=1, getCurrentPCBoxSize() do
+						if getPokemonLevelFromPC(getCurrentPCBoxId(), pokemon) > 47 then
+						return withdrawPokemonFromPC(getCurrentPCBoxId(),pokemon) 	
+						end
+					end
+					return openPCBox(getCurrentPCBoxId()+1)
+				end
+			else
+				return
+			end
+		else
+			return usePC()
+		end
+	elseif 	hasItem("Bicycle") and getTeamSize() == 6 and game.minTeamLevel() <= 47 then
+	
+		if isPCOpen() then
+			if isCurrentPCBoxRefreshed() then
+				if getCurrentPCBoxSize() ~= 0 then
+					for pokemon=1, getCurrentPCBoxSize() do
+						if getPokemonLevelFromPC(getCurrentPCBoxId(), pokemon) > 47 then
+						return swapPokemonFromPC(getCurrentPCBoxId(),pokemon,1) 	
+						end
+					end
+					return openPCBox(getCurrentPCBoxId()+1)
+				end
+			else
+				return
+			end
+		else
+			return usePC()
+		end
+		
 	else 
 		return moveToMap("Viridian City")
 	end
@@ -243,6 +295,10 @@ end
 function ExpForElite4Kanto:PokemonLeagueReceptionGate()
 	if isNpcOnCell(22,3) then
 		return talkToNpcOnCell(22,3)
+	elseif getMoney() >= 55000 and not hasItem("Bicycle") then
+		return moveToMap("Route 22")
+	elseif hasItem("HM03 - Surf") and game.minTeamLevel() <= 47 and game.maxTeamLevel() <= 96 then
+		return moveToMap("Route 22") 
 	elseif isNpcOnCell(22,23) and getTeamSize() == 6 then
 		if dialogs.leagueKantoNotDone.state then
 			return moveToMap("Victory Road Kanto 1F")
@@ -262,6 +318,8 @@ end
 function ExpForElite4Kanto:VictoryRoadKanto1F()
 	if   getTeamSize() <= 5 then 
 		return moveToRectangle(36,36,42,41)
+	elseif getMoney() >= 55000 and not hasItem("Bicycle") and not isNight() then
+		return moveToMap("Pokemon League Reception Gate")
 	elseif getTeamSize() == 6 then
 		return moveToMap("Victory Road Kanto 2F")
 	end
@@ -270,6 +328,8 @@ end
 function ExpForElite4Kanto:VictoryRoadKanto2F()
 	if self.registeredPokecenter_ ~= "Indigo Plateau Center" then 
 		return moveToMap("Victory Road Kanto 3F")
+	elseif getMoney() >= 55000 and not hasItem("Bicycle") and not isNight() then
+		return moveToMap("Victory Road Kanto 1F")
 	else 
 		return self:useZoneExp()
 	end
@@ -280,6 +340,8 @@ function ExpForElite4Kanto:VictoryRoadKanto3F()
 		return talkToNpcOnCell(46,14)
 	elseif  self.registeredPokecenter_ ~= "Indigo Plateau Center" then
 			return moveToMap("Indigo Plateau")
+	elseif getMoney() >= 55000 and not hasItem("Bicycle") and not isNight() then
+			return moveToCell(29,17)
 	elseif  not self:canBuyReviveItems() or not self:isTrainingOver() then
 			return self:useZoneExp()
 	else
@@ -304,8 +366,12 @@ function ExpForElite4Kanto:IndigoPlateauCenter()
 		if self:needPokecenter() or not game.isTeamFullyHealed() or self.registeredPokecenter_ ~= "Indigo Plateau Center" then
 			self.registeredPokecenter_ = getMapName()
 			return talkToNpcOnCell(4,22)
-		elseif getTeamSize() >= 2 and getPokemonName(1) == "Bulbasaur"   then
-			return releasePokemonFromTeam(1)
+		elseif hasPokemonInTeam("Bulbasaur") then
+			if isPCOpen() then
+				depositPokemonToPC(1)
+			else
+				return usePC()
+			end
 		elseif not self:canBuyReviveItems() or not self:isTrainingOver() then
 			return moveToMap("Indigo Plateau") 
 		elseif self:buyReviveItems() ~= false then

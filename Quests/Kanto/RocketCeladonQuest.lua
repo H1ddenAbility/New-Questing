@@ -84,7 +84,7 @@ function RocketCeladonQuest:Route7()
 end
 
 function RocketCeladonQuest:CeladonCity()
-	if self:needPokecenter() or not self.registeredPokecenter == "Pokecenter Celadon" then
+	if self:needPokecenter() or self.registeredPokecenter ~= "Pokecenter Celadon" then
 		return moveToMap("Pokecenter Celadon")
 	elseif isNpcOnCell(48,34) then 
 		if not dialogs.guardQuestAccept.state then

@@ -105,7 +105,17 @@ function SoulBadgeQuest:randomZoneExp()
 end
 
 function SoulBadgeQuest:PokecenterFuchsia()
-	self:pokecenter("Fuchsia City")
+	if self:needPokecenter() or not game.isTeamFullyHealed() then
+			return talkToNpcOnCell(9,15)
+	elseif not hasPokemonInTeam("Ditto") and getTeamSize() == 6 then
+			if isPCOpen() then
+				depositPokemonToPC(2)
+			else
+				return usePC()
+			end
+	else
+		return moveToMap("Fuchsia City")
+	end
 end
 
 function SoulBadgeQuest:Route18()
@@ -152,15 +162,80 @@ function SoulBadgeQuest:Route7StopHouse()
 	return moveToMap("Saffron City")
 end
 function SoulBadgeQuest:SaffronCity()
-	return moveToMap("Route 6 Stop House")
+	if hasItem("Bike Voucher") then
+		return moveToMap("Route 5 Stop House")
+	elseif hasItem("Bicycle") then 
+		return moveToMap("Route 6 Stop House")
+	elseif not hasPokemonInTeam("Ditto") then
+		return moveToMap("Route 8 Stop House")
+	else
+		return moveToMap("Route 6 Stop House")
+	end
+end
+
+function SoulBadgeQuest:Route5StopHouse()
+	if hasItem("Bike Voucher") then
+		return moveToMap("Route 5")
+	else  
+		return moveToMap("Saffron City")
+	end
+end
+
+function SoulBadgeQuest:Route5()
+	if hasItem("Bike Voucher") then
+		return moveToMap("Cerulean City")
+	else  
+		return moveToMap("Route 5 Stop House")
+	end
+end
+
+function SoulBadgeQuest:CeruleanCity()
+	if hasItem("Bike Voucher") then
+		return moveToCell(15,38)
+	else  
+		return moveToMap("Route 5")
+	end
+end
+
+function SoulBadgeQuest:CeruleanCityBikeShop()
+	if hasItem("Bike Voucher") then
+		return talkToNpcOnCell(11,7)
+	else  
+		return moveToMap("Cerulean City")
+	end
+end
+
+
+function SoulBadgeQuest:Route8StopHouse()
+	if not hasPokemonInTeam("Ditto") then
+		return moveToMap("Route 8")
+	else
+		return moveToMap("Saffron City")
+	end
+end
+
+function SoulBadgeQuest:Route8()
+	if not hasPokemonInTeam("Ditto") then
+		return moveToGrass()
+	else
+		return moveToMap("Route 8 Stop House")
+	end
 end
 
 function SoulBadgeQuest:Route6StopHouse()
-	return moveToMap("Route 6")
+	if hasItem("Bike Voucher") then
+		return moveToMap("Saffron City")
+	else 
+		return moveToMap("Route 6")
+	end
 end
 
 function SoulBadgeQuest:Route6()
-	return moveToMap("Vermilion City")
+	if hasItem("Bike Voucher") then
+		return moveToMap("Route 6 Stop House")
+	else 
+		return moveToMap("Vermilion City")
+	end
 end
 function SoulBadgeQuest:FuchsiaCity()
 	if self:needPokemart_() and not hasItem("HM03 - Surf") then --It buy balls if not have badge, at blackoutleveling no
@@ -184,7 +259,13 @@ function SoulBadgeQuest:FuchsiaCity()
 				fatal("No pokemon in this team can learn - Surf")
 			end
 		else
-			return moveToMap("Route 18")
+			if not hasPokemonInTeam("Ditto") and getTeamSize() == 6 then
+				return moveToMap("Pokecenter Fuchsia")
+			elseif not hasPokemonInTeam("Ditto") and getTeamSize() == 5 and not isNight() then 
+				return moveToMap("Route 15 Stop House")
+			else		
+				return moveToMap("Route 18")
+			end
 		end
 		
 	end
@@ -205,17 +286,10 @@ function SoulBadgeQuest:SafariStop()
 end
 
 function SoulBadgeQuest:Route15StopHouse()
-	if game.minTeamLevel() >= 60 then
+	if getTeamSize() == 5 then 
 		return moveToMap("Route 15")
-	elseif self:needPokecenter() or not self.registeredPokecenter == "Pokecenter Fuchsia" or self:isTrainingOver() then
+	else 
 		return moveToMap("Fuchsia City")
-	elseif hasItem("HM03 - Surf") then
-		return moveToMap("Route 15")
-	elseif not self:isTrainingOver() then
-		self.zoneExp = math.random(1,4)
-		return moveToMap("Route 15")
-	else
-		return moveToMap("Route 15")
 	end
 end
 
@@ -244,10 +318,10 @@ function SoulBadgeQuest:Route19()
 
 
 function SoulBadgeQuest:Route15()
-	if self:needPokecenter() or self:isTrainingOver() or not self.registeredPokecenter == "Pokecenter Fuchsia" then
-		return moveToMap("Route 15 Stop House")
+	if getTeamSize() == 5 then
+		return moveToGrass()
 	else
-		return self:randomZoneExp()
+		return moveToMap("Route 15 Stop House")
 	end
 end
 

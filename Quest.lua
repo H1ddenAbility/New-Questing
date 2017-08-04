@@ -308,7 +308,7 @@ function Quest:wildBattle()
 		if not self.canRun then
 			return attack() or game.useAnyMove()
 		end
-		return run() or attack() or sendUsablePokemon() or sendAnyPokemon()
+		return  attack() or sendUsablePokemon() or sendAnyPokemon()
 	end
 end
 

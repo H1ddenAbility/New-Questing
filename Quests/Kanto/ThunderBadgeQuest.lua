@@ -46,14 +46,14 @@ function ThunderBadgeQuest:new()
 end
 
 function ThunderBadgeQuest:isDoable()
-	if  self:hasMap() then
+	if  self:hasMap()  then
 		return true
 	end
 	return false
 end
 
 function ThunderBadgeQuest:isDone()
-	if getMapName() == "Pokecenter Vulcanic Town" or getMapName() == "SSAnne 1F" or getMapName() == "Route 11" then
+	if getMapName() == "Pokecenter Vulcanic Town" or getMapName() == "SSAnne 1F" or ( getMapName() == "Route 6" and hasItem("Bike Voucher") ) then
 		return true
 	else
 		return false
@@ -73,8 +73,7 @@ function ThunderBadgeQuest:Underground2()
 end
 
 function ThunderBadgeQuest:UndergroundHouse2()
-	
-	return moveToMap("Route 6")
+		return moveToMap("Route 6")
 end
 
 function ThunderBadgeQuest:Route6()
@@ -103,6 +102,10 @@ function ThunderBadgeQuest:VermilionCity()
 
 	if  self.registeredPokecenter ~= "Pokecenter Vermilion" then
 		return moveToMap("Pokecenter Vermilion")
+	elseif hasItem("Bike Voucher") then
+		return moveToMap("Route 6")
+	elseif hasItem("HM03 - Surf") and hasPokemonInTeam("Ditto") and getMoney() > 60000 and not hasItem("Bike Voucher") then
+		return moveToCell(32,21)
 	elseif not dialogs.surgeVision.state then
 		return talkToNpcOnCell(38, 63) -- Surge
 	elseif not hasItem("HM01 - Cut") then -- Need do SSanne Quest
@@ -118,7 +121,8 @@ end
 
 function ThunderBadgeQuest:VermilionHouse2Bottom()
 	if not hasItem("Bike Voucher") then
-		return talkToNpcOnCell(8,6)
+		pushDialogAnswer(6)
+		talkToNpc("Samuel")
 	else 
 		return moveToMap("Vermilion City")
 	end

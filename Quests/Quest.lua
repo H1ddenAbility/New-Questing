@@ -22,9 +22,9 @@ function Quest:new(name, description, level, dialogs)
 	return o
 end
 
-function onStop()
-	return relog(10,"This script was made by Hiddenability, enjoy botting...")
-end
+--function onStop()
+	--return relog(10,"This script was made by Hiddenability, enjoy botting...")
+--end
 
 function Quest:isDoable()
 	sys.error("Quest:isDoable", "function is not overloaded in quest: " .. self.name)
@@ -56,8 +56,6 @@ function Quest:pokecenter(exitMapName) -- idealy make it work without exitMapNam
 	sys.todo("add a moveDown() or moveToNearestLink() or getLinks() to PROShine")
 	if not game.isTeamFullyHealed() then
 		return usePokecenter()
-	elseif getTeamSize() >= 2 and getPokemonName(1) == "Bulbasaur"   then
-		return releasePokemonFromTeam(1)
 	else
 		return moveToMap(exitMapName)
 	end
@@ -92,49 +90,7 @@ function Quest:isTrainingOver()
 		return false
 end
 
-function Quest:leftovers()
-	ItemName = "Leftovers"
-	local PokemonNeedLeftovers = game.getFirstUsablePokemon()
-	local PokemonWithLeftovers = game.getPokemonIdWithItem(ItemName)
-	
-	-- EXCEPTIONS FOR REMOVE LEFTOVERS FROM POKEMON
-	if getMapName() == "Route 27" and not hasItem("Zephyr Badge") then --START JOHTO
-		if PokemonWithLeftovers > 0 then
-			takeItemFromPokemon(PokemonWithLeftovers)
-			return true
-		end
-		return false
-	end
-	if getMapName() == "Pokecenter Goldenrod" and not hasItem("Plain Badge") then --REMOVE LEFTOVERS FROM ODDISH - GoldenrodCityQuest.lua
-		if PokemonWithLeftovers > 0 then
-			takeItemFromPokemon(PokemonWithLeftovers)
-			return true
-		end
-		return false
-	end
-	------
-	
-	if getTeamSize() > 0 then
-		if PokemonWithLeftovers > 0 then
-			if PokemonNeedLeftovers == PokemonWithLeftovers  then
-				return false -- now leftovers is on rightpokemon
-			else
-				takeItemFromPokemon(PokemonWithLeftovers)
-				return true
-			end
-		else
 
-			if hasItem(ItemName) and PokemonNeedLeftovers ~= 0 then
-				giveItemToPokemon(ItemName,PokemonNeedLeftovers)
-				return true
-			else
-				return false-- don't have leftovers in bag and is not on pokemons
-			end
-		end
-	else
-		return false
-	end
-end
 
 function Quest:useBike()
 	if isOutside() and hasItem("Bicycle") and not isSurfing() and not isMounted() then
@@ -244,9 +200,6 @@ function Quest:path()
 	if self:advanceSorting() then
 		return true
 	end
-	if self:leftovers() then
-		return true
-	end
 	if self:useBike() then
 		return true
 	end
@@ -315,7 +268,7 @@ local blackListTargets = { --it will kill this targets instead catch
 }
 
 function Quest:wildBattle()
-	if isOpponentShiny() and getOpponentLevel() >=10  then
+	if isOpponentShiny() and getOpponentLevel() >=10 and getMapName() ~= "Route 8"  then
 		if useItem("Ultra Ball") or useItem("Great Ball") or useItem("Pokeball") or sendUsablePokemon() or run() or sendAnyPokemon() then
 			return true
 		end
@@ -335,11 +288,11 @@ function Quest:wildBattle()
 			else 
 				return relog(5,"Need to train other Pokemon")
 			end
-	elseif  (getOpponentName() == "Sentret" or getOpponentName() == "Furret" ) and getTeamSize() ==5 then 
+	elseif  (getOpponentName() == "Sentret" or getOpponentName() == "Furret" or getOpponentName() == "Ditto" ) and getTeamSize() ==5 then 
 		if useItem("Ultra Ball") or useItem("Great Ball") or useItem("Pokeball") or sendUsablePokemon() or run() or sendAnyPokemon() then
 			return true
 		end
-	elseif   getOpponentName() == "Zubat"  and getTeamSize() <=5 and not sys.tableHasValue(blackListTargets, getOpponentName()) then
+	elseif   getOpponentName() == "Zubat"  and getTeamSize() <=5  then
 		if useItem("Ultra Ball") or useItem("Great Ball") or useItem("Pokeball") or run() or sendUsablePokemon()  or sendAnyPokemon() then
 			return true
 		end
@@ -351,6 +304,8 @@ function Quest:wildBattle()
 		end
 	elseif 	 getTeamSize() ==6 and getUsablePokemonCount() == 1 then
 		return relog(5,"Relogging...")
+	elseif getMapName() == "Route 15" then 
+		return attack()  or sendUsablePokemon() or run() or sendAnyPokemon()
 	else 
 		return  run() or sendUsablePokemon() or sendAnyPokemon() or attack() 
 	end
