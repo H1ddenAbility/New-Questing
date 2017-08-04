@@ -185,7 +185,7 @@ function ExpForElite4Kanto:Route22()
 		return moveToMap("Viridian City") 
 	elseif hasItem("HM03 - Surf") and dialogs.leagueKantoNotDone.state then
 		return moveToMap("Pokemon League Reception Gate")
-	elseif  not hasItem("HM03 - Surf") and dialogs.e4Done.state then
+	elseif not game.hasPokemonWithMove("Surf") and dialogs.e4Done.state then
 		return moveToMap("Viridian City") 
 	else 
 		return moveToMap("Pokemon League Reception Gate")
@@ -195,8 +195,8 @@ end
 function ExpForElite4Kanto:ViridianCity()
 	if getTeamSize() == 5 and dialogs.e4Done.state then
 		return moveToMap("Route 1 Stop House")
-	elseif dialogs.e4Done.state and not hasItem("HM03 - Surf") and ( getPokemonName(1) == "Sentret"   or getPokemonName(1) == "Furret"   )then
-		return moveToMap("Route 2")
+	elseif dialogs.e4Done.state and not game.hasPokemonWithMove("Surf") then
+		return moveToMap("Pokecenter Viridian")
 	elseif self:needPokecenter() or dialogs.e4Done.state  then 
 		return moveToMap("Pokecenter Viridian") 
 	elseif hasItem("HM03 - Surf") and dialogs.e4Done.state then
@@ -268,7 +268,7 @@ function ExpForElite4Kanto:PokecenterViridian()
 		else
 			return usePC()
 		end
-	elseif 	hasItem("Bicycle") and getTeamSize() == 6 and game.minTeamLevel() <= 47 then
+	elseif 	hasItem("Bicycle") and getTeamSize() == 6 and game.minTeamLevel() <= 47 and not dialogs.e4Done.state then
 	
 		if isPCOpen() then
 			if isCurrentPCBoxRefreshed() then
@@ -286,7 +286,26 @@ function ExpForElite4Kanto:PokecenterViridian()
 		else
 			return usePC()
 		end
-		
+	elseif dialogs.e4Done.state and not game.hasPokemonWithMove("Surf") then
+		if isPCOpen() then
+			if isCurrentPCBoxRefreshed() then
+				if getCurrentPCBoxSize() ~= 0 then
+					for pokemon=1, getCurrentPCBoxSize() do
+						if getPokemonNameFromPC(getCurrentPCBoxId(),pokemon) == "Sentret" then
+							return swapPokemonFromPC(getCurrentPCBoxId(),pokemon,1) 
+						elseif getPokemonNameFromPC(getCurrentPCBoxId(),pokemon) == "Furret" then
+							return swapPokemonFromPC(getCurrentPCBoxId(),pokemon,1) 
+					
+						end
+					end
+					return openPCBox(getCurrentPCBoxId()+1)
+				end
+			else
+				return
+			end
+		else
+			return usePC()
+		end
 	else 
 		return moveToMap("Viridian City")
 	end
@@ -305,13 +324,15 @@ function ExpForElite4Kanto:PokemonLeagueReceptionGate()
 		else
 			return talkToNpcOnCell(22,23)
 		end
-	elseif not isNpcOnCell(22,23) and not hasItem("HM03 - Surf") then
+	elseif not isNpcOnCell(22,23)  then
 		dialogs.e4Done.state = true
-		return moveToMap("Route 22") 
-	elseif not isNpcOnCell(22,23) and hasItem("HM03 - Surf") then
+		
+	elseif not isNpcOnCell(22,23) and hasItem("HM03 - Surf") and game.hasPokemonWithMove("Surf") then
 		return moveToMap("Route 26") 
 	elseif  getTeamSize() <=5  and not hasItem("HM03 - Surf") then
 		return moveToMap("Victory Road Kanto 1F")
+	else
+		return moveToMap("Route 22")
 	end
 end
 
