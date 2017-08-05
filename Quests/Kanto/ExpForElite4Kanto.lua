@@ -181,7 +181,7 @@ function ExpForElite4Kanto:Route22()
 		return moveToMap("Pokemon League Reception Gate")
 	elseif hasItem("HM03 - Surf") and getTeamSize() <=5 then 
 		return moveToMap("Viridian City") 
-	elseif hasItem("HM03 - Surf") and game.minTeamLevel() <= 47 then
+	elseif hasItem("HM03 - Surf") and game.minTeamLevel() <= 47 and game.maxTeamLevel() <= 96 then
 		return moveToMap("Viridian City") 
 	elseif hasItem("HM03 - Surf") and dialogs.leagueKantoNotDone.state then
 		return moveToMap("Pokemon League Reception Gate")
@@ -197,7 +197,7 @@ function ExpForElite4Kanto:ViridianCity()
 		return moveToMap("Route 1 Stop House")
 	elseif dialogs.e4Done.state and not game.hasPokemonWithMove("Surf") then
 		return moveToMap("Pokecenter Viridian")
-	elseif self:needPokecenter() or dialogs.e4Done.state  then 
+	elseif self:needPokecenter()  then 
 		return moveToMap("Pokecenter Viridian") 
 	elseif hasItem("HM03 - Surf") and dialogs.e4Done.state then
 		return moveToMap("Route 22")
@@ -324,8 +324,9 @@ function ExpForElite4Kanto:PokemonLeagueReceptionGate()
 		else
 			return talkToNpcOnCell(22,23)
 		end
-	elseif not isNpcOnCell(22,23)  then
+	elseif not isNpcOnCell(22,23) and hasItem("HM03 - Surf") and not game.hasPokemonWithMove("Surf")  then
 		dialogs.e4Done.state = true
+		return moveToMap("Route 22")
 		
 	elseif not isNpcOnCell(22,23) and hasItem("HM03 - Surf") and game.hasPokemonWithMove("Surf") then
 		return moveToMap("Route 26") 

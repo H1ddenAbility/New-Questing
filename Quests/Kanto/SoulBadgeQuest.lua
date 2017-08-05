@@ -256,7 +256,7 @@ function SoulBadgeQuest:FuchsiaCity()
 				self.pokemonId = self.pokemonId + 1
 				return
 			else
-				fatal("No pokemon in this team can learn - Surf")
+				return useItemOnPokemon("HM03 - Surf", 1)
 			end
 		else
 			if not hasPokemonInTeam("Ditto") and getTeamSize() == 6 then
