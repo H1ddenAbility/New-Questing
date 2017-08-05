@@ -106,7 +106,11 @@ function FogBadgeQuest:NationalParkStop()
 end
 
 function FogBadgeQuest:NationalPark()
-	moveToMap("National Park Stop")
+	if isNpcOnCell(29,16) then
+		return talkToNpcOnCell(29,16)
+	else
+		return moveToMap("National Park Stop")
+	end
 end
 
 function FogBadgeQuest:Route36()

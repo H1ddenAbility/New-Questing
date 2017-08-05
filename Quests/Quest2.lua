@@ -319,6 +319,10 @@ function Quest:wildBattle()
 		if useItem("Ultra Ball") or useItem("Great Ball") or useItem("Pokeball") or sendUsablePokemon() or run() or sendAnyPokemon() then
 			return true
 		end 
+	elseif getMapName() == "Route 36" and not hasPokemonInTeam("Bellsprout") and getOpponentName() == "Bellsprout" and getTeamSize() <= 6 and getOpponentLevel() >=13 then 
+		if useItem("Ultra Ball") or useItem("Great Ball") or useItem("Pokeball") or sendUsablePokemon() or run() or sendAnyPokemon() then
+			return true
+		end 
 	elseif 	 getTeamSize() == 2 and getUsablePokemonCount() == 1 then
 		return relog(5,"Relogging...")
 	elseif 	 getTeamSize() == 3 and getUsablePokemonCount() == 2 then
@@ -355,7 +359,8 @@ function Quest:trainerBattle()
 		return attack() or game.useAnyMove() or useMove("Tackle") or useMove("Curse") or useMove("Lick")
 	elseif getOpponentName() == "Drifblim" then
 		return sendPokemon(3) or attack()  or sendUsablePokemon() or sendAnyPokemon() or useMove("Tackle") or useMove("Growl") or useMove("Curse") or useMove("Lick")
-	
+	elseif getOpponentName() == "Wooper" then 
+		return useMove("Crunch") or useMove("Ice Fang") or attack()  or sendUsablePokemon() or run() or sendAnyPokemon()
 	else
 	return attack()  or sendUsablePokemon() or sendAnyPokemon() or useMove("Tackle") or useMove("Growl") or useMove("Curse") or useMove("Lick")
 	end
