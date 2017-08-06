@@ -122,17 +122,8 @@ function ToFortreeCity:Route119B()
 end
 
 function ToFortreeCity:Route119A()
-	
-	if not self:isTrainingOver() and not self:needPokecenter() then
-		moveToGrass()
-	elseif self:needPokecenter() then 
-		moveToMap("Weather Institute 1F")
-	elseif isNpcOnCell (18,43) then 
-		moveToMap("Weather Institute 1F") 
-	elseif isNpcOnCell(41,30) then 
-		talkToNpcOnCell(41,30)
-	else moveToMap("Fortree City")
-	end
+	return moveToMap("Fortree City")
+
 end
 
 function ToFortreeCity:WeatherInstitute1F()

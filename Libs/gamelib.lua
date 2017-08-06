@@ -10,7 +10,7 @@ local sys = require("Libs/syslib")
 function game.isTeamFullyHealed()
 	for pokemonId=1, getTeamSize(), 1 do
 		if getPokemonHealthPercent(pokemonId) < 100
-			or ( not isPokemonUsable(pokemonId) and ( getTeamSize() == 6 and getPokemonName(6) ~= "Ditto" ) ) then
+			or ( not isPokemonUsable(pokemonId) and ( getTeamSize() == 6 and getPokemonName(6) ~= "Ditto" ) or ( getTeamSize() >= 1 and hasMove(1,"Surf") and getRemainingPowerPoints(1,"Surf") <= 14 ) ) then
 			return false
 		end
 	end

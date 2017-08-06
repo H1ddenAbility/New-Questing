@@ -348,6 +348,8 @@ function Quest:wildBattle()
 		else 
 			return useMove("Sucker Punch") or useMove("Quick Attack") or useMove("Quick Guard") or sendPokemon(6) or sendPokemon(5) or sendPokemon(4) or sendPokemon(3) or sendPokemon(2) or attack() 
 		end
+	elseif getTeamSize() == 6 and getUsablePokemonCount() == 0 then
+		return relog(5,"Relogging...")
 	else
 			return  attack()  or sendUsablePokemon() or run() or sendAnyPokemon()
 	end

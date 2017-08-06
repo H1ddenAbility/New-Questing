@@ -34,7 +34,7 @@ function GetTheOrbs:isDoable()
 end
 
 function GetTheOrbs:isDone()
-	if hasItem("Blue Orb") and getMapName() == "Mt. Pyre Summit" then
+	if  getMapName() == "Route 124" then
 		return true
 	else
 		return false
@@ -73,61 +73,19 @@ function GetTheOrbs:FortreeGym()
 end
 
 function GetTheOrbs:Route121()
-	moveToMap("Route 122")
+	moveToMap("Lilycove City")
 end
 
-function GetTheOrbs:Route122()
-	moveToMap("Mt. Pyre 1F")
+function GetTheOrbs:PokecenterLilycoveCity()
+	return self:pokecenter("Lilycove City")
 end
 
-function GetTheOrbs:MtPyre1F()
-	moveToMap("Mt. Pyre 2F")
-end
-
-function GetTheOrbs:MtPyre2F()
-	moveToMap("Mt. Pyre 3F")
-end
-
-function GetTheOrbs:MtPyre3F()
-	if isNpcOnCell(13,26) then
-		moveToCell(13,22)
-	else moveToMap("Mt. Pyre Exterior")
+function GetTheOrbs:LilycoveCity()
+	if self:needPokecenter() or not game.isTeamFullyHealed() or self.registeredPokecenter ~= "Pokecenter Lilycove City" then
+		moveToMap("Pokecenter Lilycove City")
+	else
+		moveToMap("Route 124")
 	end
 end
 
-
-function GetTheOrbs:MtPyreExterior()
-	moveToMap("Mt. Pyre Summit")
-end
-
-function GetTheOrbs:MtPyreSummit()
-	if isNpcOnCell(27,12) then 
-		talkToNpcOnCell(27,12)
-	elseif isNpcOnCell(26,11) then
-		talkToNpcOnCell(26,11)
-	elseif not isNpcOnCell(27,4) then
-		talkToNpcOnCell(26,4)
-		dialogs.jack.state = true
-		return
-	elseif not dialogs.jack.state then
-		moveToCell(27,6)
-	
-	end	
-end
-
-function GetTheOrbs:MapName()
-	
-end
-
-function GetTheOrbs:MapName()
-	
-end
-
-function GetTheOrbs:MapName()
-	
-end
-
-function GetTheOrbs:MapName()
-	
-end
 return GetTheOrbs

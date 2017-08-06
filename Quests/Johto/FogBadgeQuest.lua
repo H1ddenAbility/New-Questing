@@ -155,8 +155,8 @@ function FogBadgeQuest:BurnedTowerFloor2()
 		talkToNpcOnCell(15,12)
 	elseif not isNpcOnCell(15,12) and not dialogs.suicune.state then  
 		dialogs.suicune.state = true 
-		moveToCell(18,10)
-		return
+		return moveToCell(18,10)
+		
 	end
 end
 

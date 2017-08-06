@@ -150,7 +150,7 @@ function Quest:useBike()
 	end
 	if getTeamSize() >= 1 and getPokemonLevel(1) >= 47 and getPokemonName(1) == "Mudkip"  then 
 		enableAutoEvolve()
-	elseif getTeamSize() >= 1 and getPokemonLevel(1) >= 95 and getPokemonName(1) == "Marshtomp " then
+	elseif getTeamSize() >= 1 and getPokemonLevel(1) >= 89 and getPokemonName(1) == "Marshtomp" then
 		enableAutoEvolve()
 	else
 		disableAutoEvolve() 
@@ -425,7 +425,11 @@ local hmMoves = {
 
 
 function Quest:learningMove(moveName, pokemonIndex)
-	return forgetAnyMoveExcept({"Earthquake", "Ice Beam", "Dig", "Surf"}) 
+	if not hasItem("Balance Badge") then
+		return forgetAnyMoveExcept({"Earthquake", "Ice Beam", "Dig", "Surf"}) 
+	else 
+		return forgetAnyMoveExcept({"Earthquake", "Ice Beam", "Dive", "Surf"}) 
+	end
 end
 
 return Quest

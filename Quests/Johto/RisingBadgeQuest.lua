@@ -12,7 +12,7 @@ local Dialog = require "Quests/Dialog"
 
 local name		  = 'Rising Badge Quest'
 local description = 'Will exp to lv 80 and earn the 8th badge'
-local level = 90
+local level = 91
 
 local dialogs = {
 	xxx = Dialog:new({ 

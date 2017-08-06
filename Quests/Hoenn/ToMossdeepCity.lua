@@ -12,7 +12,7 @@ local Dialog = require "Quests/Dialog"
 
 local name		  = 'To Mossdeep City'
 local description = 'Clear the Aqua Hideout of Lilycove and earn the 7th badge'
-local level = 60
+local level = 75
 
 local dialogs = {
 	shelly = Dialog:new({ 
@@ -34,14 +34,14 @@ function ToMossdeepCity:new()
 end
 
 function ToMossdeepCity:isDoable()
-	if self:hasMap() and not hasItem("Red orb") and not hasItem("Mind Badge") then
+	if self:hasMap() and not hasItem("Red orb")  then
 		return true
 	end
 	return false
 end
 
 function ToMossdeepCity:isDone()
-	if hasItem("Mind Badge") and getMapName() == "Mossdeep City" then
+	if hasItem("Mind Badge") and getMapName() == "Sootopolis City" then
 		return true
 	else
 		return false
@@ -119,8 +119,6 @@ function ToMossdeepCity:LilycoveCity()
 		talkToNpcOnCell(3,23)
 	elseif self:needPokecenter() or not game.isTeamFullyHealed() or self.registeredPokecenter ~= "Pokecenter Lilycove City" then
 		moveToMap("Pokecenter Lilycove City")
-	elseif not dialogs.finaqua.state then
-		moveToMap("Team Aqua Hideout  Entrance")
 	else moveToMap("Route 124")
 	end
 end
@@ -201,19 +199,64 @@ function ToMossdeepCity:TeamAquaHideoutB2F()
 end
 
 function ToMossdeepCity:Route124()
-	moveToMap("Mossdeep City")
+	if self.registeredPokecenter ~= "Pokecenter Mossdeep City" then
+		moveToMap("Mossdeep City")
+	elseif not self:isTrainingOver() then
+		moveToRectangle(54,42,70,45)
+	elseif hasItem("HM06 - Dive") then
+		moveToMap("Route 126")
+	else
+		moveToMap("Mossdeep City")
+	end
 end
 
+function ToMossdeepCity:Route126()
+	if not game.hasPokemonWithMove("Dive") then
+		return useItemOnPokemon("HM06 - Dive",1)
+	elseif game.hasPokemonWithMove("Dive") then
+		moveToCell(15,71)
+	else
+		fatal("Pokemon 1 can't learn dive")
+	end
+end
+		
+function ToMossdeepCity:Route126Underwater()
+	if isNpcOnCell(58,97) then
+		return talkToNpcOnCell(58,97)
+	else 
+		return moveToMap("Sootopolis City Underwater")
+	end 
+end
+		
+function ToMossdeepCity:SootopolisCityUnderwater()	
+	moveToCell(17,11)
+end	
+	
 function ToMossdeepCity:MossdeepCity()
 	if isNpcOnCell(36,22) then
 		talkToNpcOnCell(36,22)
 	elseif self:needPokecenter() or self.registeredPokecenter ~= "Pokecenter Mossdeep City" then
 		moveToMap("Pokecenter Mossdeep City")
 	elseif not self:isTrainingOver() then
-		moveToRectangle(4,8,12,19)
+		moveToMap("Route 124")
 	elseif not hasItem("Mind Badge") then
 		moveToMap("Mossdeep Gym")
-	else log("r")
+	elseif hasItem("Mind Badge") and not hasItem("HM06 - Dive") then
+		if isNpcOnCell(83,22) then
+			return talkToNpcOnCell(83,22)
+		else 
+			return moveToMap("Mossdeep City Space Center 1F")
+		end
+	else 
+		return moveToMap("Route 124")
+	end
+end
+
+function ToMossdeepCity:MossdeepCitySpaceCenter1F()
+	if not hasItem("HM06 - Dive") then
+		return talkToNpcOnCell(12,6)
+	else
+		return moveToMap("Mossdeep City")
 	end
 end
 

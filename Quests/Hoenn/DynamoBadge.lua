@@ -271,7 +271,7 @@ function DynamoBadge:MauvilleCityGym()
 		elseif isNpcOnCell(7,9) and not isNpcOnCell(7,13) and not isNpcOnCell(3,13) and not isNpcOnCell(11,13) and not isNpcOnCell(9,15) then
 			talkToNpcOnCell(11,11)
 			log("a")
-		else log("NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
+		else relog(5,"relog")
 		end
 	end
 		
