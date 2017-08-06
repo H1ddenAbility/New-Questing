@@ -7,7 +7,7 @@
 
 local sys    = require "Libs/syslib"
 local game   = require "Libs/gamelib"
-local Quest  = require "Quests/Quest4"
+local Quest  = require "Quests/Quest5"
 local Dialog = require "Quests/Dialog"
 
 local name		  = 'E4 Hoenn'
@@ -36,8 +36,8 @@ local templatequest = Quest:new()
 local beastteam = false
 function templatequest:new()
 	local o = Quest.new(templatequest, name, description, level, dialogs)
-	o.qnt_revive = 32
-	o.qnt_hyperpot = 32
+	o.qnt_revive = 20
+	o.qnt_hyperpot = 30
 	return o
 end
 
@@ -159,6 +159,56 @@ function templatequest:EverGrandeCity()
 end
 
 function templatequest:PokecenterEverGrandeCity()
+	if getTeamSize() <= 5 then 
+		if isPCOpen() then
+			if isCurrentPCBoxRefreshed() then
+				if getCurrentPCBoxSize() ~= 0 then
+					for pokemon=1, getCurrentPCBoxSize() do
+						if getPokemonLevelFromPC(getCurrentPCBoxId(), pokemon) > 95 then
+						return withdrawPokemonFromPC(getCurrentPCBoxId(),pokemon) 	
+						end
+					end
+					return openPCBox(getCurrentPCBoxId()+1)
+				end
+			else
+				return
+			end
+		else
+			return usePC()
+		end
+	elseif 	getTeamSize() == 6 and game.minTeamLevel() <= 80 then
+	
+		if isPCOpen() then
+			if isCurrentPCBoxRefreshed() then
+				if getCurrentPCBoxSize() ~= 0 then
+					for pokemon=1, getCurrentPCBoxSize() do
+						if getPokemonLevelFromPC(getCurrentPCBoxId(), pokemon) > 47 then
+						return swapPokemonFromPC(getCurrentPCBoxId(),pokemon,getTeamSize()) 	
+						end
+					end
+					return openPCBox(getCurrentPCBoxId()+1)
+				end
+			else
+				return
+			end
+		else
+			return usePC()
+		end
+	elseif getPokemonName(5) == "Feraligatr" then
+		if isPCOpen() then
+			log("need to delete this :( ")
+			return releasePokemonFromTeam(5)
+		else
+			return usePC()
+		end
+	elseif getPokemonName(6) == "Feraligatr" then
+		if isPCOpen() then
+			log("need to delete this :( ")
+			return releasePokemonFromTeam(6)
+		else
+			return usePC()
+		end
+	end
 	return self:pokecenter("Ever Grande City")
 end
 
@@ -176,32 +226,8 @@ end
 function templatequest:PokemonLeagueHoenn()
 	if self:needPokecenter() or not game.isTeamFullyHealed() then
 		talkToNpcOnCell(4,22)
-	end
-	if not isTeamSortedByLevelAscending() then
-			sortTeamByLevelAscending()
-	elseif getPokemonLevel(1) < 96 and not beastteam then
-		if isPCOpen() then
-			if isCurrentPCBoxRefreshed() then
-				if getCurrentPCBoxSize() ~= 0 then
-					for pokemon=1, getCurrentPCBoxSize() do
-						if getPokemonLevelFromPC(getCurrentPCBoxId(), pokemon) > 95 then
-						return swapPokemonFromPC(getCurrentPCBoxId(),pokemon,1) 	
-						end
-					end
-					return openPCBox(getCurrentPCBoxId()+1)
-				else
-					beastteam = true
-					return
-				end
-			else
-				return
-			end
-		else
-			return usePC()
-		end
 	elseif getItemQuantity("Revive") < self.qnt_revive or getItemQuantity("Hyper Potion") < self.qnt_hyperpot then
 		if not isShopOpen() then
-			log("ff")
 			return talkToNpcOnCell(16,22)
 		else
 			if getItemQuantity("Revive") < self.qnt_revive then
@@ -283,7 +309,7 @@ function templatequest:useReviveItems() --Return false if team don't need heal
 		if getPokemonHealth(pokemonId) == 0 then
 			return useItemOnPokemon("Revive", pokemonId)
 		end
-		if getPokemonHealthPercent(pokemonId) < 70 then
+		if getPokemonHealthPercent(pokemonId) < 80 then
 			return useItemOnPokemon("Hyper Potion", pokemonId)
 		end		
 	end
