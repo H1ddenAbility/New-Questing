@@ -79,7 +79,7 @@ function EarthBadgeQuest:ViridianPokemart()
 end
 
 function EarthBadgeQuest:ViridianCity()
-	if self:needPokecenter() or not game.isTeamFullyHealed() or not self.registeredPokecenter == "Pokecenter Viridian" then
+	if self:needPokecenter() or not game.isTeamFullyHealed() or self.registeredPokecenter ~= "Pokecenter Viridian" then
 		return moveToMap("Pokecenter Viridian")
 	elseif self:needPokemart() then
 		return moveToMap("Viridian Pokemart")

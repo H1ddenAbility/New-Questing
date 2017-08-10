@@ -21,14 +21,14 @@ function RockTunnelQuest:new()
 end
 
 function RockTunnelQuest:isDoable()
-	if self:hasMap() and not hasItem("Rainbow Badge") then
+	if self:hasMap() and hasItem("Rainbow Badge") then
 		return true
 	end
 	return false
 end
 
 function RockTunnelQuest:isDone()
-	if getMapName() == "Celadon City" or getMapName() == "Pokecenter Vermilion" then --FIX Blackout if not Route10 or Lavander Pokecenter is Setup
+	if getMapName() == "Celadon City" or getMapName() == "Fuchsia City" then --FIX Blackout if not Route10 or Lavander Pokecenter is Setup
 		return true
 	else
 		return false
@@ -79,10 +79,10 @@ function RockTunnelQuest:RockTunnel2()
 end
 
 function RockTunnelQuest:LavenderTown()
-	if self:needPokecenter() or not game.isTeamFullyHealed() or not self.registeredPokecenter == "Pokecenter Lavender" then
+	if self:needPokecenter() or not game.isTeamFullyHealed() or self.registeredPokecenter ~= "Pokecenter Lavender" then
 		return moveToMap("Pokecenter Lavender")
 	else
-		return moveToMap("Route 8")
+		return moveToMap("Route 12")
 	end
 end
 
@@ -104,20 +104,29 @@ function RockTunnelQuest:Route8()
 	elseif isNpcOnCell(18,3) then  -- Item: Perism Berry
 		return talkToNpcOnCell(18,3)
 	else
-		return moveToMap("Underground House 4")
+		return moveToMap("Lavender Town")
 	end
 end
 
-function RockTunnelQuest:UndergroundHouse4()
-	return moveToMap("Underground1")
+
+function RockTunnelQuest:Route12()
+	return moveToMap("Route 13")
 end
 
-function RockTunnelQuest:Underground1()
-	return moveToMap("Underground House 3")
+function RockTunnelQuest:Route13()
+	return moveToMap("Route 14")
 end
 
-function RockTunnelQuest:UndergroundHouse3()
-	return moveToMap("Route 7")
+function RockTunnelQuest:Route14()
+	return moveToMap("Route 15")
+end
+
+function RockTunnelQuest:Route15()
+	return moveToMap("Route 15 Stop House")
+end
+
+function RockTunnelQuest:Route15StopHouse()
+	return moveToMap("Fuchsia City")
 end
 
 function RockTunnelQuest:Route7()

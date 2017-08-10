@@ -175,7 +175,11 @@ function ExpForElite4Kanto:canBuyReviveItems()
 end
 
 function ExpForElite4Kanto:Route22()
-	if getMoney() >= 55000 and not hasItem("Bicycle") then
+	if isNpcOnCell(10,8) then
+		talkToNpcOnCell(10,8)
+	elseif not isNpcOnCell(10,8) then
+		return moveToCell(9,8)
+	elseif getMoney() >= 55000 and not hasItem("Bicycle") then
 		return moveToMap("Viridian City")
 	elseif dialogs.leagueKantoNotDone.state and not hasItem("HM03 - Surf") then
 		return moveToMap("Pokemon League Reception Gate")
@@ -362,9 +366,9 @@ function ExpForElite4Kanto:VictoryRoadKanto3F()
 		return talkToNpcOnCell(46,14)
 	elseif  self.registeredPokecenter_ ~= "Indigo Plateau Center" then
 			return moveToMap("Indigo Plateau")
-	elseif getMoney() >= 55000 and not hasItem("Bicycle") and not isNight() then
-			return moveToCell(29,17)
-	elseif  not self:canBuyReviveItems() or not self:isTrainingOver() then
+	elseif  getTeamSize() <= 5 then
+		return moveToRectangle(45,15,47,21)
+	elseif  ( hasPokemonInTeam("Zubat") or hasPokemonInTeam("Golbat") ) and getTeamSize() ==6 then
 			return self:useZoneExp()
 	else
 			return moveToMap("Indigo Plateau")
@@ -375,7 +379,7 @@ end
 function ExpForElite4Kanto:IndigoPlateau()
 		if self:needPokecenter() or self.registeredPokecenter_ ~= "Indigo Plateau Center" then
 			return moveToMap("Indigo Plateau Center")
-		elseif not self:canBuyReviveItems() or not self:isTrainingOver() then
+		elseif ( hasPokemonInTeam("Zubat") or hasPokemonInTeam("Golbat") ) and getTeamSize() ==6 then
 			self.zoneExp = math.random(1,15)
 			return moveToMap("Victory Road Kanto 3F") 
 		else
@@ -388,13 +392,13 @@ function ExpForElite4Kanto:IndigoPlateauCenter()
 		if self:needPokecenter() or not game.isTeamFullyHealed() or self.registeredPokecenter_ ~= "Indigo Plateau Center" then
 			self.registeredPokecenter_ = getMapName()
 			return talkToNpcOnCell(4,22)
-		elseif hasPokemonInTeam("Bulbasaur") then
+		elseif getTeamSize() >= 1 and game.minTeamLevel() <= 39 then
 			if isPCOpen() then
-				depositPokemonToPC(1)
+				depositPokemonToPC(2)
 			else
 				return usePC()
 			end
-		elseif not self:canBuyReviveItems() or not self:isTrainingOver() then
+		elseif ( hasPokemonInTeam("Zubat") or hasPokemonInTeam("Golbat") ) and getTeamSize() ==6 then
 			return moveToMap("Indigo Plateau") 
 		elseif self:buyReviveItems() ~= false then
 			return 

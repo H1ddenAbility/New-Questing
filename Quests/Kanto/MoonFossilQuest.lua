@@ -7,10 +7,13 @@ local sys    = require "Libs/syslib"
 local game   = require "Libs/gamelib"
 local Quest  = require "Quests/Quest"
 local Dialog = require "Quests/Dialog"
+            
+local battleManiac = require "battleManiac.battleManiac"    
+
 
 local name        = 'Mt. Moon Fossil'
 local description = 'from Route 3 to Cerulean City'
-local level       = 1
+local level       = 19
 
 local dialogs = {
 	fossileGuyBeaten = Dialog:new({
@@ -42,13 +45,21 @@ function MoonFossilQuest:Route3()
 		or self.registeredPokecenter ~= "Pokecenter Route 3"
 	then
 		return moveToMap("Pokecenter Route 3")
+	elseif not hasItem("Escape Rope") and getMoney() >= 2000 then
+		talkToNpcOnCell(85,17)
 	else
 		return moveToMap("Mt. Moon 1F")
 	end
 end
 
 function MoonFossilQuest:MtMoon1F()
+	if  not self:isTrainingOver() then
+		return moveToRectangle(28, 51, 40, 54)
+	elseif getMoney() >= 2000 and not hasItem("Escape Rope") then
+		return moveToMap("Route 3")
+	else
 		return moveToCell(21, 20) -- Mt. Moon B1F
+	end
 end
 
 function MoonFossilQuest:MtMoonB1F()

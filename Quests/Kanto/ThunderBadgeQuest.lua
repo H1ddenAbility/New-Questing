@@ -26,8 +26,8 @@ local dialogs = {
 		"wrong switch",
 		"have been reset"
 	}),
-	switchTrigger = Dialog:new({
-		"have triggered the first switch"
+	ditto = Dialog:new({
+		"This isn't a Ditto"
 	})
 }
 
@@ -46,14 +46,14 @@ function ThunderBadgeQuest:new()
 end
 
 function ThunderBadgeQuest:isDoable()
-	if  self:hasMap()  then
+	if  self:hasMap() and not hasItem("Bike Voucher")  then
 		return true
 	end
 	return false
 end
 
 function ThunderBadgeQuest:isDone()
-	if getMapName() == "Pokecenter Vulcanic Town" or getMapName() == "SSAnne 1F" or ( getMapName() == "Route 6" and hasItem("Bike Voucher") ) then
+	if getMapName() == "Route 11" or getMapName() == "SSAnne 1F" or ( getMapName() == "Route 6" and hasItem("Bike Voucher") ) then
 		return true
 	else
 		return false
@@ -104,25 +104,38 @@ function ThunderBadgeQuest:VermilionCity()
 		return moveToMap("Pokecenter Vermilion")
 	elseif hasItem("Bike Voucher") then
 		return moveToMap("Route 6")
-	elseif hasItem("HM03 - Surf") and hasPokemonInTeam("Ditto") and getMoney() > 60000 and not hasItem("Bike Voucher") then
+	elseif hasItem("HM03 - Surf") and hasPokemonInTeam("Ditto")  and not hasItem("Bike Voucher") then
 		return moveToCell(32,21)
 	elseif not dialogs.surgeVision.state then
 		return talkToNpcOnCell(38, 63) -- Surge
 	elseif not hasItem("HM01 - Cut") then -- Need do SSanne Quest
 		return moveToCell(40, 67) -- Enter on SSAnne
-	elseif not hasItem("Thunder Badge") then
-		if game.tryTeachMove("Cut","HM01 - Cut") == true then
-			return moveToMap("Route 11")
-		end
+	elseif not game.hasPokemonWithMove("Cut") then
+		return useItemOnPokemon("HM01 - Cut", 1)
+	elseif not hasItem("Old Rod") then
+		return moveToMap("Fisherman House - Vermilion")
 	else
 		return moveToMap("Route 11")
 	end
 end
 
+function ThunderBadgeQuest:FishermanHouseVermilion()
+	if not hasItem("Old Rod") then
+		talkToNpcOnCell(0,6)
+	else
+		return moveToMap("Vermilion City")
+	end
+end
+
 function ThunderBadgeQuest:VermilionHouse2Bottom()
 	if not hasItem("Bike Voucher") then
-		pushDialogAnswer(6)
-		talkToNpc("Samuel")
+		if dialogs.ditto.state then
+			pushDialogAnswer(getTeamSize())
+			talkToNpc("Samuel")
+		else
+			pushDialogAnswer(1)
+			talkToNpc("Samuel")
+		end
 	else 
 		return moveToMap("Vermilion City")
 	end

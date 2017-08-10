@@ -50,7 +50,7 @@ function PokeFluteQuest:PokecenterLavender()
 end
 
 function PokeFluteQuest:LavenderTown()
-	if self:needPokecenter() or not game.isTeamFullyHealed() or not self.registeredPokecenter == "Pokecenter Lavender" then
+	if self:needPokecenter() or not game.isTeamFullyHealed() or self.registeredPokecenter ~= "Pokecenter Lavender" then
 		return moveToMap("Pokecenter Lavender")
 	elseif dialogs.checkFujiHouse.state and not dialogs.checkFujiNote.state then
 		return moveToMap("Lavender Town Volunteer House")
@@ -61,6 +61,7 @@ function PokeFluteQuest:LavenderTown()
 	end
 end
 
+
 function PokeFluteQuest:LavenderTownVolunteerHouse()
 	if not dialogs.checkFujiNote.state then
 		return talkToNpcOnCell(10,10)
@@ -70,16 +71,12 @@ function PokeFluteQuest:LavenderTownVolunteerHouse()
 end
 
 function PokeFluteQuest:PokemonTower1F()
-	if hasItem("Poke Flute") then
-		return moveToMap("Lavender Town")
-	else
-		return moveToMap("Pokemon Tower 2F")
-	end
+	return moveToMap("Pokemon Tower 2F")
 end
 
 function PokeFluteQuest:PokemonTower2F()
-	if hasItem("Poke Flute") then
-		return moveToMap("Pokemon Tower 1F")
+	if not hasPokemonInTeam("Gastly") and getTeamSize() <= 5 then
+		return moveToRectangle(7,8,15,9)
 	else
 		return moveToMap("Pokemon Tower 3F")
 	end
@@ -123,7 +120,7 @@ end
 
 function PokeFluteQuest:PokemonTower7F()
 	if hasItem("Poke Flute") then
-		return moveToMap("Pokemon Tower 6F")
+		return useItem("Escape Rope")
 	else
 		return talkToNpcOnCell(9,5) -- Fuji NPC - Give PokeFlute
 	end

@@ -20,14 +20,14 @@ function HmFlashQuest:new()
 end
 
 function HmFlashQuest:isDoable()
-	if self:hasMap() and not hasItem("Rainbow Badge") then
+	if self:hasMap() and not hasItem("Rainbow Badge") and not hasItem("Soul Badge") then
 		return true
 	end
 	return false
 end
 
 function HmFlashQuest:isDone()
-	if getMapName() == "Route 7" then
+	if getMapName() == "Route 7" or getMapName() == "Lavender Town" then
 		return true
 	else
 		return false
@@ -75,7 +75,7 @@ function HmFlashQuest:SaffronCity()
 	if hasItem("Bike Voucher") then
 		moveToMap("Route 5 Stop House")
 	else
-		return moveToMap("Route 7 Stop House")
+		return moveToMap("Route 8 Stop House")
 	end
 end
 
@@ -111,8 +111,12 @@ function HmFlashQuest:CeruleanCityBikeShop()
 	end
 end
 
-function HmFlashQuest:Route7StopHouse()
-	return moveToMap("Route 7")
+function HmFlashQuest:Route8StopHouse()
+	return moveToMap("Route 8")
+end
+
+function HmFlashQuest:Route8()
+	return moveToMap("Lavender Town")
 end
 
 function HmFlashQuest:PokecenterCerulean()

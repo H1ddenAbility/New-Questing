@@ -60,7 +60,7 @@ function MarshBadgeQuest:Route5StopHouse()
 end
 
 function MarshBadgeQuest:SaffronCity()
-	if self:needPokecenter() or not game.isTeamFullyHealed() or not self.registeredPokecenter == "Pokecenter Saffron" then
+	if self:needPokecenter() or not game.isTeamFullyHealed() or  self.registeredPokecenter ~= "Pokecenter Saffron" then
 		return moveToMap("Pokecenter Saffron")
 	elseif hasItem("Bike Voucher") then
 		return moveToMap("Route 5 Stop House")

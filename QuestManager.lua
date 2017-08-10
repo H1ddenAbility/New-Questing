@@ -18,10 +18,10 @@ local ThunderBadgeQuest   = require('Quests/Kanto/ThunderBadgeQuest')
 local HmFlashQuest        = require('Quests/Kanto/HmFlashQuest')
 local RockTunnelQuest     = require('Quests/Kanto/RockTunnelQuest')
 local RocketCeladonQuest  = require('Quests/Kanto/RocketCeladonQuest')
-local RainbowBadgeQuest   = require('Quests/Kanto/RainbowBadgeQuest')
 local PokeFluteQuest      = require('Quests/Kanto/PokeFluteQuest')
 local SnorlaxQuest        = require('Quests/Kanto/SnorlaxQuest')
 local SoulBadgeQuest      = require('Quests/Kanto/SoulBadgeQuest')
+local RainbowBadgeQuest   = require('Quests/Kanto/RainbowBadgeQuest')
 local HmSurfQuest         = require('Quests/Kanto/HmSurfQuest')
 local ExpForSaffronQuest  = require('Quests/Kanto/ExpForSaffronQuest')
 local SaffronGuardQuest   = require('Quests/Kanto/SaffronGuardQuest')
@@ -84,10 +84,10 @@ local quests = {
 	HmFlashQuest:new(),
 	RockTunnelQuest:new(),
 	RocketCeladonQuest:new(),
-	RainbowBadgeQuest:new(),
 	PokeFluteQuest:new(),
 	SnorlaxQuest:new(),
 	SoulBadgeQuest:new(),
+	RainbowBadgeQuest:new(),
 	HmSurfQuest:new(),
 	ExpForSaffronQuest:new(),
 	SaffronGuardQuest:new(),

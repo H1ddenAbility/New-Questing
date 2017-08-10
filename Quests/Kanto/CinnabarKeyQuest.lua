@@ -74,11 +74,7 @@ end
 
 function CinnabarKeyQuest:Cinnabarmansion3()
 	if not hasItem("Cinnabar Key") then
-		if isNpcOnCell(31,3) then -- Item: Nothing *WOW FUNNY MAPPER -.- (Added Anyway)
-			return talkToNpcOnCell(31,3)
-		else
-			return moveToCell(20,19) -- Cinnabar mansion B1F
-		end
+		return moveToCell(20,19) -- Cinnabar mansion B1F
 	else
 		return moveToCell(6,4) -- Cinnabar mansion 2
 	end
@@ -95,8 +91,6 @@ function CinnabarKeyQuest:CinnabarmansionB1F()
 		else
 			if isNpcOnCell(21,4) then --Item: TM22: SolarBeam
 				return talkToNpcOnCell(21,4)
-			elseif isNpcOnCell(5,4) then --Item: Antidote
-				return talkToNpcOnCell(5,4)
 			elseif isNpcOnCell(5,29) then --Item: Full Restore
 				return talkToNpcOnCell(5,29)
 			else

@@ -43,6 +43,15 @@ function game.hasPokemonWithMove(Move)
 	return false
 end
 
+function game.hasPokemonWithAbility(Ability)
+	for pokemonId=1, getTeamSize(), 1 do
+		if getPokemonAbility(pokemonId) == Ability then
+			return true
+		end
+	end
+	return false
+end
+
 function game.hasPokemonWithName(PokemonName)
 	for pokemonId=1, getTeamSize(), 1 do
 		if getPokemonName(pokemonId) == PokemonName then

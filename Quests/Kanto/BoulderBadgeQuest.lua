@@ -52,7 +52,22 @@ function BoulderBadgeQuest:Route2Stop()
 end
 
 function BoulderBadgeQuest:ViridianForest()
-	return moveToMap("Route 2 Stop2")
+	if not game.hasPokemonWithMove("Dragon Rage") then
+		return moveToCell(19,38)
+	else
+	    moveToMap("Route 2 Stop2")
+	end
+end
+
+function BoulderBadgeQuest:ViridianMaze()
+	if not game.hasPokemonWithMove("Dragon Rage") and not hasItem("TM23") then
+		log("Getting tm23-DragonRage for charnamder")
+		return talkToNpcOnCell(199,32)
+	elseif hasItem("TM23")then 
+		return useItemOnPokemon("TM23", 1)
+	else 
+		return moveToMap("Viridian Forest")
+	end
 end
 
 function BoulderBadgeQuest:Route2Stop2()
@@ -71,8 +86,7 @@ end
 
 function BoulderBadgeQuest:PewterCity()
 	
-	if self.registeredPokecenter ~= "Pokecenter Pewter"
-		or not game.isTeamFullyHealed() then
+	if self.registeredPokecenter ~= "Pokecenter Pewter" or not game.isTeamFullyHealed() then
 		return moveToMap("Pokecenter Pewter")
 	else
 		return moveToMap("Route 3")

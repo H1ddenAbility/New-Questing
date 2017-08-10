@@ -10,9 +10,10 @@ local game   = require "Libs/gamelib"
 local Quest  = require "Quests/Quest"
 local Dialog = require "Quests/Dialog"
 
+
 local name		  = 'Training for Saffron'
 local description = 'Exp in Seafoam'
-local level = 60
+local level = 95
 
 local ExpForSaffronQuest = Quest:new()
 
@@ -34,12 +35,10 @@ function ExpForSaffronQuest:isDone()
 	return false
 end
 
-function ExpForSaffronQuest:canUseNurse()
-	return getMoney() > 1500
-end
+
 
 function ExpForSaffronQuest:Route20()
-	if not self:isTrainingOver() then
+	if getMoney() <= 55000 then
 		return moveToCell(60,32) --Seafoam 1F
 	else
 		return moveToMap("Route 19")
@@ -47,7 +46,7 @@ function ExpForSaffronQuest:Route20()
 end
 
 function ExpForSaffronQuest:Seafoam1F()
-	if not self:isTrainingOver() then
+	if  getMoney() <= 55000 then
 		return moveToCell(20,8) --Seafom B1F
 	else
 		return moveToMap("Route 20")
@@ -55,7 +54,8 @@ function ExpForSaffronQuest:Seafoam1F()
 end
 
 function ExpForSaffronQuest:SeafoamB1F()
-	if not self:isTrainingOver() then
+	
+	if  getMoney() <= 55000 then
 		return moveToCell(64,25) --Seafom B2F
 	else
 		return moveToCell(15,12)
@@ -74,7 +74,7 @@ function ExpForSaffronQuest:SeafoamB2F()
 end
 
 function ExpForSaffronQuest:SeafoamB3F()
-	if not self:isTrainingOver() then
+	if  getMoney() <= 55000 then
 		return moveToCell(57,26) --Seafom B4F
 	else
 		return moveToCell(64,16)
@@ -85,22 +85,10 @@ function ExpForSaffronQuest:SeafoamB4F()
 	if isNpcOnCell(57,20) then --Item: Nugget (15000 Money)
 		return talkToNpcOnCell(57,20)
 	end
-	if not self:isTrainingOver() then
-		if self:needPokecenter() then
-			if self:canUseNurse() then -- if have 1500 money
-				return talkToNpcOnCell(59,13)
-			else
-				if not game.getTotalUsablePokemonCount() > 1 then
-				    fatal("don't have enough Pokemons for farm 1500 money and heal the team")
-				else 
-				    return moveToRectangle(50,10,62,32)
-				end
-			end
-		else
-			return moveToRectangle(50,10,62,32)
-		end
+	if  getMoney() <= 55000 then
+		return moveToRectangle(50,10,62,32)
 	else
-		return moveToCell(53,28)
+		return useitem("Escape Rope")
 	end
 end
 

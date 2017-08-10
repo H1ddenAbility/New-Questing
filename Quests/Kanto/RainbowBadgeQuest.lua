@@ -32,14 +32,14 @@ function RainbowBadgeQuest:new()
 end
 
 function RainbowBadgeQuest:isDoable()
-	if self:hasMap() and not hasItem("Soul Badge") and not hasItem("HM03 - Surf") then
+	if self:hasMap()  then
 		return true
 	end
 	return false
 end
 
 function RainbowBadgeQuest:isDone()
-	if hasItem("Rainbow Badge") and getMapName() == "Bike Road Stop" then
+	if hasItem("Rainbow Badge") and getMapName() == "Saffron City" then
 		return true
 	else
 		return false
@@ -67,10 +67,12 @@ function RainbowBadgeQuest:CeladonCity()
 		return moveToMap("CeladonGym")
 	elseif isNpcOnCell(14,42) then --NPC: Remove the Guards
 		return talkToNpcOnCell(14,42)
+	elseif not hasItem("Lemonade") then
+		return moveToMap("Celadon Mart 1")
 	elseif hasItem("Rainbow Badge") then
-		return moveToMap("Route 16")
+		return moveToMap("Route 7")
 	else
-		return moveToMap("Route 16")
+		return moveToMap("Route 7")
 	end
 end
 function RainbowBadgeQuest:Route16()
@@ -97,10 +99,14 @@ function RainbowBadgeQuest:Route7()
 	if self:needPokecenter() or not game.isTeamFullyHealed() or not self.registeredPokecenter == "Pokecenter Celadon" then
 		return moveToMap("Celadon City")
 	elseif hasItem("Rainbow Badge")  then
-		return moveToMap("Underground House 3")
+		return moveToMap("Route 7 Stop House")
 	else
 		return moveToMap("Celadon City")
 	end
+end
+
+function RainbowBadgeQuest:Route7StopHouse()
+		return moveToMap("Saffron City")
 end
 
 function RainbowBadgeQuest:CeladonGym()
@@ -114,7 +120,7 @@ function RainbowBadgeQuest:CeladonGym()
 end
 
 function RainbowBadgeQuest:CeladonMart1()
-	if  hasItem("Lesamonade") then
+	if  not hasItem("Lemonade") then
 		return moveToMap("Celadon Mart Elevator")
 	else
 		return moveToMap("Celadon City")
@@ -122,7 +128,7 @@ function RainbowBadgeQuest:CeladonMart1()
 end
 
 function RainbowBadgeQuest:CeladonMartElevator()
-	if  hasItem("Lemonade") then
+	if not hasItem("Lemonade") then
 		if not dialogs.martElevatorFloor5.state then
 			pushDialogAnswer(5)
 			return talkToNpcOnCell(1,1)
@@ -142,7 +148,7 @@ function RainbowBadgeQuest:CeladonMartElevator()
 end
 
 function RainbowBadgeQuest:CeladonMart5()
-	if  hasItem("Lemonasde") then
+	if  not hasItem("Lemonade") then
 		return moveToMap("Celadon Mart 6")
 	else
 		return moveToMap("Celadon Mart Elevator")
@@ -150,12 +156,12 @@ function RainbowBadgeQuest:CeladonMart5()
 end
 
 function RainbowBadgeQuest:CeladonMart6()
-	if  hasItem("Lemonasde") then
+	if not hasItem("Lemonade") then
 		if not isShopOpen() then
 			return talkToNpcOnCell(15, 7)
 		else
 			if getMoney() > 1000 then
-				return buyItem("Lesmonade", 5)
+				return buyItem("Lemonade", 2)
 			else
 				return buyItem("Lesmonade",(getMoney()/200))
 			end

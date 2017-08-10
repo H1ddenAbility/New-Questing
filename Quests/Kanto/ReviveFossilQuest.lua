@@ -25,7 +25,7 @@ function ReviveFossilQuest:isDoable()
 end
 
 function ReviveFossilQuest:isDone()
-	return getMapName() == "Kalijodo Path"
+	return getMapName() == "Cinnabar Island"
 end
 function ReviveFossilQuest:KalijodoLake()
  return moveToMap("Kalijodo Path")

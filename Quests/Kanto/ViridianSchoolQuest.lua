@@ -24,14 +24,14 @@ function ViridianSchoolQuest:new()
 end
 
 function ViridianSchoolQuest:isDoable()
-	if  self:hasMap() and not hasItem("Rising Badge") then
+	if  self:hasMap() then
 		return true
 	end
 	return false
 end
 
 function ViridianSchoolQuest:isDone()
-	return getMapName() == "Route 22"
+	return getMapName() == "Route 2" or getMapName() == "Route 22"
 end
 
 -- necessary, in case of black out we come back to the bedroom
@@ -57,18 +57,21 @@ end
 
 
 function ViridianSchoolQuest:ViridianCity()
-	if not game.isTeamFullyHealed()
-		or self.registeredPokecenter ~= "Pokecenter Viridian" then
+	if not game.isTeamFullyHealed() or self.registeredPokecenter ~= "Pokecenter Viridian" then
 		return moveToMap("Pokecenter Viridian")
-	elseif self:needPokemart() then
-		return moveToMap("Viridian Pokemart")
-	else
+	elseif  isNpcOnCell(57,61) then --Item: rare candy
+		return talkToNpcOnCell(57,61)
+	elseif hasItem("Marsh Badge") then
 		return moveToMap("Route 22")
+	else
+		return moveToMap("Route 2")
 	end
 end
 
 
 function ViridianSchoolQuest:PokecenterViridian()
+	if game.minTeamLevel() >= 90 and getTeamSize() == 6 then
+	
 	return self:pokecenter("Viridian City")
 end
 

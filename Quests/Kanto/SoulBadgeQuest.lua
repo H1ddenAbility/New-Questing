@@ -10,9 +10,10 @@ local game   = require "Libs/gamelib"
 local Quest  = require "Quests/Quest"
 local Dialog = require "Quests/Dialog"
 
+
 local name		  = 'Sould Badge'
 local description = 'Get Hm surf then go back to vermilion city'
-local level = 100
+local level = 48
 
 local dialogs = {
 	questSurfAccept = Dialog:new({ 
@@ -31,7 +32,7 @@ function SoulBadgeQuest:new()
 end
 
 function SoulBadgeQuest:isDoable()	
-	if self:hasMap() and not hasItem("Marsh Badge") then
+	if self:hasMap() and not hasItem("Marsh Badge") and not hasItem("RainBow Badge") then
 			return true
 	
 	end
@@ -39,7 +40,7 @@ function SoulBadgeQuest:isDoable()
 end
 
 function SoulBadgeQuest:isDone()
-	if (hasItem("Soul Badge") and hasItem("HM03 - Surf") and getMapName() == "Route 15") or getMapName() == "Safari Entrance" or getMapName() == "Vermilion City"then
+	if ( hasItem("RainBow Badge") and getMapName() == "Saffron City") or getMapName() == "Safari Entrance" or getMapName() == "Route 20" or getMapName() == "Vermilion City" or getMapName() == "Route 7" then
 		return true
 	else
 		return false
@@ -66,7 +67,7 @@ function SoulBadgeQuest:pokemart_()
 end
 
 function SoulBadgeQuest:needPokemart_()
-	if getItemQuantity("Pokeball") < 50 and getMoney() >= 200 then
+	if getItemQuantity("Pokeball") < 30 and getMoney() >= 200 then
 		return true
 	end
 	return false
@@ -107,70 +108,36 @@ end
 function SoulBadgeQuest:PokecenterFuchsia()
 	if self:needPokecenter() or not game.isTeamFullyHealed() then
 			return talkToNpcOnCell(9,15)
-	elseif not hasPokemonInTeam("Ditto") and getTeamSize() == 6 then
+	elseif not hasPokemonInTeam("Ditto") and getTeamSize() == 6 and getMoney() >= 50000 then
 			if isPCOpen() then
 				depositPokemonToPC(2)
 			else
 				return usePC()
 			end
 	else
-		return moveToMap("Fuchsia City")
+		return self:pokecenter("Fuchsia City")
 	end
 end
 
 function SoulBadgeQuest:Route18()
-	if self:canEnterSafari() and not  hasItem("HM03 - Surf") then
-		return moveToMap("Fuchsia City")
-	elseif not self:canEnterSafari() and not  hasItem("HM03 - Surf") then
 		return moveToGrass()
-	elseif  hasItem("HM03 - Surf") then
-		if game.inRectangle(30, 15, 50, 24) then
-			return moveToMap("Bike Road Stop")
-		elseif game.inRectangle(13, 0, 29, 25) then
-			return moveToMap("Route 17")
-		end
-	end
 end
 
-function SoulBadgeQuest:BikeRoadStop()
 
-	if game.inRectangle(0, 3, 2, 10) and hasItem("HM03 - Surf") then
-			return moveToCell(0,6)
-	elseif hasItem("HM03 - Surf") then
-			return  moveToCell(1,5)
-	else
-		return  moveToCell(10,07)
-	end
-end
-function SoulBadgeQuest:Route17()
-	return moveToMap("Route 16")
-end
-function SoulBadgeQuest:Route16()
-	return  moveToCell(90,19) or moveToCell(64,13) 
-end
-function SoulBadgeQuest:Route16StopHouse()
-	return moveToCell(20,6)
-end
-function SoulBadgeQuest:CeladonCity()
- return moveToMap("Route 7")
-end
-function SoulBadgeQuest:Route7()
-return moveToMap("Route 7 Stop House")
-end
-
-function SoulBadgeQuest:Route7StopHouse()
-	return moveToMap("Saffron City")
-end
 function SoulBadgeQuest:SaffronCity()
 	if hasItem("Bike Voucher") then
 		return moveToMap("Route 5 Stop House")
-	elseif hasItem("Bicycle") then 
-		return moveToMap("Route 6 Stop House")
+	elseif hasItem("Bicycle") or hasItem("Yellow Bicycle") or hasItem("Blue Bicycle") or hasItem("Green Bicycle") then 
+		return moveToMap("Route 7 Stop House")
 	elseif not hasPokemonInTeam("Ditto") then
 		return moveToMap("Route 8 Stop House")
 	else
 		return moveToMap("Route 6 Stop House")
 	end
+end
+
+function SoulBadgeQuest:Route7StopHouse()
+	return moveToMap("Route 7")
 end
 
 function SoulBadgeQuest:Route5StopHouse()
@@ -191,15 +158,61 @@ end
 
 function SoulBadgeQuest:CeruleanCity()
 	if hasItem("Bike Voucher") then
-		return moveToCell(15,38)
+		if getMoney() <= 60000 then
+			return moveToMap("Route 24")
+		else
+			return moveToCell(15,38)
+		end
 	else  
 		return moveToMap("Route 5")
 	end
 end
 
+function SoulBadgeQuest:Route24()
+	if getMoney() <= 60000 then
+		return moveToMap("Route 25")
+	else
+		return moveToMap("Cerulean City")
+	end
+end
+
+function SoulBadgeQuest:Route25()
+	if hasItem("Nugget") and getMoney() <= 60000 then
+		return moveToMap("Item Maniac House")
+	elseif getMoney() >= 60000 then
+		return moveToMap("Route 24")
+	else
+		fatal("You don't have enough money to buy Bike")
+	end
+end
+
+function SoulBadgeQuest:ItemManiacHouse() -- sell nugget
+	if hasItem("Nugget") then
+		return talkToNpcOnCell(6, 5)
+	else
+		return moveToMap("Route 25")
+	end
+end
+
 function SoulBadgeQuest:CeruleanCityBikeShop()
 	if hasItem("Bike Voucher") then
-		return talkToNpcOnCell(11,7)
+		if BIKE_COLOR_ID == 1 then
+			pushDialogAnswer(1)
+			pushDialogAnswer(1)
+			return talkToNpcOnCell(11,7)
+		elseif BIKE_COLOR_ID == 2 then
+			pushDialogAnswer(1)
+			pushDialogAnswer(2)
+			return talkToNpcOnCell(11,7)
+		elseif BIKE_COLOR_ID == 3 then
+			pushDialogAnswer(1)
+			pushDialogAnswer(3)
+			return talkToNpcOnCell(11,7)
+		elseif BIKE_COLOR_ID == 4 then
+			pushDialogAnswer(1)
+			pushDialogAnswer(4)
+			return talkToNpcOnCell(11,7)
+		end
 	else  
 		return moveToMap("Cerulean City")
 	end
@@ -230,6 +243,8 @@ function SoulBadgeQuest:Route6StopHouse()
 	end
 end
 
+
+
 function SoulBadgeQuest:Route6()
 	if hasItem("Bike Voucher") then
 		return moveToMap("Route 6 Stop House")
@@ -240,36 +255,27 @@ end
 function SoulBadgeQuest:FuchsiaCity()
 	if self:needPokemart_() and not hasItem("HM03 - Surf") then --It buy balls if not have badge, at blackoutleveling no
 		return moveToMap("Safari Stop")
-	elseif not self:canEnterSafari() then
-		return moveToMap("Route 18")	
+	elseif  self.registeredPokecenter ~= "Pokecenter Fuchsia" or not game.isTeamFullyHealed()  then
+		return moveToMap("Pokecenter Fuchsia")
+	elseif not self:isTrainingOver() then
+		return moveToMap("Route 15 Stop House")
+	elseif getMoney() <= 5000 and not hasItem("HM03 - Surf") then
+		return moveToMap("Route 18")
 	elseif not hasItem("HM03 - Surf") then
 		if not dialogs.questSurfAccept.state then
 			return moveToMap("Fuchsia City Stop House")
 		else
 			return moveToMap("Safari Stop")
 		end
-	elseif hasItem("HM03 - Surf") then
-		if not game.hasPokemonWithMove("Surf") then
-			if self.pokemonId < getTeamSize() then					
-				useItemOnPokemon("HM03 - Surf", self.pokemonId)
-				log("Pokemon: " .. self.pokemonId .. " Try Learning: HM03 - Surf")
-				self.pokemonId = self.pokemonId + 1
-				return
-			else
-				return useItemOnPokemon("HM03 - Surf", 1)
-			end
-		else
-			if not hasPokemonInTeam("Ditto") and getTeamSize() == 6 then
-				return moveToMap("Pokecenter Fuchsia")
-			elseif not hasPokemonInTeam("Ditto") and getTeamSize() == 5 and not isNight() then 
-				return moveToMap("Route 15 Stop House")
-			else		
-				return moveToMap("Route 18")
-			end
-		end
-		
+	elseif not hasItem("Soul Badge") and getMoney() >= 55000 then 
+		return moveToMap("Fuchsia Gym")
+	elseif hasItem("Soul Badge") and getMoney() >= 55000 then
+		return moveToMap("Route 15 Stop House")
+	else
+		return moveToMap("Fuchsia City Stop House")
 	end
 end
+
 
 function SoulBadgeQuest:SafariStop()
 	if self:needPokemart_() then
@@ -286,7 +292,9 @@ function SoulBadgeQuest:SafariStop()
 end
 
 function SoulBadgeQuest:Route15StopHouse()
-	if getTeamSize() == 5 then 
+	if not self:isTrainingOver() then
+		return moveToMap("Route 15")
+	elseif getMoney() >= 55000 then
 		return moveToMap("Route 15")
 	else 
 		return moveToMap("Fuchsia City")
@@ -301,25 +309,65 @@ function SoulBadgeQuest:FuchsiaCityStopHouse()
 			return moveToMap("Route 19")
 		end
 	else
-		return moveToMap("Fuchsia City")
+		return moveToMap("Route 19")
 	end
 end
 
+function SoulBadgeQuest:Route17()
+	return moveToMap("Route 16")
+end
+function SoulBadgeQuest:Route16()
+	return  moveToCell(90,19) or moveToCell(64,13) 
+end
+function SoulBadgeQuest:Route16StopHouse()
+	return moveToCell(20,6)
+end
+
 function SoulBadgeQuest:Route19()
+	if not hasItem("HM03 - Surf") then
 		if dialogs.questSurfAccept.state then
 			return moveToMap("Fuchsia City Stop House")
 		else
 			return talkToNpcOnCell(33,19)
 		end
+	elseif hasItem("HM03 - Surf") and not game.hasPokemonWithMove("Surf") and getTeamSize() >= 3 then
+		if not game.hasPokemonWithMove("Surf") then
+			if self.pokemonId < getTeamSize() then					
+				useItemOnPokemon("HM03 - Surf", self.pokemonId)
+				log("Pokemon: " .. self.pokemonId .. " Try Learning: HM03 - Surf")
+				self.pokemonId = self.pokemonId + 1
+				return
+			else
+				return useItemOnPokemon("HM03 - Surf", 2)
+			end
+		end 
+	else
+		return moveToMap("Route 20")
 	end
+end
 
+function SoulBadgeQuest:Route14()
+	return moveToMap("Route 13")
+end
 
+function SoulBadgeQuest:Route13()
+	return moveToMap("Route 12")
+end
 
+function SoulBadgeQuest:Route12()
+	return moveToMap("Lavender Town")
+end
+
+function SoulBadgeQuest:LavenderTown()
+	return moveToMap("Route 8")
+end
 
 
 function SoulBadgeQuest:Route15()
-	if getTeamSize() == 5 then
+	if not self:isTrainingOver() then
 		return moveToGrass()
+	elseif getMoney() >= 55000 then
+		return moveToMap("Route 14")
 	else
 		return moveToMap("Route 15 Stop House")
 	end
