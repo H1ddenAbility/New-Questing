@@ -332,7 +332,7 @@ function SoulBadgeQuest:Route19()
 		end
 	elseif hasItem("HM03 - Surf") and not game.hasPokemonWithMove("Surf") and getTeamSize() >= 3 then
 		if not game.hasPokemonWithMove("Surf") then
-			if self.pokemonId < getTeamSize() then					
+			if self.pokemonId <= getTeamSize() then					
 				useItemOnPokemon("HM03 - Surf", self.pokemonId)
 				log("Pokemon: " .. self.pokemonId .. " Try Learning: HM03 - Surf")
 				self.pokemonId = self.pokemonId + 1
