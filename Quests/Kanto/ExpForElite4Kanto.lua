@@ -318,10 +318,6 @@ end
 function ExpForElite4Kanto:PokemonLeagueReceptionGate()
 	if isNpcOnCell(22,3) then
 		return talkToNpcOnCell(22,3)
-	elseif getMoney() >= 55000 and not hasItem("Bicycle") then
-		return moveToMap("Route 22")
-	elseif hasItem("HM03 - Surf") and game.minTeamLevel() <= 47 and game.maxTeamLevel() <= 96 then
-		return moveToMap("Route 22") 
 	elseif isNpcOnCell(22,23) and getTeamSize() == 6 then
 		if dialogs.leagueKantoNotDone.state then
 			return moveToMap("Victory Road Kanto 1F")
@@ -334,8 +330,6 @@ function ExpForElite4Kanto:PokemonLeagueReceptionGate()
 		
 	elseif not isNpcOnCell(22,23) and hasItem("HM03 - Surf") and game.hasPokemonWithMove("Surf") then
 		return moveToMap("Route 26") 
-	elseif  getTeamSize() <=5  and not hasItem("HM03 - Surf") then
-		return moveToMap("Victory Road Kanto 1F")
 	else
 		return moveToMap("Route 22")
 	end
@@ -344,8 +338,6 @@ end
 function ExpForElite4Kanto:VictoryRoadKanto1F()
 	if   getTeamSize() <= 5 then 
 		return moveToRectangle(36,36,42,41)
-	elseif getMoney() >= 55000 and not hasItem("Bicycle") and not isNight() then
-		return moveToMap("Pokemon League Reception Gate")
 	elseif getTeamSize() == 6 then
 		return moveToMap("Victory Road Kanto 2F")
 	end
@@ -354,8 +346,6 @@ end
 function ExpForElite4Kanto:VictoryRoadKanto2F()
 	if self.registeredPokecenter_ ~= "Indigo Plateau Center" then 
 		return moveToMap("Victory Road Kanto 3F")
-	elseif getMoney() >= 55000 and not hasItem("Bicycle") and not isNight() then
-		return moveToMap("Victory Road Kanto 1F")
 	else 
 		return self:useZoneExp()
 	end

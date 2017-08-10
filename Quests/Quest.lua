@@ -22,9 +22,9 @@ function Quest:new(name, description, level, dialogs)
 	return o
 end
 
---function onStop()
-	--return relog(10,"This script was made by Hiddenability, enjoy botting...")
---end
+function onStop()
+	return relog(10,"This script was made by Hiddenability, enjoy botting...")
+end
 
 function Quest:isDoable()
 	sys.error("Quest:isDoable", "function is not overloaded in quest: " .. self.name)

@@ -70,8 +70,24 @@ end
 
 
 function ViridianSchoolQuest:PokecenterViridian()
-	if game.minTeamLevel() >= 90 and getTeamSize() == 6 then
-	
+	if game.minTeamLevel() >= 90 and getTeamSize() == 6 and not game.hasPokemonWithMove("Surf") then
+		if isPCOpen() then
+						if isCurrentPCBoxRefreshed() then
+							if getCurrentPCBoxSize() ~= 0 then
+								for pokemon=1, getCurrentPCBoxSize() do
+									if getPokemonMoveNameFromPC(getCurrentPCBoxId(),pokemon,1) == "surf" or getPokemonMoveNameFromPC(getCurrentPCBoxId(),pokemon,2) == "surf" or getPokemonMoveNameFromPC(getCurrentPCBoxId(),pokemon,3) == "surf" or getPokemonMoveNameFromPC(getCurrentPCBoxId(),pokemon,4) == "surf" then
+										log("Pokemon with surf found in pc")
+										return swapPokemonFromPC(getCurrentPCBoxId(),pokemon,5)
+									end
+								end
+							end
+						else
+							return
+						end
+		else
+				return usePC()
+		end
+	end
 	return self:pokecenter("Viridian City")
 end
 
