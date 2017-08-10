@@ -57,6 +57,8 @@ function MoonFossilQuest:MtMoon1F()
 		return moveToRectangle(28, 51, 40, 54)
 	elseif getMoney() >= 2000 and not hasItem("Escape Rope") then
 		return moveToMap("Route 3")
+	elseif self:isTrainingOver() and not game.isTeamFullyHealed() then
+		return moveToMap("Route 3")
 	else
 		return moveToCell(21, 20) -- Mt. Moon B1F
 	end
