@@ -151,14 +151,7 @@ end
 function GoldenrodCityQuest:Route35()
 	if not hasPokemonInTeam("Bellsprout") then
 		if not game.hasPokemonWithMove("Cut") then
-			if self.pokemonId < getTeamSize() then					
-				useItemOnPokemon("HM01 - Cut", self.pokemonId)
-				log("Pokemon: " .. self.pokemonId .. " Try Learning: HM03 - Surf")
-				self.pokemonId = self.pokemonId + 1
-				return
-			else
 				return useItemOnPokemon("HM01 - Cut", 1)
-			end 
 		else
 			return moveToMap("Route 36")
 		end 
