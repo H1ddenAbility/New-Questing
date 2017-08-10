@@ -428,7 +428,6 @@ function Quest:trainerBattle()
 	if not self.canRun then -- trying to switch while a pokemon is squeezed end up in an infinity loop
 		return useMove("Acrobatics") or attack() or game.useAnyMove()
 	else
-	log(getOpponentLevel())
 	return useMove("Dragon Rage") or attack() or sendUsablePokemon() or sendAnyPokemon() -- or game.useAnyMove()
 	end
 end
