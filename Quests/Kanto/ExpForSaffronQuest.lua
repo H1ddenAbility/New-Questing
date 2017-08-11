@@ -38,47 +38,27 @@ end
 
 
 function ExpForSaffronQuest:Route20()
-	if getMoney() <= 55000 then
 		return moveToCell(60,32) --Seafoam 1F
-	else
-		return moveToMap("Route 19")
-	end
 end
 
 function ExpForSaffronQuest:Seafoam1F()
-	if  getMoney() <= 55000 then
 		return moveToCell(20,8) --Seafom B1F
-	else
-		return moveToMap("Route 20")
-	end
 end
 
 function ExpForSaffronQuest:SeafoamB1F()
-	
-	if  getMoney() <= 55000 then
 		return moveToCell(64,25) --Seafom B2F
-	else
-		return moveToCell(15,12)
-	end
 end
 
 function ExpForSaffronQuest:SeafoamB2F()
 	if isNpcOnCell(67,31) then --Item: TM13 - Ice Beam
 		return talkToNpcOnCell(67,31)
-	end
-	if not self:isTrainingOver() then
-		return moveToCell(63,19) --Seafom B3F
 	else
-		return moveToCell(51,27)
+		return moveToCell(63,19) --Seafom B3F
 	end
 end
 
 function ExpForSaffronQuest:SeafoamB3F()
-	if  getMoney() <= 55000 then
 		return moveToCell(57,26) --Seafom B4F
-	else
-		return moveToCell(64,16)
-	end
 end
 
 function ExpForSaffronQuest:SeafoamB4F()
