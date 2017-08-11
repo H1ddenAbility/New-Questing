@@ -106,7 +106,7 @@ function Quest:leftovers()
 		end
 		return false
 	end
-	if ( getMapName() == "Victory Road Kanto 3F" or getMapName() == "Indigo Plateau Center" or getMapName() == "Indigo Plateau" ) and not hasItem("Zephyr Badge") then 
+	if ( getMapName() == "Victory Road Kanto 3F" or getMapName() == "Indigo Plateau Center" or getMapName() == "Indigo Plateau" or getMapName() == "Victory Road Kanto 2F" ) and not hasItem("Zephyr Badge") then 
 		if PokemonWithLeftovers > 0 then
 			takeItemFromPokemon(PokemonWithLeftovers)
 			return true
