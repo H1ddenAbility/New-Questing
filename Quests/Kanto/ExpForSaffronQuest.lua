@@ -84,11 +84,10 @@ end
 function ExpForSaffronQuest:SeafoamB4F()
 	if isNpcOnCell(57,20) then --Item: Nugget (15000 Money)
 		return talkToNpcOnCell(57,20)
-	end
-	if  getMoney() <= 55000 then
+	elseif  getMoney() <= 55000 then
 		return moveToRectangle(50,10,62,32)
 	else
-		return useitem("Escape Rope")
+		useItem("Escape Rope")
 	end
 end
 
