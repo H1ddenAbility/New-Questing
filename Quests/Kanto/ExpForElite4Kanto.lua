@@ -372,7 +372,7 @@ function ExpForElite4Kanto:IndigoPlateau()
 		elseif ( hasPokemonInTeam("Zubat") or hasPokemonInTeam("Golbat") ) and getTeamSize() ==6 then
 			self.zoneExp = math.random(1,15)
 			return moveToMap("Victory Road Kanto 3F") 
-		elseif getTeamSize() ==1 then
+		elseif getTeamSize() <=5 then
 			return moveToMap("Victory Road Kanto 3F") 
 		else
 			return moveToMap("Indigo Plateau Center")
@@ -390,7 +390,7 @@ function ExpForElite4Kanto:IndigoPlateauCenter()
 			else
 				return usePC()
 			end
-		elseif getTeamSize() ==1 then
+		elseif getTeamSize() <=5 then
 			return moveToMap("Indigo Plateau") 
 		elseif ( hasPokemonInTeam("Zubat") or hasPokemonInTeam("Golbat") ) and getTeamSize() ==6 then
 			return moveToMap("Indigo Plateau") 
