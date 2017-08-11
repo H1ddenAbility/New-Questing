@@ -138,9 +138,9 @@ function Quest:leftovers()
 end
 
 function Quest:useBike()
-	if isOutside() and hasItem("Bicycle") and not isSurfing() and not isMounted() then
+	if isOutside() and ( hasItem("Bicycle") or hasItem("Yellow Bicycle") or hasItem("Blue Bicycle") or hasItem("Green Bicycle") ) and not isSurfing() and not isMounted() then
            log("Getting on Bicycle")
-           return useItem("Bicycle")
+           return useItem("Bicycle") or useItem("Yellow Bicycle") or useItem("Green Bicycle") or useItem("Blue Bicycle")  
 	end 
 	if isPrivateMessageEnabled() then
 		return disablePrivateMessage() 

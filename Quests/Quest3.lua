@@ -147,9 +147,9 @@ function Quest:leftovers()
 end
 
 function Quest:useBike()
-	if isOutside() and hasItem("Bicycle") and not isSurfing() and not isMounted() then
+	if isOutside() and ( hasItem("Bicycle") or hasItem("Yellow Bicycle") or hasItem("Blue Bicycle") or hasItem("Green Bicycle") ) and not isSurfing() and not isMounted() then
            log("Getting on Bicycle")
-           return useItem("Bicycle")
+           return useItem("Bicycle") or useItem("Yellow Bicycle") or useItem("Green Bicycle") or useItem("Blue Bicycle")  
 	end 
 	if isPrivateMessageEnabled() then
 		return disablePrivateMessage() 
@@ -231,9 +231,9 @@ function Quest:advanceSorting()
 		end
 	elseif  not isTeamRangeSortedByLevelAscending(1, pokemonsUsable) and  getMapName() == "Indigo Plateau Center Johto"   then --Sort the team without not usable pokemons
 		return sortTeamRangeByLevelAscending(1, pokemonsUsable)
-	elseif  not isTeamRangeSortedByLevelDescending(1, pokemonsUsable) and   getMapName() ~= "Indigo Plateau Center Johto"  and  game.minTeamLevel() <= 54 then --train rattata to lv80
+	elseif  not isTeamRangeSortedByLevelDescending(1, pokemonsUsable) and   getMapName() ~= "Indigo Plateau Center Johto"  and  game.minTeamLevel() <= 39 then --train rattata to lv80
 		return sortTeamRangeByLevelDescending(1, pokemonsUsable)
-	elseif  not isTeamRangeSortedByLevelAscending(1, pokemonsUsable) and   getMapName() ~= "Indigo Plateau Center Johto"  and  game.minTeamLevel() >= 55 then --Sort the team without not usable pokemons
+	elseif  not isTeamRangeSortedByLevelAscending(1, pokemonsUsable) and   getMapName() ~= "Indigo Plateau Center Johto"  and  game.minTeamLevel() >= 40 then --Sort the team without not usable pokemons
 		return sortTeamRangeByLevelAscending(1, pokemonsUsable)
 	end
 	return false
@@ -328,12 +328,6 @@ function Quest:wildBattle()
 		if useItem("Ultra Ball") or useItem("Great Ball") or useItem("Pokeball") or sendUsablePokemon() or run() or sendAnyPokemon() then
 			return true
 		end
-	elseif getTeamSize() <= 5 and hasItem("Rising Badge") and not hasPokemonInTeam("Rattata") then 
-		if  getOpponentName() == "Rattata" and getOpponentLevel() >= 23 then   
-			return useItem("Ultra Ball") or useItem("Great Ball") or useItem("Pokeball") or sendUsablePokemon() or run() or sendAnyPokemon()
-		else 
-			return run() or sendUsablePokemon() or sendAnyPokemon() or attack() 
-		end 
 	elseif getTeamSize() == 6 and hasPokemonInTeam("Rattata") and getPokemonName(1) == "Crobat" and  getRemainingPowerPoints(1,"Quick Guard") == 0  then
 		return relog(5,"Relogging...")
 	elseif getTeamSize() == 6 and hasPokemonInTeam("Rattata") and getPokemonName(6) == "Rattata" and not isPokemonUsable(6) then

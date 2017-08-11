@@ -57,6 +57,8 @@ function FromLittlerootToWoodsQuest:Route102()
 			return game.tryTeachMove("Surf","HM03 - Surf")
 	elseif hasItem("TM28") and not game.hasPokemonWithMove("Dig") then
 		return useItemOnPokemon("TM28",1)
+	elseif hasItem("TM13") and not game.hasPokemonWithMove("Ice Beam") then
+		return useItemOnPokemon("TM13",1)
 	elseif not self:isTrainingOver()  then
 		moveToGrass()
 	else moveToMap("Petalburg City")

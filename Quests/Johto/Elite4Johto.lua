@@ -127,11 +127,7 @@ function Elite4Johto:Route27()
 end
 
 function Elite4Johto:TohjoFalls()
-	if not hasPokemonInTeam("Rattata") then
-		return moveToNormalGround()
-	else
 	return moveToCell(46,32)
-	end	
 end
 
 function Elite4Johto:Route26()
@@ -370,26 +366,42 @@ function Elite4Johto:IndigoPlateauCenterJohto()
 		talkToNpcOnCell(4,22)
 	elseif dialogs.leagueDefeated.state then
 		if not hasPokemonInTeam("Rattata") then 
-		if isPCOpen() then
-			if isCurrentPCBoxRefreshed() then
-				if getCurrentPCBoxSize() ~= 0 then
-					for pokemon=1, getCurrentPCBoxSize() do
-						if getPokemonNameFromPC(getCurrentPCBoxId(),pokemon) == "Rattata" then
-							return swapPokemonFromPC(getCurrentPCBoxId(),pokemon,1) 
+			if isPCOpen() then
+				if isCurrentPCBoxRefreshed() then
+					if getCurrentPCBoxSize() ~= 0 then
+						for pokemon=1, getCurrentPCBoxSize() do
+							if getPokemonNameFromPC(getCurrentPCBoxId(),pokemon) == "Rattata" then
+								return swapPokemonFromPC(getCurrentPCBoxId(),pokemon,1) 
+							end
+							end
 						end
-						end
-					end
-					return openPCBox(getCurrentPCBoxId()+1)
+						return openPCBox(getCurrentPCBoxId()+1)
 				else
-					log("dd")
 					return
 				end
 			else
 				return usePC()
 			end
+		elseif hasPokemonInTeam("Haunter") and getTeamSize() == 6 and getPokemonName(6) == ("Haunter") then 
+			if isPCOpen() then
+				if isCurrentPCBoxRefreshed() then
+					if getCurrentPCBoxSize() ~= 0 then
+						for pokemon=1, getCurrentPCBoxSize() do
+							if getPokemonNameFromPC(getCurrentPCBoxId(),pokemon) == "Crobat" then
+								return swapPokemonFromPC(getCurrentPCBoxId(),pokemon,6) 
+							end
+							end
+						end
+						return openPCBox(getCurrentPCBoxId()+1)
+				else
+					return
+				end
 			else
-				moveToMap("Indigo Plateau")
+				return usePC()
 			end
+		else
+			moveToMap("Indigo Plateau")
+		end
 	elseif getTeamSize() <= 5 then
 		if isPCOpen() then
 			if isCurrentPCBoxRefreshed() then
