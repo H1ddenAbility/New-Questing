@@ -106,7 +106,14 @@ function Quest:leftovers()
 		end
 		return false
 	end
-	if ( getMapName() == "Victory Road Kanto 3F" or getMapName() == "Indigo Plateau Center" or getMapName() == "Indigo Plateau" or getMapName() == "Victory Road Kanto 2F" ) and not hasItem("Zephyr Badge") then 
+	if ( getMapName() == "Victory Road Kanto 3F" or getMapName() == "Indigo Plateau Center" or getMapName() == "Indigo Plateau" or getMapName() == "Victory Road Kanto 2F" or getMapName() == "Elite Four Lorelei Room" or getMapName() == "Victory Road Kanto 2F" or getMapName() == "Victory Road Kanto 2F"  ) and not hasItem("Zephyr Badge") then 
+		if PokemonWithLeftovers > 0 then
+			takeItemFromPokemon(PokemonWithLeftovers)
+			return true
+		end
+		return false
+	end
+	if getPokemonName(1) == "Crobat" then
 		if PokemonWithLeftovers > 0 then
 			takeItemFromPokemon(PokemonWithLeftovers)
 			return true
@@ -428,7 +435,7 @@ function Quest:trainerBattle()
 	if not self.canRun then -- trying to switch while a pokemon is squeezed end up in an infinity loop
 		return useMove("Acrobatics") or attack() or game.useAnyMove()
 	else
-	return useMove("Dragon Rage") or attack() or sendUsablePokemon() or sendAnyPokemon() -- or game.useAnyMove()
+	return useMove("Dragon Rage") or useMove("Acrobatics") or attack() or sendUsablePokemon() or sendAnyPokemon() -- or game.useAnyMove()
 	end
 end
 
