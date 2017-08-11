@@ -113,7 +113,7 @@ function Quest:leftovers()
 		end
 		return false
 	end
-	if getPokemonName(1) == "Crobat" then
+	if getTeamSize() == 6 and getPokemonName(1) == "Crobat"  then
 		if PokemonWithLeftovers > 0 then
 			takeItemFromPokemon(PokemonWithLeftovers)
 			return true
