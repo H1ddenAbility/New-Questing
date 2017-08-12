@@ -336,6 +336,8 @@ function Quest:wildBattle()
 		if useItem("Ultra Ball") or useItem("Great Ball") or useItem("Pokeball") or sendUsablePokemon() or run() or sendAnyPokemon() then
 			return true
 		end 
+	elseif hasItem("Rain Badge") then
+		return run() or sendAnyPokemon() or sendUsablePokemon() or attack
 	elseif 	 getTeamSize() == 2 and getUsablePokemonCount() == 1 then
 		return relog(5,"Relogging...")
 	elseif 	 getTeamSize() == 3 and getUsablePokemonCount() == 2 then
@@ -384,7 +386,7 @@ function Quest:trainerBattle()
 		else
 			return useMove("Dig") or attack()
 		end	
-	elseif getOpponentName() == "Mega Metagross" and ( getActivePokemonNumber(6) or getActivePokemonNumber(5) or getActivePokemonNumber(4) or getActivePokemonNumber(3) or getActivePokemonNumber(2) ) then
+	elseif getOpponentName() == "Mega Metagross" and ( getActivePokemonNumber() == 2 or getActivePokemonNumber() == 3 or getActivePokemonNumber() == 4 or getActivePokemonNumber() == 5 or getActivePokemonNumber() == 6 ) then
 		if not isPokemonUsable(1) then 
 			return useItemOnPokemon("Revive",1)
 		elseif getPokemonHealthPercent(1) < 60  then
@@ -393,7 +395,7 @@ function Quest:trainerBattle()
 			return useMove("Acrobatics") or attack() or sendUsablePokemon() or sendAnyPokemon()
 		end
 			
-	elseif getMapName() ~= "Elite Four Champion Room Hoenn" and getRemainingPowerPoints(1,"Earthquake") <=6 and getActivePokemonNumber(1) then
+	elseif getMapName() ~= "Elite Four Champion Room Hoenn" and getActivePokemonNumber() == 1 and getPokemonName(1) == "Swampert" and  getRemainingPowerPoints(1,"Earthquake") <=6 then
 		return useMove("Dive") or useMove("Ice Beam") or useMove("Surf") or useMove("Acrobatics")  or sendUsablePokemon() or sendAnyPokemon()
 	else
 		return useMove("Acrobatics") or attack() or sendUsablePokemon() or sendAnyPokemon()

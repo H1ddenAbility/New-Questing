@@ -81,7 +81,9 @@ function GetTheOrbs:PokecenterLilycoveCity()
 end
 
 function GetTheOrbs:LilycoveCity()
-	if self:needPokecenter() or not game.isTeamFullyHealed() or self.registeredPokecenter ~= "Pokecenter Lilycove City" then
+	if isNpcOnCell(3,23) then
+		return talkToNpcOnCell(3,23)
+	elseif self:needPokecenter() or not game.isTeamFullyHealed() or self.registeredPokecenter ~= "Pokecenter Lilycove City" then
 		moveToMap("Pokecenter Lilycove City")
 	else
 		moveToMap("Route 124")

@@ -51,11 +51,7 @@ function GoToJohtoQuest:Route27()
 end
 
 function GoToJohtoQuest:TohjoFalls()
-	if isNpcOnCell(5,12) then
-		return talkToNpcOnCell(5,12)
-	else
 		return moveToCell(23,32)
-	end	
 end
 
 return GoToJohtoQuest

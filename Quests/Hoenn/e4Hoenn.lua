@@ -194,6 +194,23 @@ function templatequest:PokecenterEverGrandeCity()
 		else
 			return usePC()
 		end
+	elseif hasPokemonInTeam("Haunter") and getTeamSize() == 6 and getPokemonName(6) == ("Haunter") then 
+			if isPCOpen() then
+				if isCurrentPCBoxRefreshed() then
+					if getCurrentPCBoxSize() ~= 0 then
+						for pokemon=1, getCurrentPCBoxSize() do
+							if getPokemonNameFromPC(getCurrentPCBoxId(),pokemon) == "Crobat" then
+								return swapPokemonFromPC(getCurrentPCBoxId(),pokemon,6) 
+							end
+							end
+						end
+						return openPCBox(getCurrentPCBoxId()+1)
+				else
+					return
+				end
+			else
+				return usePC()
+			end
 	elseif getPokemonName(5) == "Feraligatr" then
 		if isPCOpen() then
 			log("need to delete this :( ")
@@ -205,6 +222,20 @@ function templatequest:PokecenterEverGrandeCity()
 		if isPCOpen() then
 			log("need to delete this :( ")
 			return releasePokemonFromTeam(6)
+		else
+			return usePC()
+		end
+	elseif getPokemonName(1) == "Feraligatr" then
+		if isPCOpen() then
+			log("need to delete this :( ")
+			return releasePokemonFromTeam(1)
+		else
+			return usePC()
+		end
+	elseif getPokemonName(2) == "Feraligatr" then
+		if isPCOpen() then
+			log("need to delete this :( ")
+			return releasePokemonFromTeam(2)
 		else
 			return usePC()
 		end
