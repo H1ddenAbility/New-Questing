@@ -228,7 +228,13 @@ function SoulBadgeQuest:Route8StopHouse()
 end
 
 function SoulBadgeQuest:Route8()
-	if not hasPokemonInTeam("Ditto") then
+	if  getTeamSize() >= 3 and not game.hasPokemonWithMove("Cut")  then
+		if getPokemonName(2) == "Charmeleon" then
+			return useItemOnPokemon("HM01 - Cut", 2)
+		elseif getPokemonName(3) == "Charmeleon" then
+			return useItemOnPokemon("HM01 - Cut", 3)
+		end
+	elseif not hasPokemonInTeam("Ditto") then
 		return moveToGrass()
 	else
 		return moveToMap("Route 8 Stop House")
