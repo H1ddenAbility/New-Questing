@@ -403,7 +403,9 @@ function Quest:wildBattle()
 			end
 		end
 	elseif getMapName() == "Safari Entrance" and getTeamSize() == 2 and not game.hasPokemonWithMove("Surf") then
-		if  getOpponentName() ~= "Magikarp" then
+		if  getOpponentName() == "Magikarp" then
+			return run()
+		else
 			if useItem("Ultra Ball") or useItem("Great Ball") or useItem("Pokeball") or sendUsablePokemon() or run() or sendAnyPokemon() then
 			return true
 			end
@@ -498,7 +500,7 @@ local hmMoves = {
 
 
 function Quest:learningMove(moveName, pokemonIndex)
-	return forgetAnyMoveExcept({"Dragon Rage", "Shadow Ball", "Dark Pulse", "Surf", "Hex", "Air Slash", "Acrobatics", "Poison Fang",}) 
+	return forgetAnyMoveExcept({"Dragon Rage", "Shadow Ball", "Dark Pulse", "Surf", "Hex", "Air Slash", "Cut", "Acrobatics", "Poison Fang",}) 
 end
 
 return Quest

@@ -38,7 +38,6 @@ function HmSurfQuest:SafariStop()
 end
 
 function HmSurfQuest:SafariEntrance()
-if not hasItem("HM03 - Surf") then
 	if getTeamSize() == 2  then 
 		if getPlayerX() == 31 and getPlayerY() == 16 then
             return useItem("Old Rod")
@@ -48,9 +47,6 @@ if not hasItem("HM03 - Surf") then
 	else
 		return moveToMap("Safari Area 1")
 	end
-else
-		return talkToNpcOnCell(27,25)
-end
 end
 
 function HmSurfQuest:SafariArea1()
