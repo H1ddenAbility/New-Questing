@@ -183,7 +183,7 @@ function templatequest:PokecenterEverGrandeCity()
 				if getCurrentPCBoxSize() ~= 0 then
 					for pokemon=1, getCurrentPCBoxSize() do
 						if getPokemonLevelFromPC(getCurrentPCBoxId(), pokemon) > 47 then
-						return swapPokemonFromPC(getCurrentPCBoxId(),pokemon,getTeamSize()) 	
+						return swapPokemonFromPC(getCurrentPCBoxId(),pokemon,1) 	
 						end
 					end
 					return openPCBox(getCurrentPCBoxId()+1)

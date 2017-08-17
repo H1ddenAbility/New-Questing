@@ -22,7 +22,7 @@ function Quest:new(name, description, level, dialogs)
 	return o
 end
 
---function onStop()   -- add this fuction if you don't want to get stuck in some map like electric gym at kanto
+--function onStop()   -- add this fuction if you don't want to get stuck in some maps in hoenn
 	--return relog(10,"This script was made by Hiddenability, enjoy botting...")
 --end
 

@@ -50,8 +50,6 @@ function GetTheOrbs:FortreeCity()
 		moveToMap("Pokecenter Fortree City")
 	elseif not self:isTrainingOver() then 
 		moveToMap("Route 120")
-	elseif not hasItem("Feather Badge") then 
-		moveToMap("Fortree Gym")
 	else moveToMap("Route 120")
 	end
 end
