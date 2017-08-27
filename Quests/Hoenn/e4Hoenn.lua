@@ -10,6 +10,7 @@ local game   = require "Libs/gamelib"
 local Quest  = require "Quests/Quest5"
 local Dialog = require "Quests/Dialog"
 
+
 local name		  = 'E4 Hoenn'
 local description = 'Go at the Hoenn Pokemon League and beat the E4'
 local level = 000
@@ -49,7 +50,7 @@ function templatequest:isDoable()
 end
 
 function templatequest:isDone()
-	if hasItem("xxx") and getMapName() == "xxx" then
+	if hasItem("Rain Badge") and getMapName() == "Mauville City" then
 		return true
 	else
 		return false
@@ -159,7 +160,9 @@ function templatequest:EverGrandeCity()
 end
 
 function templatequest:PokecenterEverGrandeCity()
-	if getTeamSize() <= 5 then 
+	if not game.isTeamFullyHealed() then
+		talkToNpcOnCell(8,14)
+	elseif getTeamSize() <= 5 then 
 		if isPCOpen() then
 			if isCurrentPCBoxRefreshed() then
 				if getCurrentPCBoxSize() ~= 0 then
@@ -239,8 +242,9 @@ function templatequest:PokecenterEverGrandeCity()
 		else
 			return usePC()
 		end
+	else
+		self:pokecenter("Ever Grande City")
 	end
-	return self:pokecenter("Ever Grande City")
 end
 
 function templatequest:VictoryRoadHoenn1F()
@@ -332,6 +336,70 @@ function templatequest:EliteFourChampionRoomHoenn()
 end
 
 
+function templatequest:PlayerBedroomLittlerootTown()
+	moveToMap("Player House Littleroot Town")
+end
+
+function templatequest:PlayerHouseLittlerootTown()
+	moveToMap("Littleroot Town")
+end
+
+function templatequest:LittlerootTown()
+	moveToMap("Route 101")
+end
+
+function templatequest:Route101()
+	moveToMap("Oldale Town")
+end
+
+function templatequest:OldaleTown()
+	moveToMap("Route 102")
+end
+
+function templatequest:Route102()
+	moveToMap("Petalburg City")
+end
+
+function templatequest:PetalburgCity()
+	moveToMap("Route 104")
+end
+
+function templatequest:Route104()
+	moveToMap("Route 104 Sailor House")
+end
+
+function templatequest:Route104SailorHouse()
+	pushDialogAnswer(1)
+	talkToNpcOnCell(11,6)
+end
+
+function templatequest:DewfordTown()
+	pushDialogAnswer(2)
+	talkToNpcOnCell(37,9)
+end
+
+function templatequest:Route109()
+	moveToMap("Slateport City")
+end
+
+function templatequest:SlateportCity()
+	moveToMap("Route 110")
+end
+
+function templatequest:Route110()
+	moveToMap("Mauville City Stop House 1")
+end
+
+function templatequest:MauvilleCityStopHouse1()
+	moveToMap("Mauville City")
+end
+
+function templatequest:MauvilleCity()
+	moveToMap("Mauville City Stop House 4")
+end
+
+
+
 function templatequest:useReviveItems() --Return false if team don't need heal
 	if not hasItem("Revive") or not hasItem("Hyper Potion") then
 		return false
@@ -346,6 +414,7 @@ function templatequest:useReviveItems() --Return false if team don't need heal
 	end
 	return false
 end
+
 
 
 return templatequest

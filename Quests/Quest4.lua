@@ -367,9 +367,9 @@ function Quest:trainerBattle()
 		elseif not isPokemonUsable(2) and isPokemonUsable(3) and getOpponentHealthPercent() == 100 and getRemainingPowerPoints(1,"Dig") <= 8 then	
 			return sendPokemon(3) or useMove("Dig") or attack()
 		elseif not isPokemonUsable(3) and getOpponentHealthPercent() == 100 then		
-			return sendPokemon(1) or useMove("Dig") or attack()
+			return sendPokemon(1) or useMove("Dig") or attack() 
 		else
-			return useMove("Dig") or attack()
+			return useMove("Dig") or attack() or sendUsablePokemon()
 		end	
 	else
 		return attack()  or sendUsablePokemon() or sendAnyPokemon() or useMove("Tackle") or useMove("Growl") or useMove("Curse") or useMove("Lick")

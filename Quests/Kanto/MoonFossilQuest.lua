@@ -8,7 +8,7 @@ local game   = require "Libs/gamelib"
 local Quest  = require "Quests/Quest"
 local Dialog = require "Quests/Dialog"
             
-local battleManiac = require "battleManiac.battleManiac"    
+
 
 
 local name        = 'Mt. Moon Fossil'

@@ -48,7 +48,7 @@ function GlacierBadgeQuest:isDoable()
 end
 
 function GlacierBadgeQuest:isDone()
-	if hasItem("Glacier Badge") and getMapName() == "Mahogany Town Gym" then
+	if hasItem("Glacier Badge") and getMapName() == "Pokecenter Mahogany" then
 		return true
 	else
 		return false
@@ -60,7 +60,7 @@ function GlacierBadgeQuest:OlivineCityGym()
 end
 
 function GlacierBadgeQuest:OlivineCity()
-	if self:needPokecenter() or not game.isTeamFullyHealed() or self.registeredPokecenter ~= "Pokecenter Olivine City" then
+	if  not game.isTeamFullyHealed() or self.registeredPokecenter ~= "Olivine Pokecenter" then
 		moveToMap("Olivine Pokecenter")
 	else moveToMap("Route 39")
 	end
@@ -113,7 +113,7 @@ function GlacierBadgeQuest:MtMortarLowerCave()
 end
 
 function GlacierBadgeQuest:MahoganyTown()
-	if self:needPokecenter() or not game.isTeamFullyHealed() or not self.registeredPokecenter == "Pokecenter Mahogany Town" then
+	if  not game.isTeamFullyHealed() or  self.registeredPokecenter ~= "Pokecenter Mahogany" or not game.hasPokemonWithMove("Cut") then
 		moveToMap("Pokecenter Mahogany")
 	elseif not isNpcOnCell(11,24) then
 		moveToMap("Mahogany Town Gym")
@@ -172,7 +172,10 @@ function GlacierBadgeQuest:MahoganyTownRocketHideoutB2F()
 			talkToNpcOnCell(15,13) 
 		elseif isNpcOnCell(15,14) then
 			talkToNpcOnCell(15,14)
-		else talkToNpcOnCell(24,22)
+		elseif isNpcOnCell(24,22) then
+			talkToNpcOnCell(24,22)
+		else 
+			useItem("Escape Rope")
 		end
 	elseif game.inRectangle(3,3,48,5) or game.inRectangle(46,6,40,19) then 
 		if not admin and not pcJessie then
@@ -304,12 +307,33 @@ end
 function GlacierBadgeQuest:PokecenterMahogany()
 	if isNpcOnCell(9,22) then
 		talkToNpcOnCell(9,22)
+	elseif not game.hasPokemonWithMove("Cut") then
+		if isPCOpen() then
+			if isCurrentPCBoxRefreshed() then
+				if getCurrentPCBoxSize() ~= 0 then
+				for pokemon=1, getCurrentPCBoxSize() do
+					if getPokemonNameFromPC(getCurrentPCBoxId(),pokemon) == "Charmeleon" then
+						return swapPokemonFromPC(getCurrentPCBoxId(),pokemon,3) 
+					end
+					end
+				end
+				return openPCBox(getCurrentPCBoxId()+1)
+			else
+				log("dd")
+				return
+			end
+		else
+			return usePC()
+		end
 	else return self:pokecenter("Mahogany Town")
 	end
 end
 
 function GlacierBadgeQuest:MahoganyTownGym()
-	if game.inRectangle(15,66,21,50) then 
+	if hasItem("Glacier Badge") then
+		log"questing ended, sinnoh when??? Idk..."
+		useItem("Escape Rope")
+	elseif game.inRectangle(15,66,21,50) then 
 		moveToCell(17,49)
 	elseif game.inRectangle(12,33,18,45) then  
 		moveToCell(17,32)

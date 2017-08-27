@@ -41,7 +41,7 @@ function ToMossdeepCity:isDoable()
 end
 
 function ToMossdeepCity:isDone()
-	if hasItem("Mind Badge") and getMapName() == "Sootopolis City" then
+	if hasItem("Mind Badge") and ( getMapName() == "Sootopolis City" or getMapName() == "Vermilion City" ) then
 		return true
 	else
 		return false
@@ -99,11 +99,49 @@ function ToMossdeepCity:Route119B()
 end
 
 function ToMossdeepCity:Route119A()
-	moveToMap("Fortree City")
+	if hasItem("Rain Badge") and isNpcOnCell(18,41) then
+		moveToMap("Weather Institute 1F")
+	elseif hasItem("Rain Badge") and isNpcOnCell(41,30) then
+		talkToNpcOnCell(41,30)
+	else
+		moveToMap("Fortree City")
+	end
+end
+
+function ToMossdeepCity:WeatherInstitute1F()
+	if not game.isTeamFullyHealed() then
+		talkToNpcOnCell(18,24)
+	elseif not self:isTrainingOver()  then
+		moveToMap("Route 119A")
+	elseif  isNpcOnCell(32,9) then
+		talkToNpcOnCell(32,9)
+	elseif isNpcOnCell(24,13) then
+		moveToMap("Weather Institute 2F")
+	else moveToMap("Route 119A")
+	end
+end
+
+function ToMossdeepCity:WeatherInstitute2F()
+	if isNpcOnCell(16,19) then
+		talkToNpcOnCell(16,19)
+	else moveToMap("Weather Institute 1F")
+	end
 end
 
 function ToMossdeepCity:FortreeCity()
-	moveToMap("Route 120")
+	if hasItem("Rain Badge") and not hasItem("Feather Badge") then
+		moveToMap("Fortree Gym")
+	else
+		moveToMap("Route 120")
+	end
+end
+
+function ToMossdeepCity:FortreeGym()
+	if hasItem("Rain Badge") and not hasItem("Feather Badge") then
+		talkToNpcOnCell(19,7)
+	else
+		moveToMap("Fortree City")
+	end
 end
 
 function ToMossdeepCity:Route120()
@@ -111,18 +149,30 @@ function ToMossdeepCity:Route120()
 end
 
 function ToMossdeepCity:Route121()
-	moveToMap("Lilycove City")
+	if hasItem("Rain Badge") and not hasItem("Blue Orb") then
+		moveToMap("Route 122")
+	else
+		moveToMap("Lilycove City")
+	end
 end
 
 function ToMossdeepCity:LilycoveCity()
 	if isNpcOnCell(3,23) then
 		talkToNpcOnCell(3,23)
-	elseif self:needPokecenter() or not game.isTeamFullyHealed() or self.registeredPokecenter ~= "Pokecenter Lilycove City" then
+	elseif self:needPokecenter() or self.registeredPokecenter ~= "Pokecenter Lilycove City" then
 		moveToMap("Pokecenter Lilycove City")
+	elseif not hasItem("Red orb") and hasItem("Blue orb") and not isNpcOnCell(81,9) and  isNpcOnCell(94,18) then
+		moveToCell(81,8)
+	elseif hasItem("Blue orb") and not isNpcOnCell(81,9) and not isNpcOnCell(94,18) then
+		moveToMap("Lilycove City Harbor")
 	else moveToMap("Route 124")
 	end
 end
 
+function ToMossdeepCity:LilycoveCityHarbor()
+	pushDialogAnswer(2)
+	talkToNpc("Sailor Lulung") 
+end
 
 function ToMossdeepCity:PokecenterLilycoveCity()
 	return self:pokecenter("Lilycove City")

@@ -139,7 +139,7 @@ function ToLavaridgeTown:RustboroCity()
 end
 
 function ToLavaridgeTown:Route116()
-	if not game.hasPokemonWithMove("Rock Smash") and hasItem("TM114") and getPokemonName(2) == "Poochyena" then
+	if not game.hasPokemonWithMove("Rock Smash") and hasItem("TM114") then
 		return useItemOnPokemon("TM114",2)
 	else
 		moveToMap("Rusturf Tunnel")	
@@ -147,7 +147,9 @@ function ToLavaridgeTown:Route116()
 end
 
 function ToLavaridgeTown:RusturfTunnel()
-	if isNpcOnCell(25,9) then
+	if not game.hasPokemonWithMove("Rock Smash") and hasItem("TM114") then
+		return useItemOnPokemon("TM114",3)
+	elseif isNpcOnCell(25,9) then
 		talkToNpcOnCell(25,9)
 	else log("dd")
 		moveToMap("Verdanturf Town")

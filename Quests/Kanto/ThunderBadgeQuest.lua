@@ -28,6 +28,9 @@ local dialogs = {
 	}),
 	ditto = Dialog:new({
 		"This isn't a Ditto"
+	}),
+	switchTrigger = Dialog:new({
+		"have triggered the first switch"
 	})
 }
 
@@ -53,15 +56,75 @@ function ThunderBadgeQuest:isDoable()
 end
 
 function ThunderBadgeQuest:isDone()
-	if getMapName() == "Route 11" or getMapName() == "SSAnne 1F" or ( getMapName() == "Route 6" and hasItem("Bike Voucher") ) then
+	if getMapName() == "Route 11" or getMapName() == "SSAnne 1F" or ( getMapName() == "Route 6" and hasItem("Bike Voucher") ) or ( getMapName() == "Saffron City" and hasItem("Rain Badge") ) then
 		return true
 	else
 		return false
 	end
 end
 
-function ThunderBadgeQuest:Route5() 
-	return moveToMap("Underground House 1")
+function ThunderBadgeQuest:Route5()
+	if hasItem("Rain Badge") and not hasItem("Boulder Badge") then 
+		return moveToMap("Cerulean City")
+	else
+		return moveToMap("Underground House 1")
+	end
+end
+
+function ThunderBadgeQuest:CeruleanCity()
+	if hasItem("Rain Badge") and not hasItem("Cascade Badge") then 
+		return moveToMap("Cerulean Gym")
+	elseif hasItem("Rain Badge") and not hasItem("Boulder Badge") then 
+		return moveToMap("Route 4")
+	end
+end
+
+function ThunderBadgeQuest:Route4()
+	return moveToMap("Mt. Moon Exit")
+end
+	
+function ThunderBadgeQuest:MtMoonExit()
+	return moveToMap("Mt. Moon B1F")
+end
+	
+function ThunderBadgeQuest:MtMoonB1F()
+	if game.inRectangle(29, 16, 46, 23) then
+		return moveToMap("Mt. Moon B2F")
+	elseif game.inRectangle(53, 13, 79, 38) then
+		return moveToMap("Mt. Moon 1F")
+	end
+end	
+	
+function ThunderBadgeQuest:MtMoon1F()	
+	return moveToMap("Route 3")
+end
+
+function ThunderBadgeQuest:Route3()	
+	return moveToMap("Pewter City")
+end
+
+function ThunderBadgeQuest:PewterCity()	
+	return moveToMap("Pewter Gym")
+end
+
+function ThunderBadgeQuest:PewterGym()	
+	if not hasItem("Boulder Badge") then
+		return talkToNpcOnCell(7,5)
+	else 
+		return  useItem("Escape Rope")
+	end
+end
+
+function ThunderBadgeQuest:MtMoonB2F()
+	return moveToCell(38,40)
+end		
+	
+function ThunderBadgeQuest:CeruleanGym() -- get Cascade Badge
+	if  hasItem("Cascade Badge") then
+		return moveToMap("Cerulean City")
+	else
+		return talkToNpcOnCell(10, 6)
+	end
 end
 
 function ThunderBadgeQuest:UndergroundHouse1()
@@ -77,7 +140,15 @@ function ThunderBadgeQuest:UndergroundHouse2()
 end
 
 function ThunderBadgeQuest:Route6()
+	if hasItem("Rain Badge") and not hasItem("Boulder Badge") then
+		return moveToMap("Route 6 Stop House")
+	else
 		return moveToMap("Vermilion City")
+	end
+end
+
+function ThunderBadgeQuest:Route6StopHouse()
+	return moveToMap("Saffron City")
 end
 
 function ThunderBadgeQuest:EasterPlateau()
@@ -102,6 +173,15 @@ function ThunderBadgeQuest:VermilionCity()
 
 	if  self.registeredPokecenter ~= "Pokecenter Vermilion" then
 		return moveToMap("Pokecenter Vermilion")
+	elseif hasItem("Rain Badge") and not hasItem("Thunder Badge") then
+		return moveToMap("Vermilion Gym")
+	elseif hasItem("Rain Badge") and getItemQuantity("Escape Rope") <= 15  then
+		return moveToMap("Vermilion Pokemart")
+	elseif hasItem("Rain Badge") and not hasItem("Boulder Badge") then 
+		return moveToMap("Route 6")
+	elseif hasItem("Rain Badge") and hasItem("Boulder Badge") then 
+		pushDialogAnswer(1)
+		talkToNpc("Sailor Jon")
 	elseif hasItem("Bike Voucher") then
 		return moveToMap("Route 6")
 	elseif hasItem("HM03 - Surf") and hasPokemonInTeam("Ditto")  and not hasItem("Bike Voucher") then
@@ -116,6 +196,18 @@ function ThunderBadgeQuest:VermilionCity()
 		return moveToMap("Fisherman House - Vermilion")
 	else
 		return moveToMap("Route 11")
+	end
+end
+
+function ThunderBadgeQuest:VermilionPokemart()
+	if  getItemQuantity("Escape Rope") <= 15 then
+			if not isShopOpen() then 
+				return talkToNpcOnCell(3,5)
+			else
+				return buyItem("Escape Rope", 20)
+			end
+	else 
+		moveToMap("Vermilion City")
 	end
 end
 
@@ -179,22 +271,22 @@ function ThunderBadgeQuest:solvePuzzle()
 	end
 end
 
-function ThunderBadgeQuest:VulcanIslandshore()
-	return moveToMap("Vulcan Path")
-end
-
-function ThunderBadgeQuest:VulcanPath()
-	if isNpcOnCell(22,37) then
-	return talkToNpcOnCell(22,37)
-	else return moveToMap("Vulcan Forest")
+function ThunderBadgeQuest:VermilionGym()
+	if self:needPokecenter() or not game.isTeamFullyHealed() or not self.registeredPokecenter == "Pokecenter Vermilion" then
+ 		return moveToMap("Vermilion City")
+	elseif not self:isTrainingOver() and not hasItem("Thunder Badge") then
+		return moveToMap("Vermilion City")-- Go to Route 6 and Leveling
+	else
+		if hasItem("Thunder Badge") then
+			return moveToMap("Vermilion City")
+		else
+			if not isNpcOnCell(6, 10) then
+				return talkToNpcOnCell(6,4)
+			else
+				return self:solvePuzzle()
+			end
+		end
 	end
 end
 
-function ThunderBadgeQuest:VulcanForest()
-	return moveToMap("Vulcanic Town")
-end
-
-function ThunderBadgeQuest:VulcanicTown()
-	return moveToMap("Pokecenter Vulcanic Town")
-end
 return ThunderBadgeQuest

@@ -31,14 +31,14 @@ function StormBadgeQuest:new()
 end
 
 function StormBadgeQuest:isDoable()
-	if self:hasMap()  and hasItem("Fog Badge") then
+	if (self:hasMap() and not hasItem("Rain Badge") and hasItem("Fog Badge") )  or (  hasItem("Rain Badge") and not hasItem("Storm Badge") ) then
 		return true
 	end
 	return false
 end
 
 function StormBadgeQuest:isDone()
-	if  getMapName() == "Ice Path 1F" then
+	if  getMapName() == "Ice Path 1F" or ( hasItem("Storm Badge") and getMapName() == "Cianwood City Gym"  ) then
 		return true
 	else
 		return false
@@ -62,6 +62,10 @@ end
 
 function StormBadgeQuest:EcruteakStopHouse2()
 	moveToMap("Route 42")
+end
+
+function StormBadgeQuest:OlivinePokecenter()
+	self:pokecenter("Olivine City")
 end
 
 function StormBadgeQuest:Route42()
@@ -94,6 +98,17 @@ function StormBadgeQuest:GlitterLighthouse1F()
 	if dialogs.phare.state then 
 		moveToCell(8,14)
 	else moveToCell(9,5)
+	end
+end
+
+function StormBadgeQuest:OlivineCity()
+	if  self.registeredPokecenter ~= "Olivine Pokecenter" then
+		moveToMap("Olivine Pokecenter")
+	elseif isNpcOnCell(52,22) then
+		talkToNpcOnCell(52,22)
+	elseif not dialogs.phare.state then 
+		moveToMap("Glitter Lighthouse 1F")
+	else moveToMap("Route 40")
 	end
 end
 
@@ -161,12 +176,7 @@ function StormBadgeQuest:Route41()
 end
 
 function StormBadgeQuest:CianwoodCity()
-	if self:needPokecenter() or self.registeredPokecenter != "Pokecenter Cianwood" then
-		moveToMap("Pokecenter Cianwood")
-	elseif not self:isTrainingOver() then 
-		moveToWater()
-	else moveToMap("Cianwood City Gym")
-	end
+	moveToMap("Cianwood City Gym")
 end
 
 function StormBadgeQuest:CianwoodCityGym()

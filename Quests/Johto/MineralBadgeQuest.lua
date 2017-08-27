@@ -44,37 +44,23 @@ function MineralBadgeQuest:isDone()
 	end
 end
 
+function MineralBadgeQuest:CianwoodCityGym()
+	moveToMap("Cianwood City")
+end
+
 function MineralBadgeQuest:CianwoodCity()
-	if self:needPokecenter() or not game.isTeamFullyHealed() or not self.registeredPokecenter == "Pokecenter Cianwood" then
-		moveToMap("Pokecenter Cianwood")
-	elseif not dialogs.potion.state then 
+	if not dialogs.potion.state then 
 		moveToMap("Cianwood Shop")
-	else moveToMap("Route 41")
+	else useItem("Escape Rope")
 	end 
 end
 
-function MineralBadgeQuest:Route41()
-	if not self:isTrainingOver() and not self:needPokecenter() then 
-		moveToWater()
-	else moveToMap("Route 40")
-	end
-end
-
-function MineralBadgeQuest:Route40()
-	if not self:isTrainingOver() and not self:needPokecenter() then 
-		moveToMap("Route 41")
-	else moveToMap("Olivine City")
-	end
-	
-end
 
 function MineralBadgeQuest:OlivineCity()
-	if self:needPokecenter() or not game.isTeamFullyHealed() or self.registeredPokecenter ~= "Pokecenter Olivine City" then
+	if  self.registeredPokecenter ~= "Olivine Pokecenter" then
 		moveToMap("Olivine Pokecenter")
 	elseif not dialogs.phare.state then 
 		moveToMap("Glitter Lighthouse 1F")
-	elseif not self:isTrainingOver() then 
-		moveToMap("Route 40") 
 	else moveToMap("Olivine City Gym")
 	end
 end

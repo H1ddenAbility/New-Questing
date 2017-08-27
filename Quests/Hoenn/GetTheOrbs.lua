@@ -27,14 +27,14 @@ function GetTheOrbs:new()
 end
 
 function GetTheOrbs:isDoable()
-	if self:hasMap() and not hasItem("Blue Orb") then
+	if ( self:hasMap() and not hasItem("Blue Orb") and not hasItem("Rain Badge") ) or getMapName() == "Route 122" then
 		return true
 	end
 	return false
 end
 
 function GetTheOrbs:isDone()
-	if  getMapName() == "Route 124" then
+	if  getMapName() == "Route 124" or ( getMapName() == "Mt. Pyre Summit" and hasItem("Blue Orb") and hasItem("Red Orb")  ) then
 		return true
 	else
 		return false
@@ -86,6 +86,45 @@ function GetTheOrbs:LilycoveCity()
 	else
 		moveToMap("Route 124")
 	end
+end
+
+function GetTheOrbs:Route122()
+	moveToMap("Mt. Pyre 1F")
+end
+
+function GetTheOrbs:MtPyre1F()
+	moveToMap("Mt. Pyre 2F")
+end
+
+function GetTheOrbs:MtPyre2F()
+	moveToMap("Mt. Pyre 3F")
+end
+
+function GetTheOrbs:MtPyre3F()
+	if isNpcOnCell(13,26) then
+		moveToCell(13,22)
+	else moveToMap("Mt. Pyre Exterior")
+	end
+end
+
+
+function GetTheOrbs:MtPyreExterior()
+	moveToMap("Mt. Pyre Summit")
+end
+
+function GetTheOrbs:MtPyreSummit()
+	if isNpcOnCell(27,12) then 
+		talkToNpcOnCell(27,12)
+	elseif isNpcOnCell(26,11) then
+		talkToNpcOnCell(26,11)
+	elseif not isNpcOnCell(27,4) then
+		talkToNpcOnCell(26,4)
+		dialogs.jack.state = true
+		return
+	elseif not dialogs.jack.state then
+		moveToCell(27,6)
+	
+	end	
 end
 
 return GetTheOrbs

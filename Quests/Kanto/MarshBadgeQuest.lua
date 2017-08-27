@@ -52,7 +52,9 @@ function MarshBadgeQuest:Route8StopHouse()
 end
 
 function MarshBadgeQuest:Route5StopHouse()
-	if hasItem("Bike Voucher") then
+	if hasItem("Rain Badge") and not hasItem("Boulder Badge") then 
+		return moveToMap("Route 5")
+	elseif hasItem("Bike Voucher") then
 		return moveToMap("Route 5")
 	else
 		return moveToMap("Saffron City")
@@ -60,7 +62,9 @@ function MarshBadgeQuest:Route5StopHouse()
 end
 
 function MarshBadgeQuest:SaffronCity()
-	if self:needPokecenter() or not game.isTeamFullyHealed() or  self.registeredPokecenter ~= "Pokecenter Saffron" then
+	if hasItem("Rain Badge") and not hasItem("Boulder Badge") then 
+		return moveToMap("Route 5 Stop House")
+	elseif self:needPokecenter() or not game.isTeamFullyHealed() or  self.registeredPokecenter ~= "Pokecenter Saffron" then
 		return moveToMap("Pokecenter Saffron")
 	elseif hasItem("Bike Voucher") then
 		return moveToMap("Route 5 Stop House")
