@@ -31,7 +31,7 @@ function StormBadgeQuest:new()
 end
 
 function StormBadgeQuest:isDoable()
-	if (self:hasMap() and not hasItem("Rain Badge") and hasItem("Fog Badge") )  or (  hasItem("Rain Badge") and not hasItem("Storm Badge") ) then
+	if (self:hasMap() and not hasItem("Rain Badge") and hasItem("Fog Badge") )  or ( self:hasMap() and  hasItem("Rain Badge") and not hasItem("Storm Badge") ) then
 		return true
 	end
 	return false
