@@ -179,7 +179,7 @@ function templatequest:PokecenterEverGrandeCity()
 		else
 			return usePC()
 		end
-	elseif 	getTeamSize() == 6 and game.minTeamLevel() <= 80 then
+	elseif 	getTeamSize() == 6 and game.minTeamLevel() <= 81 then
 	
 		if isPCOpen() then
 			if isCurrentPCBoxRefreshed() then

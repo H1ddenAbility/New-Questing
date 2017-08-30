@@ -155,6 +155,8 @@ function GoldenrodCityQuest:Route35()
 		else
 			return moveToMap("Route 36")
 		end 
+	elseif not game.hasPokemonWithMove("Cut") then
+		return useItemOnPokemon("HM01 - Cut", 1)
 	else
 		return moveToMap("Route 35 Stop House")
 	end

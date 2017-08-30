@@ -323,6 +323,8 @@ function Quest:wildBattle()
 		if useItem("Ultra Ball") or useItem("Great Ball") or useItem("Pokeball") or sendUsablePokemon() or run() or sendAnyPokemon() then
 			return true
 		end 
+	elseif getTeamSize() == 6  and game.maxTeamLevel() >= 90 then
+		return  run() or attack()  or sendUsablePokemon() or sendAnyPokemon()
 	elseif 	 getTeamSize() == 2 and getUsablePokemonCount() == 1 then
 		return relog(5,"Relogging...")
 	elseif 	 getTeamSize() == 3 and getUsablePokemonCount() == 2 then

@@ -23,7 +23,7 @@ function Quest:new(name, description, level, dialogs)
 end
 
 --function onStop()   -- add this fuction if you don't want to get stuck in some maps in hoenn
-	--return relog(10,"This script was made by Hiddenability, enjoy botting...")
+--	return relog(10,"This script was made by Hiddenability, enjoy botting...")
 --end
 
 function Quest:isDoable()
