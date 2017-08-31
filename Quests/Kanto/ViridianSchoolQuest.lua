@@ -24,7 +24,7 @@ function ViridianSchoolQuest:new()
 end
 
 function ViridianSchoolQuest:isDoable()
-	if  self:hasMap() then
+	if  ( self:hasMap() and not hasItem("Volcano Badge") ) or (  self:hasMap() and hasItem("Earth Badge") ) then
 		return true
 	end
 	return false
@@ -61,7 +61,7 @@ function ViridianSchoolQuest:ViridianCity()
 		return moveToMap("Pokecenter Viridian")
 	elseif  isNpcOnCell(57,61) then --Item: rare candy
 		return talkToNpcOnCell(57,61)
-	elseif hasItem("Marsh Badge") then
+	elseif hasItem("Earth Badge") then
 		return moveToMap("Route 22")
 	else
 		return moveToMap("Route 2")
