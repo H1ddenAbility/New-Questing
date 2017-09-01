@@ -234,6 +234,10 @@ function SoulBadgeQuest:Route8()
 		elseif getPokemonName(3) == "Charmeleon" then
 			return useItemOnPokemon("HM01 - Cut", 3)
 		end
+	elseif not hasItem("Pokeball") then
+		playSound("Assets/cuccu.wav")
+		log("Out of Pokeball")
+		return logout()
 	elseif not hasPokemonInTeam("Ditto") then
 		return moveToGrass()
 	else

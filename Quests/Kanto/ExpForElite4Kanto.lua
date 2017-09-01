@@ -356,6 +356,10 @@ function ExpForElite4Kanto:VictoryRoadKanto3F()
 		return talkToNpcOnCell(46,14)
 	elseif  self.registeredPokecenter_ ~= "Indigo Plateau Center" then
 			return moveToMap("Indigo Plateau")
+	elseif  getTeamSize() <= 5 and not hasItem("Pokeball") then
+		playSound("Assets/cuccu.wav")
+		log("Out of Pokeball")
+		return logout()
 	elseif  getTeamSize() <= 5 then
 		return moveToRectangle(45,15,47,21)
 	elseif  ( hasPokemonInTeam("Zubat") or hasPokemonInTeam("Golbat") ) and getTeamSize() ==6 then
