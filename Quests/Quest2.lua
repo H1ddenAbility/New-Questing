@@ -315,7 +315,7 @@ function Quest:wildBattle()
 		if useItem("Ultra Ball") or useItem("Great Ball") or useItem("Pokeball") or sendUsablePokemon() or run() or sendAnyPokemon() then
 			return true
 		end
-	elseif getTeamSize() == 1 and getOpponentName() ~= "Rattata"  then 
+	elseif getTeamSize() == 1 and getOpponentName() ~= "Rattata"  and getOpponentName() ~= "Metapod" and getOpponentName() ~= "Kakuna" and getOpponentName() ~= "Minun" and getOpponentName() ~= "Plusle" then 
 		if useItem("Ultra Ball") or useItem("Great Ball") or useItem("Pokeball") or sendUsablePokemon() or run() or sendAnyPokemon() then
 			return true
 		end 

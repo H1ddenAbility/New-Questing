@@ -31,7 +31,7 @@ function ViridianSchoolQuest:isDoable()
 end
 
 function ViridianSchoolQuest:isDone()
-	return getMapName() == "Route 2" or getMapName() == "Route 22"
+	return getMapName() == "Route 2" or getMapName() == "Route 22" or ( getMapName() == "Viridian City" and hasItem("Volcano Badge") and not hasItem("Earth Badge") )
 end
 
 -- necessary, in case of black out we come back to the bedroom

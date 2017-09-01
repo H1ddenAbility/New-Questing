@@ -22,9 +22,9 @@ function Quest:new(name, description, level, dialogs)
 	return o
 end
 
---function onStop()   -- add this fuction if you don't want to get stuck in some maps in hoenn
---	return relog(10,"This script was made by Hiddenability, enjoy botting...")
---end
+function onStop()   -- add this fuction if you don't want to get stuck in some maps in hoenn
+	return relog(10,"This script was made by Hiddenability, enjoy botting...")
+end
 
 function Quest:isDoable()
 	sys.error("Quest:isDoable", "function is not overloaded in quest: " .. self.name)
