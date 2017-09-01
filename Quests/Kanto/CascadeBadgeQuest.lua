@@ -10,7 +10,7 @@ local Dialog = require "Quests/Dialog"
 
 local name        = 'Cascade Badge Quest'
 local description = 'From Cerulean to Route 5'
-local level       = 2
+local level       = 23
 
 local dialogs = {
 	billTicketDone = Dialog:new({
@@ -49,8 +49,14 @@ function CascadeBadgeQuest:CeruleanCity()
 		return moveToMap("Pokecenter Cerulean")
 	elseif self:needPokemart() then
 		return moveToMap("Cerulean Pokemart")
+	elseif  not self:isTrainingOver() then
+		return moveToCell(39,0)-- Route 24 Bridge
+	elseif self:isTrainingOver() and not hasItem("Cascade Badge") then
+		return moveToMap("Cerulean Gym")
 	elseif not dialogs.billTicketDone.state then
 		return moveToCell(39,0)-- Route 24 Bridge
+	elseif isNpcOnCell(43,23) then
+		talkToNpcOnCell(43,23)
 	elseif not hasItem("TM28") then
 		return moveToMap("Cerulean House 6")
 	else
@@ -75,9 +81,9 @@ function CascadeBadgeQuest:PokecenterCerulean()
 end
 
 function CascadeBadgeQuest:Route24Bridge()
-	if ( not dialogs.billTicketDone.state)
-		and not self:needPokecenter()
-	then
+	if not self:isTrainingOver() then
+		return moveToCell(14,0)
+	elseif  not dialogs.billTicketDone.state then
 		return moveToCell(14,0)
 	else
 		return moveToCell(14,31)
@@ -100,7 +106,9 @@ function CascadeBadgeQuest:Route24()
 end
 
 function CascadeBadgeQuest:Route25()
-	if hasItem("Nugget") then
+	if not self:isTrainingOver() then
+		moveToGrass()
+	elseif hasItem("Nugget") then
 		return moveToMap("Item Maniac House") -- sell Nugget give $15.000
 	elseif self:needPokecenter() then
 		moveToCell(14, 30)
