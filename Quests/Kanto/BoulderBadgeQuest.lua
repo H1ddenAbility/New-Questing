@@ -13,7 +13,7 @@ local description = 'from route 2 to route 3'
 
 local BoulderBadgeQuest = Quest:new()
 function BoulderBadgeQuest:new()
-	return Quest.new(BoulderBadgeQuest, name, description, 1)
+	return Quest.new(BoulderBadgeQuest, name, description, 15)
 end
 
 function BoulderBadgeQuest:isDoable()
@@ -77,7 +77,7 @@ end
 function BoulderBadgeQuest:route2Up()
 	if self.registeredPokecenter ~= "Pokecenter Pewter" then
 		return moveToMap("Pewter City")
-	elseif not self:needPokecenter()  then
+	elseif not self:isTrainingOver()  then
 		return moveToGrass()
 	else
 		return moveToMap("Pewter City")
@@ -85,11 +85,16 @@ function BoulderBadgeQuest:route2Up()
 end
 
 function BoulderBadgeQuest:PewterCity()
-	
-	if self.registeredPokecenter ~= "Pokecenter Pewter" or not game.isTeamFullyHealed() then
+	if isNpcOnCell(23,22) then
+		talkToNpcOnCell(23,22)
+	elseif self.registeredPokecenter ~= "Pokecenter Pewter" or not game.isTeamFullyHealed() then
 		return moveToMap("Pokecenter Pewter")
+	elseif not self:isTrainingOver() then
+		return moveToMap("Route 2")
+	elseif self:isTrainingOver() and not hasItem("Boulder Badge") then
+		return moveToMap("Pewter Gym")
 	else
-		return moveToMap("Route 3")
+		return moveToMap("Link")
 	end
 end
 

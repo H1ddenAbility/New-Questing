@@ -22,9 +22,9 @@ function Quest:new(name, description, level, dialogs)
 	return o
 end
 
-function onStop()   -- add this fuction if you don't want to get stuck in some maps in hoenn
-	return relog(10,"This script was made by Hiddenability, enjoy botting...")
-end
+--function onStop()   -- add this fuction if you don't want to get stuck in some maps in hoenn
+--	return relog(10,"This script was made by Hiddenability, enjoy botting...")
+--end
 
 function Quest:isDoable()
 	sys.error("Quest:isDoable", "function is not overloaded in quest: " .. self.name)
@@ -425,6 +425,8 @@ function Quest:wildBattle()
 	elseif game.maxTeamLevel() <= 10 and not game.hasPokemonWithMove("Dragon Rage") then
 		return run() or sendUsablePokemon() or sendAnyPokemon()or attack()
 	elseif self:isTrainingOver() then
+		return run() or sendUsablePokemon() or sendAnyPokemon()or attack()
+	elseif getOpponentName() == "Snubbull" then
 		return run() or sendUsablePokemon() or sendAnyPokemon()or attack()
 	else
 		return  attack()  or sendUsablePokemon() or run() or sendAnyPokemon()
