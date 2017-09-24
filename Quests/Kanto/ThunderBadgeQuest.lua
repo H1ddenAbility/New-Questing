@@ -49,7 +49,7 @@ function ThunderBadgeQuest:new()
 end
 
 function ThunderBadgeQuest:isDoable()
-	if  self:hasMap() and not hasItem("Bike Voucher")  then
+	if  self:hasMap() and not hasItem("Bike Voucher") and not ( hasItem("Bicycle") or hasItem("Yellow Bicycle") or hasItem("Blue Bicycle") or hasItem("Green Bicycle") )  then
 		return true
 	end
 	return false

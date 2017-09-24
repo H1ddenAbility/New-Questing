@@ -57,7 +57,7 @@ function MarshBadgeQuest:Route5StopHouse()
 	elseif hasItem("Bike Voucher") then
 		return moveToMap("Route 5")
 	else
-		return moveToMap("Saffron City")
+		return moveToMap("Link")
 	end
 end
 
