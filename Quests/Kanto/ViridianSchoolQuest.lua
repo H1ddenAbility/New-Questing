@@ -20,18 +20,18 @@ local dialogs = {
 
 local ViridianSchoolQuest = Quest:new()
 function ViridianSchoolQuest:new()
-	return Quest.new(ViridianSchoolQuest, name, description, 80, dialogs)
+	return Quest.new(ViridianSchoolQuest, name, description, 8, dialogs)
 end
 
 function ViridianSchoolQuest:isDoable()
-	if  ( self:hasMap() and not hasItem("Volcano Badge") ) or (  self:hasMap() and hasItem("Earth Badge") ) then
+	if  ( self:hasMap() and not hasItem("Volcano Badge") and getMapName() ~= "Route 2" ) or (  self:hasMap() and hasItem("Earth Badge") ) then
 		return true
 	end
 	return false
 end
 
 function ViridianSchoolQuest:isDone()
-	return getMapName() == "Route 2" or getMapName() == "Route 22" or ( getMapName() == "Viridian City" and hasItem("Volcano Badge") and not hasItem("Earth Badge") )
+	return ( getMapName() == "Route 2" and self:isTrainingOver() ) or getMapName() == "Route 22" or ( getMapName() == "Viridian City" and hasItem("Volcano Badge") and not hasItem("Earth Badge") )
 end
 
 -- necessary, in case of black out we come back to the bedroom
@@ -55,6 +55,9 @@ function ViridianSchoolQuest:Route1StopHouse()
 	return moveToMap("Viridian City")
 end
 
+function ViridianSchoolQuest:Route2()
+	return moveToGrass()
+end
 
 function ViridianSchoolQuest:ViridianCity()
 	if not game.isTeamFullyHealed() or self.registeredPokecenter ~= "Pokecenter Viridian" then
@@ -63,6 +66,8 @@ function ViridianSchoolQuest:ViridianCity()
 		return talkToNpcOnCell(57,61)
 	elseif hasItem("Earth Badge") then
 		return moveToMap("Route 22")
+	elseif not self:isTrainingOver() then
+		return moveToMap("Route 2")
 	else
 		return moveToMap("Route 2")
 	end

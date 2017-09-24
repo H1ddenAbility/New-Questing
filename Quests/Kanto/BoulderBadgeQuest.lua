@@ -13,7 +13,7 @@ local description = 'from route 2 to route 3'
 
 local BoulderBadgeQuest = Quest:new()
 function BoulderBadgeQuest:new()
-	return Quest.new(BoulderBadgeQuest, name, description, 15)
+	return Quest.new(BoulderBadgeQuest, name, description, 13)
 end
 
 function BoulderBadgeQuest:isDoable()
@@ -52,11 +52,7 @@ function BoulderBadgeQuest:Route2Stop()
 end
 
 function BoulderBadgeQuest:ViridianForest()
-	if not game.hasPokemonWithMove("Dragon Rage") then
-		return moveToCell(19,38)
-	else
 	    moveToMap("Route 2 Stop2")
-	end
 end
 
 function BoulderBadgeQuest:ViridianMaze()
@@ -85,16 +81,19 @@ function BoulderBadgeQuest:route2Up()
 end
 
 function BoulderBadgeQuest:PewterCity()
+	self.level = 13
 	if isNpcOnCell(23,22) then
 		talkToNpcOnCell(23,22)
 	elseif self.registeredPokecenter ~= "Pokecenter Pewter" or not game.isTeamFullyHealed() then
 		return moveToMap("Pokecenter Pewter")
 	elseif not self:isTrainingOver() then
 		return moveToMap("Route 2")
+	elseif self:needPokemart() then
+		return moveToMap("Pewter Pokemart")
 	elseif self:isTrainingOver() and not hasItem("Boulder Badge") then
 		return moveToMap("Pewter Gym")
 	else
-		return moveToMap("Link")
+		return moveToCell(65,32)
 	end
 end
 
@@ -112,8 +111,22 @@ function BoulderBadgeQuest:Route3()
 end
 
 function BoulderBadgeQuest:PokecenterPewter()
-	self:pokecenter("Pewter City")
+	if  getTeamSize() >=2 and not hasItem("HM03 - Surf") then
+				if isPCOpen() then
+					if isCurrentPCBoxRefreshed() then
+							return depositPokemonToPC(2)
+					else
+						return
+					end
+				else
+					return usePC()
+				end
+				
+	else
+		self:pokecenter("Pewter City")
+	end
 end
+
 
 function BoulderBadgeQuest:PewterPokemart()
 	self:pokemart("Pewter City")

@@ -10,7 +10,7 @@ local Dialog = require "Quests/Dialog"
 
 local name        = 'Cascade Badge Quest'
 local description = 'From Cerulean to Route 5'
-local level       = 23
+local level       = 24
 
 local dialogs = {
 	billTicketDone = Dialog:new({
@@ -45,7 +45,7 @@ function CascadeBadgeQuest:isDone()
 end
 
 function CascadeBadgeQuest:CeruleanCity()
-	if self:needPokecenter() or self.registeredPokecenter ~= "Pokecenter Cerulean" then
+	if self:needPokecenter() or self.registeredPokecenter ~= "Pokecenter Cerulean" or not game.isTeamFullyHealed() then
 		return moveToMap("Pokecenter Cerulean")
 	elseif self:needPokemart() then
 		return moveToMap("Cerulean Pokemart")
@@ -77,8 +77,22 @@ function CascadeBadgeQuest:CeruleanPokemart()
 end
 
 function CascadeBadgeQuest:PokecenterCerulean()
-	return self:pokecenter("Cerulean City")
+	if  getTeamSize() >=2 and not hasItem("HM03 - Surf") then
+				if isPCOpen() then
+					if isCurrentPCBoxRefreshed() then
+							return depositPokemonToPC(2)
+					else
+						return
+					end
+				else
+					return usePC()
+				end
+				
+	else
+		self:pokecenter("Cerulean City")
+	end
 end
+
 
 function CascadeBadgeQuest:Route24Bridge()
 	if not self:isTrainingOver() then
@@ -142,6 +156,7 @@ function CascadeBadgeQuest:ItemManiacHouse() -- sell nugget
 end
 
 function CascadeBadgeQuest:CeruleanGym() -- get Cascade Badge
+	self.level = 23
 	if self:needPokecenter() or hasItem("Cascade Badge") then
 		return moveToMap("Cerulean City")
 	else

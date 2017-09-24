@@ -10,7 +10,7 @@ local Dialog = require "Quests/Dialog"
 
 local name        = 'Thunder Badge Quest'
 local description = 'From Route 5 to Route 6'
-local level       = 2
+local level       = 32
 
 
 
@@ -56,7 +56,7 @@ function ThunderBadgeQuest:isDoable()
 end
 
 function ThunderBadgeQuest:isDone()
-	if getMapName() == "Route 11" or getMapName() == "SSAnne 1F" or ( getMapName() == "Route 6" and hasItem("Bike Voucher") ) or ( getMapName() == "Saffron City" and hasItem("Rain Badge") ) then
+	if  getMapName() == "Lavender Town" or getMapName() == "SSAnne 1F" or ( getMapName() == "Route 6" and hasItem("Bike Voucher") ) or ( getMapName() == "Saffron City" and hasItem("Rain Badge") ) then
 		return true
 	else
 		return false
@@ -64,7 +64,7 @@ function ThunderBadgeQuest:isDone()
 end
 
 function ThunderBadgeQuest:Route5()
-	if hasItem("Rain Badge") and not hasItem("Boulder Badge") then 
+	if hasItem("HM05 - Flash") then 
 		return moveToMap("Cerulean City")
 	else
 		return moveToMap("Underground House 1")
@@ -72,10 +72,40 @@ function ThunderBadgeQuest:Route5()
 end
 
 function ThunderBadgeQuest:CeruleanCity()
-	if hasItem("Rain Badge") and not hasItem("Cascade Badge") then 
-		return moveToMap("Cerulean Gym")
+	if hasItem("HM05 - Flash") then 
+		return moveToMap("Link")
 	elseif hasItem("Rain Badge") and not hasItem("Boulder Badge") then 
 		return moveToMap("Route 4")
+	end
+end
+
+function ThunderBadgeQuest:Route9()
+	return moveToMap("Route 10")
+end
+
+function ThunderBadgeQuest:Route10()
+	if game.inRectangle(0, 43, 32, 71) then
+		return moveToMap("Lavender Town")
+	else
+		return moveToMap("Link")
+	end
+end
+
+function ThunderBadgeQuest:RockTunnel1()
+	if game.inRectangle(32, 5, 48, 20) then
+		return moveToCell(35,16)
+	elseif game.inRectangle(3, 4, 32, 19) then
+		return moveToCell(8,15)
+	elseif game.inRectangle(4, 25, 28, 32) then
+		return moveToCell(21,32)
+	end
+end
+
+function ThunderBadgeQuest:RockTunnel2()
+	if game.inRectangle(4, 11, 29, 29) then
+		return moveToCell(8,26)
+	else
+		return moveToCell(7,5)
 	end
 end
 
@@ -128,20 +158,32 @@ function ThunderBadgeQuest:CeruleanGym() -- get Cascade Badge
 end
 
 function ThunderBadgeQuest:UndergroundHouse1()
-	return moveToMap("Underground2")
+	if hasItem("HM05 - Flash") then
+		return moveToMap("Route 5")
+	else
+		return moveToMap("Underground2")
+	end
 end
 
 function ThunderBadgeQuest:Underground2()
-	return moveToMap("Underground House 2")
+	if hasItem("HM05 - Flash") then
+		return moveToMap("Underground House 1")
+	else
+		return moveToMap("Underground House 2")
+	end
 end
 
 function ThunderBadgeQuest:UndergroundHouse2()
+	if hasItem("HM05 - Flash") then
+		return moveToMap("Underground2")
+	else
 		return moveToMap("Route 6")
+	end
 end
 
 function ThunderBadgeQuest:Route6()
-	if hasItem("Rain Badge") and not hasItem("Boulder Badge") then
-		return moveToMap("Route 6 Stop House")
+	if hasItem("HM05 - Flash") then
+		return moveToMap("Underground House 2")
 	else
 		return moveToMap("Vermilion City")
 	end
@@ -160,8 +202,45 @@ function ThunderBadgeQuest:PokecenterEasterPlateau()
 end
 
 
+function ThunderBadgeQuest:DiglettsCaveEntrance2()
+		return moveToMap("Digletts Cave")
+end
+
+function ThunderBadgeQuest:DiglettsCave()
+		return moveToMap("Digletts Cave Entrance 1")
+end
+
+function ThunderBadgeQuest:DiglettsCaveEntrance1()
+		return moveToMap("Route 2")
+end
+
+function ThunderBadgeQuest:Route2()
+		return moveToMap("Route 2 Stop3")
+end
+
+function ThunderBadgeQuest:Route2Stop3()
+	if not hasItem("HM05 - Flash") then
+		talkToNpcOnCell(6,5)
+	else 
+		return useItem("Escape Rope")
+	end
+end
+
 function ThunderBadgeQuest:PokecenterVermilion()
-	self:pokecenter("Vermilion City")
+	if  getTeamSize() >=2 and not hasItem("HM03 - Surf") then
+				if isPCOpen() then
+					if isCurrentPCBoxRefreshed() then
+							return depositPokemonToPC(2)
+					else
+						return
+					end
+				else
+					return usePC()
+				end
+				
+	else
+		self:pokecenter("Vermilion City")
+	end
 end
 
 function ThunderBadgeQuest:VermilionCity()
@@ -171,11 +250,13 @@ function ThunderBadgeQuest:VermilionCity()
 		self.dialogs.surgeVision.state = true
 	end
 
-	if  self.registeredPokecenter ~= "Pokecenter Vermilion" then
+	if  self.registeredPokecenter ~= "Pokecenter Vermilion" or not game.isTeamFullyHealed() or getTeamSize() >= 2 then
 		return moveToMap("Pokecenter Vermilion")
 	elseif hasItem("Rain Badge") and not hasItem("Thunder Badge") then
 		return moveToMap("Vermilion Gym")
 	elseif hasItem("Rain Badge") and getItemQuantity("Escape Rope") <= 15  then
+		return moveToMap("Vermilion Pokemart")
+	elseif  getItemQuantity("Pokeball") <= 19 and getMoney() >= 7000  then
 		return moveToMap("Vermilion Pokemart")
 	elseif hasItem("Rain Badge") and not hasItem("Boulder Badge") then 
 		return moveToMap("Route 6")
@@ -194,17 +275,36 @@ function ThunderBadgeQuest:VermilionCity()
 		return useItemOnPokemon("HM01 - Cut", 1)
 	elseif not hasItem("Old Rod") then
 		return moveToMap("Fisherman House - Vermilion")
+	elseif not self:isTrainingOver() then
+		return moveToMap("Route 11")
+	elseif not hasItem("Thunder Badge") then
+		return moveToMap("Vermilion Gym")
+	elseif hasItem("HM05 - Flash") then 
+		return moveToMap("Route 6")
 	else
 		return moveToMap("Route 11")
 	end
 end
 
+
+function ThunderBadgeQuest:Route11()
+	if  not hasItem("Thunder Badge") and not self:isTrainingOver() then
+		return moveToGrass()
+	elseif isNpcOnCell(10,13) and hasItem("Thunder Badge") then
+		talkToNpcOnCell(10,13)
+	elseif not isNpcOnCell(10,13) then
+		moveToMap("Digletts Cave Entrance 2")
+	else
+		moveToMap("Vermilion City")
+	end
+end
+	
 function ThunderBadgeQuest:VermilionPokemart()
-	if  getItemQuantity("Escape Rope") <= 15 then
+	if  getItemQuantity("Pokeball") <= 20 and getMoney() >= 7000 then
 			if not isShopOpen() then 
 				return talkToNpcOnCell(3,5)
 			else
-				return buyItem("Escape Rope", 20)
+				return buyItem("Pokeball", 30)
 			end
 	else 
 		moveToMap("Vermilion City")
@@ -272,6 +372,7 @@ function ThunderBadgeQuest:solvePuzzle()
 end
 
 function ThunderBadgeQuest:VermilionGym()
+	self.level = 31
 	if self:needPokecenter() or not game.isTeamFullyHealed() or not self.registeredPokecenter == "Pokecenter Vermilion" then
  		return moveToMap("Vermilion City")
 	elseif not self:isTrainingOver() and not hasItem("Thunder Badge") then
