@@ -120,8 +120,6 @@ end
 function ToCinnabarQuest:FuchsiaCity()
 	if self:needPokecenter() or not game.isTeamFullyHealed() or not self.registeredPokecenter == "Pokecenter Fuchsia" then
 		return moveToMap("Pokecenter Fuchsia")
-	elseif hasItem("Old Rod") and not hasItem("Good Rod") and getMoney() > 15000 then
-		return moveToMap("Fuchsia House 1") --Item: GoodRod
 	else
 		return moveToMap("Fuchsia City Stop House")
 	end

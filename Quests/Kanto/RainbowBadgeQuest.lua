@@ -106,7 +106,7 @@ function RainbowBadgeQuest:Route7()
 end
 
 function RainbowBadgeQuest:Route7StopHouse()
-		return moveToMap("Saffron City")
+		return moveToMap("Link")
 end
 
 function RainbowBadgeQuest:CeladonGym()

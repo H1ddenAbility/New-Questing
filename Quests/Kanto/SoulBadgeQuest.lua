@@ -32,7 +32,7 @@ function SoulBadgeQuest:new()
 end
 
 function SoulBadgeQuest:isDoable()	
-	if self:hasMap() and not hasItem("Marsh Badge") and not hasItem("RainBow Badge") then
+	if self:hasMap() and not hasItem("Marsh Badge") and not ( hasItem("Bicycle") or hasItem("Yellow Bicycle") or hasItem("Blue Bicycle") or hasItem("Green Bicycle") ) then
 			return true
 	
 	end
@@ -144,7 +144,7 @@ function SoulBadgeQuest:Route5StopHouse()
 	if hasItem("Bike Voucher") then
 		return moveToMap("Route 5")
 	else  
-		return moveToMap("Saffron City")
+		return moveToMap("Link")
 	end
 end
 
@@ -240,14 +240,28 @@ function SoulBadgeQuest:Route8()
 		return logout()
 	elseif not hasPokemonInTeam("Ditto") then
 		return moveToGrass()
+	elseif not hasItem("RainBow Badge") then
+		moveToMap("Underground House 4")
 	else
 		return moveToMap("Route 8 Stop House")
 	end
 end
 
+function SoulBadgeQuest:UndergroundHouse4()
+	moveToMap("Underground1")
+end
+
+function SoulBadgeQuest:Underground1()
+	moveToMap("Underground House 3")
+end
+
+function SoulBadgeQuest:UndergroundHouse3()
+	moveToMap("Route 7")
+end
+
 function SoulBadgeQuest:Route6StopHouse()
 	if hasItem("Bike Voucher") then
-		return moveToMap("Saffron City")
+		return moveToMap("Link")
 	else 
 		return moveToMap("Route 6")
 	end

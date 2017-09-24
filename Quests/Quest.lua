@@ -378,32 +378,27 @@ function Quest:wildBattle()
 			if useItem("Ultra Ball") or useItem("Great Ball") or useItem("Pokeball") or sendUsablePokemon() or run() or sendAnyPokemon() then
 			return true
 			end
+		elseif getUsablePokemonCount() == 1 and getTeamSize() == 6 then
+			return relog(5,"Relogging...")
+		elseif getTeamSize() <= 5 then
+			return run() or sendAnyPokemon() or relog(5,"Relogging...")
+		elseif getTeamSize() ==6 and getPokemonName(1) == "Crobat" then
+			return relog(5,"Need to train other Pokemon")
+		elseif isOpponentEffortValue("DEF") then 
+			return useMove("Air Slash") or attack()  or sendUsablePokemon() or run() or sendAnyPokemon()
 		else
-			if getUsablePokemonCount() == 1 and getTeamSize() == 6 then
-				return relog(5,"Relogging...")
-			elseif getTeamSize() <= 5 then
-				return run() or sendAnyPokemon() or relog(5,"Relogging...")
-			elseif getTeamSize() ==6 and getPokemonName(1) == "Crobat" then
-					return relog(5,"Need to train other Pokemon")
-			else
-				if isOpponentEffortValue("DEF") then 
-					return useMove("Air Slash") or attack()  or sendUsablePokemon() or run() or sendAnyPokemon()
-				else
-					return useMove("Acrobatics") or attack()  or sendUsablePokemon() or run() or sendAnyPokemon()
-				end
-			end
+			return useMove("Acrobatics") or attack()  or sendUsablePokemon() or run() or sendAnyPokemon()
 		end
-	if 	 getTeamSize() == 2 and getUsablePokemonCount() == 1 and  getTeamSize() >=2 and not hasPokemonInTeam("Zubat") then
+	elseif 	 getTeamSize() == 2 and getUsablePokemonCount() == 1 and  getTeamSize() >=2 and not hasPokemonInTeam("Zubat") and not hasPokemonInTeam("Ditto")  then
 			return relog(5,"Relogging...")
-	elseif 	 getTeamSize() == 3 and getUsablePokemonCount() == 2  and not hasPokemonInTeam("Zubat") then
+	elseif 	 getTeamSize() == 3 and getUsablePokemonCount() == 2  and not hasPokemonInTeam("Zubat") and not hasPokemonInTeam("Ditto")  then
 			return relog(5,"Relogging...")
-	elseif 	 getTeamSize() == 4 and getUsablePokemonCount() == 3  and not hasPokemonInTeam("Zubat") then
+	elseif 	 getTeamSize() == 4 and getUsablePokemonCount() == 3  and not hasPokemonInTeam("Zubat") and not hasPokemonInTeam("Ditto")  then
 			return relog(5,"Relogging...")
-	elseif 	 getTeamSize() == 5 and getUsablePokemonCount() == 4  and not hasPokemonInTeam("Zubat") then
+	elseif 	 getTeamSize() == 5 and getUsablePokemonCount() == 4  and not hasPokemonInTeam("Zubat") and not hasPokemonInTeam("Ditto")  then
 			return relog(5,"Relogging...")
-	elseif 	 getTeamSize() == 6 and getUsablePokemonCount() == 5  and not hasPokemonInTeam("Zubat") then
+	elseif 	 getTeamSize() == 6 and getUsablePokemonCount() == 5  and not hasPokemonInTeam("Zubat") and not hasPokemonInTeam("Ditto")  then
 			return relog(5,"Relogging...")
-	end
 	elseif getMapName() == "Route 8" and getTeamSize() <= 5 and getOpponentName() == "Ditto" and not hasPokemonInTeam("Ditto") then
 		if useItem("Ultra Ball") or useItem("Great Ball") or useItem("Pokeball")  or run() or sendAnyPokemon() then
 			return true
@@ -471,7 +466,7 @@ function Quest:trainerBattle()
 			return attack() or sendUsablePokemon() or sendAnyPokemon()
 		end
 	else
-		return useMove("Dragon Rage") or useMove("Acrobatics") or attack() or sendUsablePokemon() or sendAnyPokemon() -- or game.useAnyMove()
+		return useMove("Dragon Rage") or useMove("Acrobatics") or attack() or sendUsablePokemon() or sendAnyPokemon() or useMove("Struggle") or relog(5,"relog") -- or game.useAnyMove()
 	end
 end
 

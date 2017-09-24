@@ -182,16 +182,14 @@ function ThunderBadgeQuest:UndergroundHouse2()
 end
 
 function ThunderBadgeQuest:Route6()
-	if hasItem("HM05 - Flash") then
+	if hasItem("HM05 - Flash") and not hasItem("Rainbow Badge") then
 		return moveToMap("Underground House 2")
 	else
 		return moveToMap("Vermilion City")
 	end
 end
 
-function ThunderBadgeQuest:Route6StopHouse()
-	return moveToMap("Saffron City")
-end
+
 
 function ThunderBadgeQuest:EasterPlateau()
 		return moveToMap("Vermilion City")
@@ -250,7 +248,7 @@ function ThunderBadgeQuest:VermilionCity()
 		self.dialogs.surgeVision.state = true
 	end
 
-	if  self.registeredPokecenter ~= "Pokecenter Vermilion" or not game.isTeamFullyHealed() or getTeamSize() >= 2 then
+	if  self.registeredPokecenter ~= "Pokecenter Vermilion" or ( not game.isTeamFullyHealed() and not  hasPokemonInTeam("Ditto")  ) or ( getTeamSize() >= 2 and not hasItem("HM03 - Surf") ) then
 		return moveToMap("Pokecenter Vermilion")
 	elseif hasItem("Rain Badge") and not hasItem("Thunder Badge") then
 		return moveToMap("Vermilion Gym")
