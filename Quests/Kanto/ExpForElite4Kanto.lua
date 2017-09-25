@@ -175,10 +175,8 @@ function ExpForElite4Kanto:canBuyReviveItems()
 end
 
 function ExpForElite4Kanto:Route22()
-	if isNpcOnCell(10,8) then
-		talkToNpcOnCell(10,8)
-	elseif not isNpcOnCell(10,8) then
-		return moveToCell(9,8)
+	if isNpcOnCell(16,8) then
+		talkToNpcOnCell(16,8)
 	elseif getMoney() >= 55000 and not hasItem("Bicycle") then
 		return moveToMap("Viridian City")
 	elseif dialogs.leagueKantoNotDone.state and not hasItem("HM03 - Surf") then
