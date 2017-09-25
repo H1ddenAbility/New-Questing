@@ -235,9 +235,7 @@ function SoulBadgeQuest:Route8()
 			return useItemOnPokemon("HM01 - Cut", 3)
 		end
 	elseif not hasItem("Pokeball") then
-		playSound("Assets/cuccu.wav")
-		log("Out of Pokeball")
-		return logout()
+		return useItem("Escape Rope")
 	elseif not hasPokemonInTeam("Ditto") then
 		return moveToGrass()
 	elseif not hasItem("RainBow Badge") then
@@ -277,7 +275,7 @@ function SoulBadgeQuest:Route6()
 	end
 end
 function SoulBadgeQuest:FuchsiaCity()
-	if self:needPokemart_() and not hasItem("HM03 - Surf") then --It buy balls if not have badge, at blackoutleveling no
+	if self:needPokemart_()  then --It buy balls if not have badge, at blackoutleveling no
 		return moveToMap("Safari Stop")
 	elseif  self.registeredPokecenter ~= "Pokecenter Fuchsia" or not game.isTeamFullyHealed()  then
 		return moveToMap("Pokecenter Fuchsia")

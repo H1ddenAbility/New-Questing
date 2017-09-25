@@ -367,7 +367,7 @@ function Quest:wildBattle()
 	elseif sys.canRun == false then
 		sys.canRun = true
 		return  attack()  or run() or sendAnyPokemon()
-	elseif not  hasItem("HM05 - Flash") and not isAlreadyCaught() and not hasItem("Cascade Badge") then
+	elseif not  hasItem("HM05 - Flash") and not isAlreadyCaught() and not hasItem("Cascade Badge") and ( getOpponentLevel() <  game.maxTeamLevel() ) then
 		if getOpponentHealth() > 40 then
 			return useMove("Dragon Rage") or  useItem("Pokeball") or attack() or run() or sendAnyPokemon()
 		else
