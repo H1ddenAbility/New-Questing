@@ -177,38 +177,28 @@ end
 function ExpForElite4Kanto:Route22()
 	if isNpcOnCell(16,8) then
 		talkToNpcOnCell(16,8)
-	elseif getMoney() >= 55000 and not hasItem("Bicycle") then
-		return moveToMap("Viridian City")
 	elseif dialogs.leagueKantoNotDone.state and not hasItem("HM03 - Surf") then
-		return moveToMap("Pokemon League Reception Gate")
+		return moveToMap("Link")
 	elseif hasItem("HM03 - Surf") and getTeamSize() <=5 then 
 		return moveToMap("Viridian City") 
 	elseif hasItem("HM03 - Surf") and game.minTeamLevel() <= 47 and game.maxTeamLevel() <= 96 then
 		return moveToMap("Viridian City") 
 	elseif hasItem("HM03 - Surf") and dialogs.leagueKantoNotDone.state then
-		return moveToMap("Pokemon League Reception Gate")
+		return moveToMap("Link")
 	elseif not game.hasPokemonWithMove("Surf") and dialogs.e4Done.state then
 		return moveToMap("Viridian City") 
 	else 
-		return moveToMap("Pokemon League Reception Gate")
+		return moveToMap("Link")
 	end
 end
 
 function ExpForElite4Kanto:ViridianCity()
-	if getTeamSize() == 5 and dialogs.e4Done.state then
-		return moveToMap("Route 1 Stop House")
-	elseif dialogs.e4Done.state and not game.hasPokemonWithMove("Surf") then
+	if dialogs.e4Done.state and not game.hasPokemonWithMove("Surf") then
 		return moveToMap("Pokecenter Viridian")
 	elseif self:needPokecenter()  then 
 		return moveToMap("Pokecenter Viridian") 
 	elseif hasItem("HM03 - Surf") and dialogs.e4Done.state then
 		return moveToMap("Route 22")
-	elseif getMoney() >= 55000 and not hasItem("Bicycle") and ( hasPokemonInTeam("Sentret") or hasPokemonInTeam("Furret") ) then
-		return moveToMap("Route 2")
-	elseif getMoney() >= 55000 and not hasItem("Bicycle") and getTeamSize() == 5 then
-		return moveToMap("Route 1 Stop House")
-	elseif getMoney() >= 55000 and not hasItem("Bicycle") and getTeamSize() == 6 and ( not hasPokemonInTeam("Sentret") or not hasPokemonInTeam("Furret") ) then
-		return moveToMap("Pokecenter Viridian")
 	elseif   dialogs.leagueKantoNotDone.state and not hasItem("HM03 - Surf")  then
 		return moveToMap("Route 22") 
 	elseif hasItem("HM03 - Surf") and getTeamSize() <=5 and game.maxTeamLevel() <= 96 then
@@ -240,20 +230,7 @@ function ExpForElite4Kanto:Route1()
 end
 
 function ExpForElite4Kanto:PokecenterViridian()
-	if getMoney() >= 55000 and not hasItem("Bicycle") and getTeamSize() == 6 then
-		if   ( getPokemonName(1) ~= "Sentret"   or  getPokemonName(1) ~= "Furret" ) and getTeamSize() == 6 then
-			if isPCOpen() then
-				if isCurrentPCBoxRefreshed() then
-					if getTeamSize() == 6 then
-						return depositPokemonToPC(1)
-					end
-				end
-			else usePC() 
-			end
-		else 
-			return moveToMap("Viridian City")
-		end
-	elseif hasItem("Bicycle") and getTeamSize() <= 5 then 
+	if hasItem("HM03 - Surf") and getTeamSize() <= 5 then 
 		if isPCOpen() then
 			if isCurrentPCBoxRefreshed() then
 				if getCurrentPCBoxSize() ~= 0 then
@@ -270,7 +247,7 @@ function ExpForElite4Kanto:PokecenterViridian()
 		else
 			return usePC()
 		end
-	elseif 	hasItem("Bicycle") and getTeamSize() == 6 and game.minTeamLevel() <= 47 and not dialogs.e4Done.state then
+	elseif 	hasItem("HM03 - Surf") and getTeamSize() == 6 and game.minTeamLevel() <= 47 and not dialogs.e4Done.state then
 	
 		if isPCOpen() then
 			if isCurrentPCBoxRefreshed() then
@@ -290,23 +267,20 @@ function ExpForElite4Kanto:PokecenterViridian()
 		end
 	elseif dialogs.e4Done.state and not game.hasPokemonWithMove("Surf") then
 		if isPCOpen() then
-			if isCurrentPCBoxRefreshed() then
-				if getCurrentPCBoxSize() ~= 0 then
-					for pokemon=1, getCurrentPCBoxSize() do
-						if getPokemonNameFromPC(getCurrentPCBoxId(),pokemon) == "Sentret" then
-							return swapPokemonFromPC(getCurrentPCBoxId(),pokemon,1) 
-						elseif getPokemonNameFromPC(getCurrentPCBoxId(),pokemon) == "Furret" then
-							return swapPokemonFromPC(getCurrentPCBoxId(),pokemon,1) 
-					
+						if isCurrentPCBoxRefreshed() then
+							if getCurrentPCBoxSize() ~= 0 then
+								for pokemon=1, getCurrentPCBoxSize() do
+									if getPokemonMoveNameFromPC(getCurrentPCBoxId(),pokemon,1) == "Surf" or getPokemonMoveNameFromPC(getCurrentPCBoxId(),pokemon,2) == "Surf" or getPokemonMoveNameFromPC(getCurrentPCBoxId(),pokemon,3) == "surf" or getPokemonMoveNameFromPC(getCurrentPCBoxId(),pokemon,4) == "surf" then
+										log("Pokemon with surf found in pc")
+										return swapPokemonFromPC(getCurrentPCBoxId(),pokemon,5)
+									end
+								end
+							end
+						else
+							return
 						end
-					end
-					return openPCBox(getCurrentPCBoxId()+1)
-				end
-			else
-				return
-			end
 		else
-			return usePC()
+				return usePC()
 		end
 	else 
 		return moveToMap("Viridian City")
