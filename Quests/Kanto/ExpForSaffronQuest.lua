@@ -66,8 +66,11 @@ function ExpForSaffronQuest:SeafoamB4F()
 		return talkToNpcOnCell(57,20)
 	elseif  getMoney() <= 55000 then
 		return moveToRectangle(50,10,62,32)
-	else
+	elseif hasItem("Escape Rope") then
 		useItem("Escape Rope")
+	else 
+		log("You dont have Escape Rope, go back to pokecenter manually")
+		fatal()
 	end
 end
 

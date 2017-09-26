@@ -120,7 +120,12 @@ end
 
 function PokeFluteQuest:PokemonTower7F()
 	if hasItem("Poke Flute") then
+		if hasItem("Escape Rope") then
 		return useItem("Escape Rope")
+		else
+		log("You dont have Escape Rope, go back to pokecenter manually")
+		fatal()
+		end
 	else
 		return talkToNpcOnCell(9,5) -- Fuji NPC - Give PokeFlute
 	end

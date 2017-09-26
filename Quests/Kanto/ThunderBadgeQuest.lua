@@ -219,8 +219,11 @@ end
 function ThunderBadgeQuest:Route2Stop3()
 	if not hasItem("HM05 - Flash") then
 		talkToNpcOnCell(6,5)
-	else 
+	elseif hasItem("Escape Rope") then
 		return useItem("Escape Rope")
+	else
+		log("You dont have Escape Rope, go back to pokecenter manually")
+		fatal()
 	end
 end
 
