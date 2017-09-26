@@ -255,7 +255,7 @@ function ThunderBadgeQuest:VermilionCity()
 		return moveToMap("Pokecenter Vermilion")
 	elseif hasItem("Rain Badge") and not hasItem("Thunder Badge") then
 		return moveToMap("Vermilion Gym")
-	elseif hasItem("Rain Badge") and getItemQuantity("Escape Rope") <= 15  then
+	elseif  getItemQuantity("Escape Rope") <= 4  then
 		return moveToMap("Vermilion Pokemart")
 	elseif  getItemQuantity("Pokeball") <= 19 and getMoney() >= 7000  then
 		return moveToMap("Vermilion Pokemart")
@@ -301,7 +301,13 @@ function ThunderBadgeQuest:Route11()
 end
 	
 function ThunderBadgeQuest:VermilionPokemart()
-	if  getItemQuantity("Pokeball") <= 20 and getMoney() >= 7000 then
+	if  getItemQuantity("Escape Rope") <= 4 and getMoney() >= 1500 then
+			if not isShopOpen() then 
+				return talkToNpcOnCell(3,5)
+			else
+				return buyItem("Escape Rope", 4)
+			end
+	elseif  getItemQuantity("Pokeball") <= 20 and getMoney() >= 7000 then
 			if not isShopOpen() then 
 				return talkToNpcOnCell(3,5)
 			else
