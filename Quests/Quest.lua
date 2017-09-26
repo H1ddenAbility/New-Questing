@@ -400,7 +400,7 @@ function Quest:wildBattle()
 	elseif 	 getTeamSize() == 6 and getUsablePokemonCount() == 5  and not hasPokemonInTeam("Zubat") and not hasPokemonInTeam("Ditto")  then
 			return relog(5,"Relogging...")
 	elseif getMapName() == "Route 8" and getTeamSize() <= 5 and getOpponentName() == "Ditto" and not hasPokemonInTeam("Ditto") then
-		if useItem("Ultra Ball") or useItem("Great Ball") or useItem("Pokeball")  or run() or sendAnyPokemon() then
+		if useItem("Ultra Ball") or useItem("Great Ball") or useItem("Pokeball") or relog(5,"Out of pokeball")  or run() or sendAnyPokemon() then
 			return true
 		end
 	elseif ( getMapName() == "Cinnabar mansion 2" or getMapName() == "Cinnabar mansion 1" ) and getOpponentName() == "Rattata" and isAlreadyCaught() == false then
