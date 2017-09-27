@@ -124,8 +124,6 @@ function CascadeBadgeQuest:Route25()
 		moveToGrass()
 	elseif hasItem("Nugget") then
 		return moveToMap("Item Maniac House") -- sell Nugget give $15.000
-	elseif self:needPokecenter() then
-		moveToCell(14, 30)
 	elseif isNpcOnCell(16, 27) then -- RocketGuy -> Give Nugget($15.000)
 		return talkToNpcOnCell(16, 27)
 	elseif not dialogs.billTicketDone.state then
