@@ -548,7 +548,7 @@ local hmMoves = {
 
 
 function Quest:learningMove(moveName, pokemonIndex)
-	return forgetAnyMoveExcept({"Leech Seed", "Shadow Ball", "Dark Pulse", "Surf", "Hex", "Air Slash", "Cut", "Acrobatics", "Poison Fang", "Dig", "Razor Leaf", "Sleep Powder",  "Petal Dance",}) 
+	return forgetAnyMoveExcept({"Leech Seed", "Shadow Ball", "Dark Pulse", "Surf", "Hex", "Air Slash", "Cut", "Acrobatics", "Poison Fang", "Dig", "Sleep Powder",  "Petal Dance",}) 
 end
 
 return Quest
