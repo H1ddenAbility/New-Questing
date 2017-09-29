@@ -163,6 +163,11 @@ function Quest:useBike()
 	else
 		disableAutoEvolve() 
 	end
+	if getTeamSize() >= 1 and  not self:isTrainingOver() then 
+		enableTrainerBattles()
+	else
+		disableTrainerBattles()
+	end
 end
 
 function Quest:startTraining()

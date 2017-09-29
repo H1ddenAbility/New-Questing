@@ -84,13 +84,13 @@ end
 
 
 function Quest:isTrainingOver()
-	if game.maxTeamLevel() >= self.level then
-		if self.training then -- end the training
-			self:stopTraining()
-		end
-		return true
-	end
-	return false
+ 	if game.maxTeamLevel() >= self.level then
+ 		if self.training then -- end the training
+ 			self:stopTraining()
+ 		end
+ 		return true
+ 	end
+ 	return false
 end
 
 function Quest:leftovers()
@@ -160,13 +160,20 @@ function Quest:useBikeAndOtherStuffs()
 		return disablePrivateMessage() 
 	end
 	if isTeamInspectionEnabled() then
-     return  disableTeamInspection() 
+		return  disableTeamInspection() 
+	end
+	if  getMapName() == "Route 6" or getMapName() == "Underground2" then 
+		disableTrainerBattles()
+	elseif getTeamSize() >= 1 and ( not self:isTrainingOver() or getMapName() == "Pewter Gym" or getMapName() == "Route 3" or getMapName() == "Cerulean Gym"  or getMapName() == "Route 25"   or getMapName() == "Mt. Moon B1F" )  then
+		enableTrainerBattles()
+	else
+		disableTrainerBattles()
 	end
 end
 
 function Quest:autoEvolve()
 	if getTeamSize() >= 1 and getPokemonLevel(1) <= 95 then 
-		if getPokemonLevel(1) >= 21 and getPokemonName(1) == ("Bulbasaur") then
+		if getPokemonLevel(1) >= 22 and getPokemonName(1) == ("Bulbasaur") then
 			enableAutoEvolve()
 		elseif getPokemonLevel(1) >= 31 and getPokemonName(1) == ("Ivysaur") then
 			enableAutoEvolve()
@@ -367,9 +374,9 @@ function Quest:wildBattle()
 	elseif sys.canRun == false then
 		sys.canRun = true
 		return  attack()  or run() or sendAnyPokemon()
-	elseif not  hasItem("HM05 - Flash") and not isAlreadyCaught() and not hasItem("Thunder Badge") and ( getOpponentLevel() <  game.maxTeamLevel() ) then
-		if getOpponentHealth() > 40 then
-			return useMove("Dragon Rage") or  useItem("Pokeball") or attack() or run() or sendAnyPokemon()
+	elseif getPokedexOwned() <= 10 and not isAlreadyCaught() and ( getOpponentLevel() <  game.maxTeamLevel() ) and game.maxTeamLevel() >= 10 and hasItem("Pokeball") and getMapName() ~= "Mt. Moon B1F" and getMapName() ~= "Mt. Moon B2F" then
+		if getOpponentHealthPercent() == 100 and getOpponentName() ~= "Paras" then
+			return useMove("Leech Seed") or  useItem("Pokeball") or attack() or run() or sendAnyPokemon()
 		else
 			return useItem("Ultra Ball") or useItem("Great Ball") or useItem("Pokeball") or attack() or run() or sendAnyPokemon()
 		end
@@ -389,16 +396,18 @@ function Quest:wildBattle()
 		else
 			return useMove("Acrobatics") or attack()  or sendUsablePokemon() or run() or sendAnyPokemon()
 		end
-	elseif 	 getTeamSize() == 2 and getUsablePokemonCount() == 1 and  getTeamSize() >=2 and not hasPokemonInTeam("Zubat") and not hasPokemonInTeam("Ditto")  then
+	elseif 	 getTeamSize() == 2 and getUsablePokemonCount() <= 1  and not hasItem("Earth Badge") and not hasPokemonInTeam("Ditto") and getMapName() ~= "Viridian Forest"  then
 			return relog(5,"Relogging...")
-	elseif 	 getTeamSize() == 3 and getUsablePokemonCount() == 2  and not hasPokemonInTeam("Zubat") and not hasPokemonInTeam("Ditto")  then
+	elseif 	 getTeamSize() == 3 and getUsablePokemonCount() <= 2  and not hasItem("Earth Badge") and not hasPokemonInTeam("Ditto")  then
 			return relog(5,"Relogging...")
-	elseif 	 getTeamSize() == 4 and getUsablePokemonCount() == 3  and not hasPokemonInTeam("Zubat") and not hasPokemonInTeam("Ditto")  then
+	elseif 	 getTeamSize() == 4 and getUsablePokemonCount() <= 3  and not hasItem("Earth Badge") and not hasPokemonInTeam("Ditto")  then
 			return relog(5,"Relogging...")
-	elseif 	 getTeamSize() == 5 and getUsablePokemonCount() == 4  and not hasPokemonInTeam("Zubat") and not hasPokemonInTeam("Ditto")  then
+	elseif 	 getTeamSize() == 5 and getUsablePokemonCount() <= 4  and not hasItem("Earth Badge") and not hasPokemonInTeam("Ditto")  then
 			return relog(5,"Relogging...")
-	elseif 	 getTeamSize() == 6 and getUsablePokemonCount() == 5  and not hasPokemonInTeam("Zubat") and not hasPokemonInTeam("Ditto")  then
+	elseif 	 getTeamSize() == 6 and getUsablePokemonCount() <= 5  and not hasItem("Earth Badge") and not hasPokemonInTeam("Ditto")  then
 			return relog(5,"Relogging...")
+	elseif game.maxTeamLevel() <= 10 and getMapName() == "Viridian Forest" then
+		return run() or sendUsablePokemon() or sendAnyPokemon()or attack()
 	elseif getMapName() == "Route 8" and getTeamSize() <= 5 and getOpponentName() == "Ditto" and not hasPokemonInTeam("Ditto") then
 		if useItem("Ultra Ball") or useItem("Great Ball") or useItem("Pokeball") or relog(5,"Out of pokeball")  or run() or sendAnyPokemon() then
 			return true
@@ -443,12 +452,10 @@ function Quest:wildBattle()
 		relog(5,"Relogging...")
 	elseif getMapName() == "Route 18" then
 		return  attack()  or relog(5,"Relogging...") or run() or sendAnyPokemon()
-	--elseif game.maxTeamLevel() <= 10 and not game.hasPokemonWithMove("Dragon Rage") then
-	--	return run() or sendUsablePokemon() or sendAnyPokemon()or attack()
 	elseif self:isTrainingOver() then
 		return run() or sendUsablePokemon() or sendAnyPokemon()or attack()
 	--elseif getOpponentName() == "Snubbull" then
-	--	return run() or sendUsablePokemon() or sendAnyPokemon()or attack()
+		--return run() or sendUsablePokemon() or sendAnyPokemon()or attack()
 	else
 		return  attack()  or sendUsablePokemon() or run() or sendAnyPokemon()
 	end
@@ -459,16 +466,26 @@ function Quest:trainerBattle()
 	-- attacks, then we cannot use the non damaging ones to continue.
 	if not self.canRun then -- trying to switch while a pokemon is squeezed end up in an infinity loop
 		return useMove("Acrobatics") or attack() or game.useAnyMove()
-	elseif getMapName() == "Vermilion Gym" then
-		return attack() or sendUsablePokemon() or sendAnyPokemon() -- or game.useAnyMove()
 	elseif getMapName() == "Mt. Moon B2F" then	
-		if getOpponentHealthPercent() == 100 then
+		if getOpponentName() == "Zubat" then
+			return attack() or sendUsablePokemon() or sendAnyPokemon()
+		elseif getOpponentHealthPercent() == 100 then
 			return useMove("Leech Seed") or attack() or sendUsablePokemon() or sendAnyPokemon()
 		else	
 			return attack() or sendUsablePokemon() or sendAnyPokemon()
 		end
+	elseif getMapName() == "Cerulean Gym" or getMapName() == "Pewter Gym" then	
+		if getOpponentStatus() ~= "SLEEP" and  getOpponentHealthPercent() == 100  then 
+			return  useMove("Sleep Powder") or attack() or sendUsablePokemon() or sendAnyPokemon() or useMove("Struggle") or relog(5,"relog") -- or game.useAnyMove()
+		else
+			return attack() or sendUsablePokemon() or sendAnyPokemon() or useMove("Struggle") or relog(5,"relog") -- or game.useAnyMove()
+		end
 	else
-		return useMove("Dragon Rage") or useMove("Acrobatics") or attack() or sendUsablePokemon() or sendAnyPokemon() or useMove("Struggle") or relog(5,"relog") -- or game.useAnyMove()
+		if getOpponentHealth() <= 80 and getMapName() ~= "Vermilion Gym"  then
+			return useMove("Dragon Rage") or useMove("Acrobatics") or attack() or sendUsablePokemon() or sendAnyPokemon() or useMove("Struggle") or relog(5,"relog") -- or game.useAnyMove()
+		else
+			return  useMove("Acrobatics") or attack() or sendUsablePokemon() or sendAnyPokemon() or useMove("Struggle") or relog(5,"relog") -- or game.useAnyMove()
+		end
 	end
 end
 
@@ -531,7 +548,7 @@ local hmMoves = {
 
 
 function Quest:learningMove(moveName, pokemonIndex)
-	return forgetAnyMoveExcept({"Leech Seed", "Shadow Ball", "Dark Pulse", "Surf", "Hex", "Air Slash", "Cut", "Acrobatics", "Poison Fang",}) 
+	return forgetAnyMoveExcept({"Leech Seed", "Shadow Ball", "Dark Pulse", "Surf", "Hex", "Air Slash", "Cut", "Acrobatics", "Poison Fang", "Dig", "Razor Leaf", "Sleep Powder",  "Petal Dance",}) 
 end
 
 return Quest

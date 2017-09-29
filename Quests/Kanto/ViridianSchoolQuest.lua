@@ -55,9 +55,7 @@ function ViridianSchoolQuest:Route1StopHouse()
 	return moveToMap("Viridian City")
 end
 
-function ViridianSchoolQuest:Route2()
-	return moveToGrass()
-end
+
 
 function ViridianSchoolQuest:ViridianCity()
 	if not game.isTeamFullyHealed() or self.registeredPokecenter ~= "Pokecenter Viridian" then
@@ -73,6 +71,9 @@ function ViridianSchoolQuest:ViridianCity()
 	end
 end
 
+function ViridianSchoolQuest:Route2()
+	return moveToGrass()
+end
 
 function ViridianSchoolQuest:PokecenterViridian()
 	if game.minTeamLevel() >= 90 and getTeamSize() == 6 and not game.hasPokemonWithMove("Surf") then

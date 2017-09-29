@@ -25,21 +25,18 @@ function BoulderBadgeQuest:isDoable()
 end
 
 function BoulderBadgeQuest:isDone()
-	return getMapName() == "Pokecenter Route 3"
+	return getMapName() == "Pokecenter Route 3" or getMapName() == "Viridian City" or getMapName() == "Pokecenter Viridian"
 end
 
--- in case of black out
-function BoulderBadgeQuest:PokecenterViridian()
-	return moveToMap("Viridian City")
-end
 
-function BoulderBadgeQuest:ViridianCity()
-	return moveToMap("Route 2")
-end
 
 function BoulderBadgeQuest:Route2()
 	if game.inRectangle(0, 90, 24, 130) then
-		return moveToMap("Route 2 Stop")
+		if  not game.isTeamFullyHealed() then
+			return moveToMap("Viridian City")
+		else
+			return moveToMap("Route 2 Stop")
+		end
 	elseif game.inRectangle(0, 0, 28, 42) then
 		self:route2Up()
 	else
@@ -52,7 +49,7 @@ function BoulderBadgeQuest:Route2Stop()
 end
 
 function BoulderBadgeQuest:ViridianForest()
-	    moveToMap("Route 2 Stop2")
+  	moveToMap("Route 2 Stop2")
 end
 
 function BoulderBadgeQuest:ViridianMaze()
@@ -61,6 +58,8 @@ function BoulderBadgeQuest:ViridianMaze()
 		return talkToNpcOnCell(199,32)
 	elseif hasItem("TM23")then 
 		return useItemOnPokemon("TM23", 1)
+	elseif isNpcOnCell(186,52) then
+		return talkToNpcOnCell(186,52)
 	else 
 		return moveToMap("Viridian Forest")
 	end
@@ -81,15 +80,14 @@ function BoulderBadgeQuest:route2Up()
 end
 
 function BoulderBadgeQuest:PewterCity()
-	self.level = 13
 	if isNpcOnCell(23,22) then
 		talkToNpcOnCell(23,22)
 	elseif self.registeredPokecenter ~= "Pokecenter Pewter" or not game.isTeamFullyHealed() then
 		return moveToMap("Pokecenter Pewter")
-	elseif not self:isTrainingOver() then
-		return moveToMap("Route 2")
 	elseif self:needPokemart() then
 		return moveToMap("Pewter Pokemart")
+	elseif not self:isTrainingOver() then
+		return moveToMap("Route 2")
 	elseif self:isTrainingOver() and not hasItem("Boulder Badge") then
 		return moveToMap("Pewter Gym")
 	else
@@ -98,8 +96,8 @@ function BoulderBadgeQuest:PewterCity()
 end
 
 function BoulderBadgeQuest:PewterGym()
-	if hasItem("Boulder Badge") then
-		sys.todo("BoulderBadgeQuest::PewterGym(): buy the TM")
+	self.level = 13
+	if hasItem("Boulder Badge") or  not game.isTeamFullyHealed() then
 		return moveToMap("Pewter City")
 	else
 		return talkToNpcOnCell(7,5)
@@ -111,16 +109,26 @@ function BoulderBadgeQuest:Route3()
 end
 
 function BoulderBadgeQuest:PokecenterPewter()
-	if  getTeamSize() >=2 and not hasItem("HM03 - Surf") then
-				if isPCOpen() then
-					if isCurrentPCBoxRefreshed() then
-							return depositPokemonToPC(2)
-					else
-						return
-					end
-				else
-					return usePC()
-				end
+	if   getPokemonName(1) ~= "Bulbasaur" and getPokemonName(1) ~= "Ivysaur"  and not hasItem("Boulder Badge")  then
+		if isPCOpen() then
+			if isCurrentPCBoxRefreshed() then
+				return depositPokemonToPC(1)
+			else
+				return
+			end
+		else
+			return usePC()
+		end
+	elseif  getTeamSize() >=2 and not hasItem("HM03 - Surf") then
+		if isPCOpen() then
+			if isCurrentPCBoxRefreshed() then
+				return depositPokemonToPC(2)
+			else
+				return
+			end
+		else
+			return usePC()
+		end
 				
 	else
 		self:pokecenter("Pewter City")

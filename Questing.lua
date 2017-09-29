@@ -4,7 +4,7 @@
 -- as published by Sam Hocevar. See the COPYING file for more details.
 
 name = "Questing"
-author = "g0ld"
+author = "H1ddenability-Blissey"
 description = [[Everything.]]
 
 dofile "config.lua"

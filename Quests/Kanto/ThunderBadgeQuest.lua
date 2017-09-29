@@ -228,7 +228,9 @@ function ThunderBadgeQuest:Route2Stop3()
 end
 
 function ThunderBadgeQuest:PokecenterVermilion()
-	if  getTeamSize() >=2 and not hasItem("HM03 - Surf") then
+	if  not game.isTeamFullyHealed() then
+		return usePokecenter()
+	elseif  getTeamSize() >=2 and not hasItem("HM03 - Surf") then
 				if isPCOpen() then
 					if isCurrentPCBoxRefreshed() then
 							return depositPokemonToPC(2)
@@ -380,10 +382,8 @@ end
 
 function ThunderBadgeQuest:VermilionGym()
 	self.level = 31
-	if self:needPokecenter() or not game.isTeamFullyHealed() or not self.registeredPokecenter == "Pokecenter Vermilion" then
+	if not game.isTeamFullyHealed() then
  		return moveToMap("Vermilion City")
-	elseif not self:isTrainingOver() and not hasItem("Thunder Badge") then
-		return moveToMap("Vermilion City")-- Go to Route 6 and Leveling
 	else
 		if hasItem("Thunder Badge") then
 			return moveToMap("Vermilion City")

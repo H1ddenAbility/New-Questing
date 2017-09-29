@@ -13,7 +13,7 @@ local Dialog = require "Quests/Dialog"
 
 local name        = 'Mt. Moon Fossil'
 local description = 'from Route 3 to Cerulean City'
-local level       = 22
+local level       = 23
 
 local dialogs = {
 	fossileGuyBeaten = Dialog:new({
@@ -111,7 +111,17 @@ function MoonFossilQuest:Route4()
 end
 
 function MoonFossilQuest:PokecenterRoute3()
-	if  getTeamSize() >=2 and not hasItem("HM03 - Surf") then
+	if    getPokemonName(1) ~= "Bulbasaur" and getPokemonName(1) ~= "Ivysaur"   and  not hasItem("HM05 - Flash")  then
+		if isPCOpen() then
+			if isCurrentPCBoxRefreshed() then
+				return depositPokemonToPC(1)
+			else
+				return
+			end
+		else
+			return usePC()
+		end
+	elseif  getTeamSize() >=2 and not hasItem("HM03 - Surf") then
 				if isPCOpen() then
 					if isCurrentPCBoxRefreshed() then
 							return depositPokemonToPC(2)

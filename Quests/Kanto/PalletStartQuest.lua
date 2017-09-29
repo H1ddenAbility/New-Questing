@@ -17,7 +17,7 @@ local dialogs = {
 	}),
 	oak = Dialog:new({
 		"but you can have one",
-		"which pokemon do you want"
+		"which pokemon do you want"				
 	}),
 	bulbasaur = Dialog:new({
 		"grass type Pokemon Bulbasaur",
@@ -27,6 +27,12 @@ local dialogs = {
 	}),
 	squirtle = Dialog:new({
 		"water type Pokemon Squirtle",
+	}),
+	eevee = Dialog:new({
+		"wonder what's with that Eevee",
+	}),
+	jackson = Dialog:new({
+		"if you managed a good fight in this instance",
 	})
 }
 
@@ -77,6 +83,10 @@ function PalletStartQuest:PalletTown()
 		return moveToMap("Oaks Lab")
 	elseif not hasItem("Pokeball") then
 		return moveToMap("Player House Pallet")
+	elseif self.dialogs.jackson.state == true then
+		return moveToMap("Route 1")
+	elseif self.dialogs.eevee.state == true and not isNpcVisible("Jackson") then
+		return relog(5,"relogging")
 	else
 		if isNpcVisible("#133") then
 			return talkToNpc("#133")

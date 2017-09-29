@@ -45,6 +45,7 @@ function CascadeBadgeQuest:isDone()
 end
 
 function CascadeBadgeQuest:CeruleanCity()
+	self.level = 24
 	if self:needPokecenter() or self.registeredPokecenter ~= "Pokecenter Cerulean" or not game.isTeamFullyHealed() then
 		return moveToMap("Pokecenter Cerulean")
 	elseif self:needPokemart() then
@@ -77,7 +78,17 @@ function CascadeBadgeQuest:CeruleanPokemart()
 end
 
 function CascadeBadgeQuest:PokecenterCerulean()
-	if  getTeamSize() >=2 and not hasItem("HM03 - Surf") then
+	if    getPokemonName(1) ~= "Bulbasaur" and getPokemonName(1) ~= "Ivysaur"   and not hasItem("Cascade Badge")  then
+		if isPCOpen() then
+			if isCurrentPCBoxRefreshed() then
+				return depositPokemonToPC(1)
+			else
+				return
+			end
+		else
+			return usePC()
+		end
+	elseif  getTeamSize() >=2 and not hasItem("HM03 - Surf") then
 				if isPCOpen() then
 					if isCurrentPCBoxRefreshed() then
 							return depositPokemonToPC(2)
@@ -154,8 +165,7 @@ function CascadeBadgeQuest:ItemManiacHouse() -- sell nugget
 end
 
 function CascadeBadgeQuest:CeruleanGym() -- get Cascade Badge
-	self.level = 23
-	if self:needPokecenter() or hasItem("Cascade Badge") then
+	if not game.isTeamFullyHealed() or hasItem("Cascade Badge") then
 		return moveToMap("Cerulean City")
 	else
 		return talkToNpcOnCell(10, 6)
