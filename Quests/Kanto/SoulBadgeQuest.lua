@@ -360,7 +360,7 @@ function SoulBadgeQuest:Route19()
 				self.pokemonId = self.pokemonId + 1
 				return
 			else
-				return useItemOnPokemon("HM03 - Surf", 2)
+				return useItemOnPokemon("HM03 - Surf", 3)
 			end
 		end 
 	else
