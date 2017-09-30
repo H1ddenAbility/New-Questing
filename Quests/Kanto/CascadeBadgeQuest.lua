@@ -78,16 +78,8 @@ function CascadeBadgeQuest:CeruleanPokemart()
 end
 
 function CascadeBadgeQuest:PokecenterCerulean()
-	if    getPokemonName(1) ~= "Bulbasaur" and getPokemonName(1) ~= "Ivysaur"   and not hasItem("Cascade Badge")  then
-		if isPCOpen() then
-			if isCurrentPCBoxRefreshed() then
-				return depositPokemonToPC(1)
-			else
-				return
-			end
-		else
-			return usePC()
-		end
+	if  not game.isTeamFullyHealed() then
+		return usePokecenter()
 	elseif  getTeamSize() >=2 and not hasItem("HM03 - Surf") then
 				if isPCOpen() then
 					if isCurrentPCBoxRefreshed() then

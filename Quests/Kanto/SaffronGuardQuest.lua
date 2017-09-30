@@ -30,7 +30,7 @@ function SaffronGuardQuest:isDoable()
 end
 
 function SaffronGuardQuest:isDone()
-	if getMapName() == "Viridian City" or getMapName() == "Pokecenter Fuchsia" then --Fix Blackout
+	if getMapName() == "Viridian City" or getMapName() == "Pokecenter Fuchsia" or getMapName() == "Route 6" then --Fix Blackout
 		return true
 	end
 	return false
@@ -81,7 +81,11 @@ function SaffronGuardQuest:VermilionPokemart()
 end
 
 function SaffronGuardQuest:VermilionCity()
+	if hasItem("Bike Voucher") then 
+		return moveToMap("Route 6")
+	else
 		return moveToMap("Route 11")
+	end
 end
 
 function SaffronGuardQuest:Route2()
