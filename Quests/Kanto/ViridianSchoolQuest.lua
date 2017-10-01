@@ -84,12 +84,10 @@ function ViridianSchoolQuest:PokecenterViridian()
 									if getPokemonMoveNameFromPC(getCurrentPCBoxId(),pokemon,1) == "Surf" or getPokemonMoveNameFromPC(getCurrentPCBoxId(),pokemon,2) == "Surf" or getPokemonMoveNameFromPC(getCurrentPCBoxId(),pokemon,3) == "surf" or getPokemonMoveNameFromPC(getCurrentPCBoxId(),pokemon,4) == "surf" then
 										log("Pokemon with surf found in pc")
 										return swapPokemonFromPC(getCurrentPCBoxId(),pokemon,5)
-									else
-										log("No Pokemon with surf found in pc")
-										fatal()
 									end
 								end
 							end
+							return openPCBox(getCurrentPCBoxId()+1)
 						else
 							return
 						end

@@ -374,7 +374,7 @@ function Quest:wildBattle()
 	elseif sys.canRun == false then
 		sys.canRun = true
 		return  attack()  or run() or sendAnyPokemon()
-	elseif getPokedexOwned() <= 10 and not isAlreadyCaught() and ( getOpponentLevel() <  game.maxTeamLevel() ) and game.maxTeamLevel() >= 10 and hasItem("Pokeball") and getMapName() ~= "Mt. Moon B1F" and getMapName() ~= "Mt. Moon B2F" then
+	elseif getPokedexOwned() <= 10 and not isAlreadyCaught() and ( getOpponentLevel() <  game.maxTeamLevel() ) and game.maxTeamLevel() >= 10 and hasItem("Pokeball") and getMapName() ~= "Mt. Moon B1F" and getMapName() ~= "Mt. Moon B2F" and getOpponentName() ~= "Rattata" then
 		if getOpponentHealthPercent() == 100 and getOpponentName() ~= "Paras" then
 			return useMove("Leech Seed") or  useItem("Pokeball") or attack() or run() or sendAnyPokemon()
 		else
