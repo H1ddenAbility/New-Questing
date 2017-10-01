@@ -70,7 +70,7 @@ function GoldenrodCityQuest:isDoable()
 end
 
 function GoldenrodCityQuest:isDone()
-	if getMapName() == "Goldenrod City" and not isNpcOnCell(50,34)  then
+	if getMapName() == "Goldenrod City" and not isNpcOnCell(50,34) and  hasPokemonInTeam("Oddish") then
 		return true
 	end
 	return false
