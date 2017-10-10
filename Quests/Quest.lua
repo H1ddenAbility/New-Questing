@@ -422,7 +422,7 @@ function Quest:wildBattle()
 			return  attack() or relog(5,"Relogging...")  or sendUsablePokemon() or run() or sendAnyPokemon()
 	elseif getMapName() == "Route 15" then
 		if getOpponentName() == "Pidgey" or getOpponentName() == "Pidgeotto" then
-			return useMove("Dark Pulse") or run() or relog(5,"Relogging...")
+			return useMove("Thunderbolt") or run() or relog(5,"Relogging...")
 		else
 			if game.maxTeamLevel() <= 29 then
 				return useMove("Night Shade") or attack()  or relog(5,"Relogging...") or run() or sendAnyPokemon()
@@ -548,7 +548,7 @@ local hmMoves = {
 
 
 function Quest:learningMove(moveName, pokemonIndex)
-	return forgetAnyMoveExcept({"Leech Seed", "Shadow Ball", "Dark Pulse", "Surf", "Hex", "Air Slash", "Cut", "Acrobatics", "Poison Fang", "Dig", "Sleep Powder",  "Petal Dance",}) 
+	return forgetAnyMoveExcept({"Leech Seed", "Shadow Ball", "Dark Pulse", "Surf", "Hex", "Air Slash", "Cut", "Acrobatics", "Poison Fang", "Thunderbolt", "Sleep Powder",  "Petal Dance",}) 
 end
 
 return Quest

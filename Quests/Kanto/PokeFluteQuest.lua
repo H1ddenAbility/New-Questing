@@ -77,6 +77,8 @@ end
 function PokeFluteQuest:PokemonTower2F()
 	if not hasPokemonInTeam("Gastly") and getTeamSize() <= 5 then
 		return moveToRectangle(7,8,15,9)
+	elseif hasPokemonInTeam("Gastly") and not game.hasPokemonWithMove("Thunderbolt") and hasItem("TM24") then
+		return useItemOnPokemon("TM24", 1)
 	else
 		return moveToMap("Pokemon Tower 3F")
 	end

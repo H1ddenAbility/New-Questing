@@ -382,11 +382,15 @@ end
 
 function ThunderBadgeQuest:VermilionGym()
 	self.level = 31
-	if not game.isTeamFullyHealed() then
+	if not game.isTeamFullyHealed() and not hasItem("Thunder Badge") then
  		return moveToMap("Vermilion City")
 	else
 		if hasItem("Thunder Badge") then
-			return moveToMap("Vermilion City")
+			if not hasItem("TM24") then
+				return talkToNpcOnCell(10,20)
+			else
+				return moveToMap("Vermilion City")
+			end
 		else
 			if not isNpcOnCell(6, 10) then
 				return talkToNpcOnCell(6,4)
