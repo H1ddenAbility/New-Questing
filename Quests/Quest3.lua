@@ -154,20 +154,12 @@ function Quest:useBike()
 	if isPrivateMessageEnabled() then
 		return disablePrivateMessage() 
 	end
-	if isTeamInspectionEnabled() then
-     return  disableTeamInspection() 
-	end
 	if getTeamSize() >= 1 and getPokemonLevel(1) >= 44 and getPokemonName(1) == "Totodile"  then 
 		enableAutoEvolve()
 	elseif getTeamSize() >= 1 and getPokemonLevel(1) >= 90 and getPokemonName(1) == "Croconaw" then
 		enableAutoEvolve()
 	else
 		disableAutoEvolve() 
-	end
-	if getTeamSize() >= 1 and  not self:isTrainingOver() then 
-		enableTrainerBattles()
-	else
-		disableTrainerBattles()
 	end
 end
 

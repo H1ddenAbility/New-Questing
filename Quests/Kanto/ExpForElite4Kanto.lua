@@ -181,7 +181,7 @@ function ExpForElite4Kanto:Route22()
 		return moveToMap("Link")
 	elseif hasItem("HM03 - Surf") and getTeamSize() <=5 then 
 		return moveToMap("Viridian City") 
-	elseif hasItem("HM03 - Surf") and game.minTeamLevel() <= 47 and game.maxTeamLevel() <= 86 then
+	elseif hasItem("HM03 - Surf") and game.minTeamLevel() <= 47 and game.maxTeamLevel() <= 96 then
 		return moveToMap("Viridian City") 
 	elseif hasItem("HM03 - Surf") and dialogs.leagueKantoNotDone.state then
 		return moveToMap("Link")
@@ -201,9 +201,9 @@ function ExpForElite4Kanto:ViridianCity()
 		return moveToMap("Route 22")
 	elseif   dialogs.leagueKantoNotDone.state and not hasItem("HM03 - Surf")  then
 		return moveToMap("Route 22") 
-	elseif hasItem("HM03 - Surf") and getTeamSize() <=5 and game.maxTeamLevel() <= 86 then
+	elseif hasItem("HM03 - Surf") and getTeamSize() <=5 and game.maxTeamLevel() <= 96 then
 		return moveToMap("Pokecenter Viridian")
-	elseif hasItem("HM03 - Surf") and getTeamSize() ==6 and game.minTeamLevel() <= 47 and game.maxTeamLevel() <= 86 then
+	elseif hasItem("HM03 - Surf") and getTeamSize() ==6 and game.minTeamLevel() <= 47 and game.maxTeamLevel() <= 96 then
 		return moveToMap("Pokecenter Viridian")
 	else 
 		return moveToMap("Route 22") 

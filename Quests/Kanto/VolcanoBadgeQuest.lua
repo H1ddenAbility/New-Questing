@@ -134,6 +134,7 @@ end
 
 function VolcanoBadgeQuest:SeafoamB3F()
 	if not self:isTrainingOver() then
+		log("Training until "..self.level .."Lv")
 		return moveToCell(57,26) --Seafom B4F
 	else
 		return moveToCell(64,16)
