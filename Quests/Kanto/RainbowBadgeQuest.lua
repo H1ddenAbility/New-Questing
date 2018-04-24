@@ -39,7 +39,7 @@ function RainbowBadgeQuest:isDoable()
 end
 
 function RainbowBadgeQuest:isDone()
-	if hasItem("Rainbow Badge") and getMapName() == "Saffron City" then
+	if hasItem("Rainbow Badge") and getMapName() == "Saffron City" or getMapName() == "Underground House 3" then
 		return true
 	else
 		return false
@@ -92,6 +92,9 @@ function RainbowBadgeQuest:Route18()
 end
 
 function RainbowBadgeQuest:PokecenterCeladon()
+	if getTeamSize() >= 2 and getPokemonName(1) == "Gyarados" and getRemainingPowerPoints(1, "Aqua Tail") <= 9 then
+		return talkToNpcOnCell(9,15)
+	end
 	self:pokecenter("Celadon City")
 end
 
@@ -99,7 +102,7 @@ function RainbowBadgeQuest:Route7()
 	if self:needPokecenter() or not game.isTeamFullyHealed() or not self.registeredPokecenter == "Pokecenter Celadon" then
 		return moveToMap("Celadon City")
 	elseif hasItem("Rainbow Badge")  then
-		return moveToMap("Route 7 Stop House")
+		return moveToMap("Underground House 3")
 	else
 		return moveToMap("Celadon City")
 	end

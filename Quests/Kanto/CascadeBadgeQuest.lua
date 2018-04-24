@@ -10,7 +10,7 @@ local Dialog = require "Quests/Dialog"
 
 local name        = 'Cascade Badge Quest'
 local description = 'From Cerulean to Route 5'
-local level       = 24
+local level       = 39
 
 local dialogs = {
 	billTicketDone = Dialog:new({
@@ -20,6 +20,9 @@ local dialogs = {
 	bookPillowDone = Dialog:new({
 		"Oh! Looks like Bill's research book is under his pillow.",
 		"There is nothing else here..."
+	}),
+	relearnMove = Dialog:new({
+		"a Pokemon you wish to re-learn moves",
 	})
 }
 
@@ -45,13 +48,25 @@ function CascadeBadgeQuest:isDone()
 end
 
 function CascadeBadgeQuest:CeruleanCity()
-	self.level = 24
 	if self:needPokecenter() or self.registeredPokecenter ~= "Pokecenter Cerulean" or not game.isTeamFullyHealed() then
 		return moveToMap("Pokecenter Cerulean")
 	elseif self:needPokemart() then
 		return moveToMap("Cerulean Pokemart")
+	elseif not hasItem("Cascade Badge") and getTeamSize() >= 2 and  hasPokemonInTeam("Gyarados") and  ( not game.hasPokemonWithMove("Ice Fang") or not game.hasPokemonWithMove("Aqua Tail") or not game.hasPokemonWithMove("Bite") ) and getMoney() > 2000 then
+		if not isRelearningMoves then
+			pushDialogAnswer(1)
+			return talkToNpcOnCell(25, 11)
+		elseif not game.hasPokemonWithMove("Ice Fang") then
+			return relearnMove("Ice Fang")
+		elseif not game.hasPokemonWithMove("Aqua Tail") then
+			return relearnMove("Aqua Tail")
+		elseif not game.hasPokemonWithMove("Bite") then
+			return relearnMove("Bite")	
+		else 
+			log("eror")
+		end
 	elseif  not self:isTrainingOver() then
-		return moveToCell(39,0)-- Route 24 Bridge
+		return moveToCell(0,20)-- Route 4
 	elseif self:isTrainingOver() and not hasItem("Cascade Badge") then
 		return moveToMap("Cerulean Gym")
 	elseif not dialogs.billTicketDone.state then
@@ -67,6 +82,7 @@ end
 
 function CascadeBadgeQuest:CeruleanHouse6()
 	if not hasItem("TM28") then
+		log("this TM is for hoenn quest, dont use it before.")
 		return talkToNpcOnCell(9,8)
 	else 
 		moveToMap("Cerulean City")
@@ -78,19 +94,18 @@ function CascadeBadgeQuest:CeruleanPokemart()
 end
 
 function CascadeBadgeQuest:PokecenterCerulean()
-	if  not game.isTeamFullyHealed() then
-		return usePokecenter()
-	elseif  getTeamSize() >=2 and not hasItem("HM03 - Surf") then
+	if  getTeamSize() >=3 and not hasItem("HM03 - Surf") then
 				if isPCOpen() then
 					if isCurrentPCBoxRefreshed() then
-							return depositPokemonToPC(2)
+							return depositPokemonToPC(3)
 					else
 						return
 					end
 				else
 					return usePC()
 				end
-				
+	elseif  not game.isTeamFullyHealed() then
+		return usePokecenter()
 	else
 		self:pokecenter("Cerulean City")
 	end
@@ -98,8 +113,8 @@ end
 
 
 function CascadeBadgeQuest:Route24Bridge()
-	if not self:isTrainingOver() then
-		return moveToCell(14,0)
+	if not isPokemonUsable(2) or   ( hasMove(1, "Dragon Rage") and getRemainingPowerPoints(1, "Dragon Rage") == 0 ) or ( hasMove(1, "Hydro Pump") and getRemainingPowerPoints(1, "Hydro Pump") == 0 )  or ( hasMove(1, "Bounce")  and  getRemainingPowerPoints(1, "Bounce") == 0 )   then
+		return moveToCell(14,31)
 	elseif  not dialogs.billTicketDone.state then
 		return moveToCell(14,0)
 	else
@@ -107,9 +122,20 @@ function CascadeBadgeQuest:Route24Bridge()
 	end
 end
 
+function CascadeBadgeQuest:Route4()
+	if not self:isTrainingOver() then
+		return moveToGrass()
+	else 	
+		return moveToMap("Cerulean City") 
+	end
+end
+
 function CascadeBadgeQuest:Route24Grass()
-	
-		return moveToCell(8,0)
+	if not self:isTrainingOver() then
+		return moveToGrass()
+	else 	
+		return moveToMap("Route 25") 
+	end
 end
 
 function CascadeBadgeQuest:Route24()
@@ -123,9 +149,7 @@ function CascadeBadgeQuest:Route24()
 end
 
 function CascadeBadgeQuest:Route25()
-	if not self:isTrainingOver() then
-		moveToGrass()
-	elseif hasItem("Nugget") then
+	if hasItem("Nugget") then
 		return moveToMap("Item Maniac House") -- sell Nugget give $15.000
 	elseif isNpcOnCell(16, 27) then -- RocketGuy -> Give Nugget($15.000)
 		return talkToNpcOnCell(16, 27)

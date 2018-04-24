@@ -197,7 +197,7 @@ function templatequest:PokecenterEverGrandeCity()
 		else
 			return usePC()
 		end
-	elseif hasPokemonInTeam("Haunter") and getTeamSize() == 6 and getPokemonName(6) == ("Haunter") then 
+	elseif hasPokemonInTeam("Gyarados") and getTeamSize() == 6 and getPokemonName(6) == ("Gyarados") then 
 			if isPCOpen() then
 				if isCurrentPCBoxRefreshed() then
 					if getCurrentPCBoxSize() ~= 0 then

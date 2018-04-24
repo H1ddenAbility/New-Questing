@@ -37,6 +37,9 @@ local dialogs = {
 	}),
 	receptorEmpty = Dialog:new({ 
 		"there is nothing stored in this receptor",
+	}),
+	npcFound = Dialog:new({ 
+		"Intruder!!!",
 	})
 }
 
@@ -80,7 +83,7 @@ function RocketCeladonQuest:isDone()
 end
 
 function RocketCeladonQuest:Route7()
-		return moveToMap("Celadon City")
+	return moveToMap("Celadon City")
 end
 
 function RocketCeladonQuest:CeladonCity()
@@ -101,6 +104,9 @@ function RocketCeladonQuest:CeladonCity()
 end
 
 function RocketCeladonQuest:PokecenterCeladon()
+	if getTeamSize() >= 2 and getPokemonName(1) == "Gyarados" and getRemainingPowerPoints(1, "Aqua Tail") <= 9 then
+		return talkToNpcOnCell(9,15)
+	end
 	self:pokecenter("Celadon City")
 end
 
@@ -140,11 +146,7 @@ function RocketCeladonQuest:RocketHideoutB1F()
 		if  dialogs.releaseEeveeDone.state then
 			return moveToMap("Celadon Gamecorner Stairs")
 		elseif not hasItem("Card Key") then
-			if isNpcOnCell(24,12) then
-				return talkToNpcOnCell(24,12)
-			else
-				return moveToMap("Rocket Hideout B2F")
-			end
+			return moveToMap("Rocket Hideout B2F")
 		else
 			if dialogs.releaseEeveeDone.state or (self.b3f_ReceptorDone and self.b4f_ReceptorDone) then
 				return moveToMap("Celadon Gamecorner Stairs")

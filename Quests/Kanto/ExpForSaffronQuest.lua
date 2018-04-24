@@ -58,7 +58,8 @@ function ExpForSaffronQuest:SeafoamB2F()
 end
 
 function ExpForSaffronQuest:SeafoamB3F()
-		return moveToCell(57,26) --Seafom B4F
+	log("Training until 55000$")
+	return moveToCell(57,26) --Seafom B4F
 end
 
 function ExpForSaffronQuest:SeafoamB4F()

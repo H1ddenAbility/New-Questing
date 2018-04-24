@@ -184,36 +184,40 @@ end
 function ThunderBadgeQuest:Route6()
 	if hasItem("HM05 - Flash") and not hasItem("Rainbow Badge") then
 		return moveToMap("Underground House 2")
+	elseif isNpcOnCell(24,54) then
+		return talkToNpcOnCell(24,54)
 	else
 		return moveToMap("Vermilion City")
 	end
 end
 
-
+function ThunderBadgeQuest:VermilionCity2()
+	return talkToNpcOnCell(44,30)
+end
 
 function ThunderBadgeQuest:EasterPlateau()
-		return moveToMap("Vermilion City")
+	return moveToMap("Vermilion City")
 end
 
 function ThunderBadgeQuest:PokecenterEasterPlateau()
-		return moveToMap("Easter Plateau")
+	return moveToMap("Easter Plateau")
 end
 
 
 function ThunderBadgeQuest:DiglettsCaveEntrance2()
-		return moveToMap("Digletts Cave")
+	return moveToMap("Digletts Cave")
 end
 
 function ThunderBadgeQuest:DiglettsCave()
-		return moveToMap("Digletts Cave Entrance 1")
+	return moveToMap("Digletts Cave Entrance 1")
 end
 
 function ThunderBadgeQuest:DiglettsCaveEntrance1()
-		return moveToMap("Route 2")
+	return moveToMap("Route 2")
 end
 
 function ThunderBadgeQuest:Route2()
-		return moveToMap("Route 2 Stop3")
+	return moveToMap("Route 2 Stop3")
 end
 
 function ThunderBadgeQuest:Route2Stop3()
@@ -230,10 +234,10 @@ end
 function ThunderBadgeQuest:PokecenterVermilion()
 	if  not game.isTeamFullyHealed() then
 		return usePokecenter()
-	elseif  getTeamSize() >=2 and not hasItem("HM03 - Surf") then
+	elseif  getTeamSize() >=3 and not hasItem("HM03 - Surf") then
 				if isPCOpen() then
 					if isCurrentPCBoxRefreshed() then
-							return depositPokemonToPC(2)
+							return depositPokemonToPC(3)
 					else
 						return
 					end
@@ -253,7 +257,7 @@ function ThunderBadgeQuest:VermilionCity()
 		self.dialogs.surgeVision.state = true
 	end
 
-	if  self.registeredPokecenter ~= "Pokecenter Vermilion" or ( not game.isTeamFullyHealed() and not  hasPokemonInTeam("Ditto")  ) or ( getTeamSize() >= 2 and not hasItem("HM03 - Surf") ) then
+	if  self.registeredPokecenter ~= "Pokecenter Vermilion" or ( not game.isTeamFullyHealed() and not  hasPokemonInTeam("Ditto")  ) or ( getTeamSize() >= 3 and not hasItem("HM03 - Surf") ) then
 		return moveToMap("Pokecenter Vermilion")
 	elseif hasItem("Rain Badge") and not hasItem("Thunder Badge") then
 		return moveToMap("Vermilion Gym")
@@ -275,7 +279,7 @@ function ThunderBadgeQuest:VermilionCity()
 	elseif not hasItem("HM01 - Cut") then -- Need do SSanne Quest
 		return moveToCell(40, 67) -- Enter on SSAnne
 	elseif not game.hasPokemonWithMove("Cut") then
-		return useItemOnPokemon("HM01 - Cut", 1)
+		return useItemOnPokemon("HM01 - Cut", 2)
 	elseif not hasItem("Old Rod") then
 		return moveToMap("Fisherman House - Vermilion")
 	elseif not self:isTrainingOver() then

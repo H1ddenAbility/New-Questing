@@ -20,7 +20,7 @@ function HmFlashQuest:new()
 end
 
 function HmFlashQuest:isDoable()
-	if self:hasMap() and not hasItem("Rainbow Badge") and not hasItem("Soul Badge") then
+	if self:hasMap() and not hasItem("Rainbow Badge") and not hasItem("Soul Badge") and getMapName() ~= "Route 8" then
 		return true
 	end
 	return false
@@ -43,16 +43,16 @@ function HmFlashQuest:Route11()
 end
 
 function HmFlashQuest:DiglettsCaveEntrance2()
-		return moveToMap("Route 11")
+	return moveToMap("Route 11")
 end
 
 function HmFlashQuest:DiglettsCaveEntrance1()
-		return moveToMap("Digletts Cave")
+	return moveToMap("Digletts Cave")
 end
 
 function HmFlashQuest:DiglettsCave()
 	
-		return moveToMap("Digletts Cave Entrance 2")
+	return moveToMap("Digletts Cave Entrance 2")
 end
 
 function HmFlashQuest:PokecenterVermilion() -- BlackOut FIX
@@ -60,15 +60,19 @@ function HmFlashQuest:PokecenterVermilion() -- BlackOut FIX
 end
 
 function HmFlashQuest:VermilionCity()
-		return moveToMap("Route 6")
+	return moveToMap("Route 6")
 end
 
 function HmFlashQuest:Route6()
+	if isNpcOnCell(24,54) then
+		return talkToNpcOnCell(24,54)
+	else
 		return moveToMap("Route 6 Stop House")
+	end
 end
 
 function HmFlashQuest:Route6StopHouse()
-return moveToMap("Saffron City")
+	return moveToMap("Saffron City")
 end
 
 function HmFlashQuest:SaffronCity()

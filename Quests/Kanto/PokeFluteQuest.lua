@@ -16,7 +16,7 @@ local level = 3
 
 local dialogs = {
 	checkFujiHouse = Dialog:new({ 
-		"i should check out"
+		"acquire some knowledge from the townspeople"
 	}),
 	checkFujiNote = Dialog:new({
 		"go into that tower to check",
@@ -31,14 +31,14 @@ function PokeFluteQuest:new()
 end
 
 function PokeFluteQuest:isDoable()
-	if self:hasMap() and not hasItem("Soul Badge") then
+	if self:hasMap() and not hasItem("Soul Badge") and not hasItem("Poke Flute") then
 		return true
 	end
 	return false
 end
 
 function PokeFluteQuest:isDone()
-	if (hasItem("Poke Flute") and getMapName() == "Route 12") or getMapName() == "Pokecenter Celadon" then --FIX Blackout 
+	if (hasItem("Poke Flute") and getMapName() == "Route 12") or getMapName() == "Pokecenter Celadon"  or ( getMapName() == "Route 7" and not hasItem("Rainbow Badge") ) then --FIX Blackout 
 		return true
 	else
 		return false
@@ -46,7 +46,10 @@ function PokeFluteQuest:isDone()
 end
 
 function PokeFluteQuest:PokecenterLavender()
-	self:pokecenter("Lavender Town")
+	if getTeamSize() >= 2 and getPokemonName(1) == "Gyarados" and getRemainingPowerPoints(1, "Aqua Tail") <= 9 then
+		return talkToNpcOnCell(9,15)
+	end
+	return self:pokecenter("Lavender Town")
 end
 
 function PokeFluteQuest:LavenderTown()
@@ -54,6 +57,8 @@ function PokeFluteQuest:LavenderTown()
 		return moveToMap("Pokecenter Lavender")
 	elseif dialogs.checkFujiHouse.state and not dialogs.checkFujiNote.state then
 		return moveToMap("Lavender Town Volunteer House")
+	elseif not hasItem("Rainbow Badge") then
+		return moveToMap("Route 8")
 	elseif not hasItem("Poke Flute") then
 		return moveToMap("Pokemon Tower 1F")
 	else
@@ -70,18 +75,44 @@ function PokeFluteQuest:LavenderTownVolunteerHouse()
 	end
 end
 
+function PokeFluteQuest:Route8()
+	if hasItem("Rainbow Badge") then
+		return moveToMap("Lavender Town")
+	else
+		return moveToMap("Underground House 4")
+	end
+end
+
+function PokeFluteQuest:UndergroundHouse4()
+	if hasItem("Rainbow Badge") then
+		return moveToMap("Route 8")
+	else
+		return moveToMap("Underground1")
+	end
+end
+
+function PokeFluteQuest:Underground1()
+	if hasItem("Rainbow Badge") then
+		return moveToMap("Underground House 4")
+	else
+		return moveToMap("Underground House 3")
+	end
+end
+
+function PokeFluteQuest:UndergroundHouse3()
+	if hasItem("Rainbow Badge") then
+		return moveToMap("Underground1")
+	else
+		return moveToMap("Route 7")
+	end
+end
+
 function PokeFluteQuest:PokemonTower1F()
 	return moveToMap("Pokemon Tower 2F")
 end
 
 function PokeFluteQuest:PokemonTower2F()
-	if not hasPokemonInTeam("Gastly") and getTeamSize() <= 5 then
-		return moveToRectangle(7,8,15,9)
-	elseif hasPokemonInTeam("Gastly") and not game.hasPokemonWithMove("Thunderbolt") and hasItem("TM24") then
-		return useItemOnPokemon("TM24", 1)
-	else
-		return moveToMap("Pokemon Tower 3F")
-	end
+	return moveToMap("Pokemon Tower 3F")
 end
 
 function PokeFluteQuest:PokemonTower3F()

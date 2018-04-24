@@ -49,12 +49,16 @@ function BoulderBadgeQuest:Route2Stop()
 end
 
 function BoulderBadgeQuest:ViridianForest()
-  	moveToMap("Route 2 Stop2")
+	if not game.hasPokemonWithMove("Dragon Rage") and not hasItem("TM23") then
+		return moveToMap("Viridian Maze")
+	else
+		moveToMap("Route 2 Stop2")
+	end
 end
 
 function BoulderBadgeQuest:ViridianMaze()
 	if not game.hasPokemonWithMove("Dragon Rage") and not hasItem("TM23") then
-		log("Getting tm23-DragonRage for charnamder")
+		log("Getting tm23-DragonRage for charmander")
 		return talkToNpcOnCell(199,32)
 	elseif hasItem("TM23")then 
 		return useItemOnPokemon("TM23", 1)
@@ -87,6 +91,7 @@ function BoulderBadgeQuest:PewterCity()
 	elseif self:needPokemart() then
 		return moveToMap("Pewter Pokemart")
 	elseif not self:isTrainingOver() then
+		log("Training until "..self.level .."Lv")
 		return moveToMap("Route 2")
 	elseif self:isTrainingOver() and not hasItem("Boulder Badge") then
 		return moveToMap("Pewter Gym")
@@ -109,7 +114,7 @@ function BoulderBadgeQuest:Route3()
 end
 
 function BoulderBadgeQuest:PokecenterPewter()
-	if   getPokemonName(1) ~= "Bulbasaur" and getPokemonName(1) ~= "Ivysaur"  and not hasItem("Boulder Badge")  then
+	if   getPokemonName(1) ~= "Charmander" and getPokemonName(1) ~= "Charmeleon"  and not hasItem("Boulder Badge")  then
 		if isPCOpen() then
 			if isCurrentPCBoxRefreshed() then
 				return depositPokemonToPC(1)

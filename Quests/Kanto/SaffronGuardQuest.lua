@@ -89,14 +89,11 @@ function SaffronGuardQuest:VermilionCity()
 end
 
 function SaffronGuardQuest:Route2()
-	
-		return moveToMap("Viridian City") or moveToMap("Route 2 Stop3")
-	
+	return moveToMap("Viridian City") or moveToMap("Route 2 Stop3")
 end
 
 function SaffronGuardQuest:Route2Stop3()
-		return moveToCell(3,12)
-	
+	return moveToCell(3,12)
 end
 
 function SaffronGuardQuest:Route6()

@@ -13,12 +13,14 @@ local Dialog = require "Quests/Dialog"
 
 local name        = 'Mt. Moon Fossil'
 local description = 'from Route 3 to Cerulean City'
-local level       = 23
+local level       = 30
 
 local dialogs = {
 	fossileGuyBeaten = Dialog:new({
 		"Did you get the one you like?"--,
-		--""
+	}),
+	karpDone = Dialog:new({ 
+		"show me the Magikarp",
 	})
 }
 
@@ -53,11 +55,10 @@ function MoonFossilQuest:Route3()
 end
 
 function MoonFossilQuest:MtMoon1F()
-	if  not self:isTrainingOver() then
+	if  not self:isTrainingOver() or not hasItem("Escape Rope") then
+		log("Training until "..self.level .."Lv")
 		return moveToRectangle(28, 51, 40, 54)
 	elseif getMoney() >= 2000 and not hasItem("Escape Rope") then
-		return moveToMap("Route 3")
-	elseif self:isTrainingOver() and not game.isTeamFullyHealed() then
 		return moveToMap("Route 3")
 	else
 		return moveToCell(21, 20) -- Mt. Moon B1F
@@ -89,7 +90,13 @@ function MoonFossilQuest:MtMoonB2F()
 				else
 					fatal("undefined KANTO_FOSSIL_ID")
 				end
-			else
+			elseif game.inRectangle(21, 29, 29, 38) then
+				if getPokemonHealthPercent(1) <= 90 and isPokemonUsable(1) then
+					return useItemOnPokemon("Potion", 1)
+				else 
+					talkToNpcOnCell(23, 31)
+				end
+			else 
 				return talkToNpcOnCell(23, 31)
 			end
 		elseif isNpcOnCell(26, 23) then
@@ -111,27 +118,47 @@ function MoonFossilQuest:Route4()
 end
 
 function MoonFossilQuest:PokecenterRoute3()
-	if    getPokemonName(1) ~= "Bulbasaur" and getPokemonName(1) ~= "Ivysaur"   and  not hasItem("HM05 - Flash")  then
-		if isPCOpen() then
-			if isCurrentPCBoxRefreshed() then
-				return depositPokemonToPC(1)
-			else
-				return
-			end
-		else
-			return usePC()
-		end
-	elseif  getTeamSize() >=2 and not hasItem("HM03 - Surf") then
+	if  getTeamSize() >=3 and not hasItem("HM03 - Surf") then
 				if isPCOpen() then
 					if isCurrentPCBoxRefreshed() then
-							return depositPokemonToPC(2)
+							return depositPokemonToPC(3)
 					else
 						return
 					end
 				else
 					return usePC()
 				end
-				
+	elseif getTeamSize() >=1 and not hasItem("HM03 - Surf") and not hasPokemonInTeam("Magikarp") and getMoney() < 2500 then
+		return self:pokecenter("Route 3")
+	elseif  getTeamSize() >=1 and not hasItem("HM03 - Surf") and not hasPokemonInTeam("Magikarp") then
+				if isPCOpen() then
+					if isCurrentPCBoxRefreshed() then
+						return depositPokemonToPC(1)
+					else
+						return
+					end
+				else
+					return usePC()
+				end
+	elseif  getTeamSize() == 0 then
+		return talkToNpcOnCell(2,17)	
+	elseif  hasPokemonInTeam("Magikarp") and getTeamSize() == 1 then
+		if isPCOpen() then
+			if isCurrentPCBoxRefreshed() then
+				if getCurrentPCBoxSize() ~= 0 then
+					for pokemon=1, getCurrentPCBoxSize() do
+						if getPokemonLevelFromPC(getCurrentPCBoxId(), pokemon) > 10 then
+						return withdrawPokemonFromPC(getCurrentPCBoxId(),pokemon) 	
+						end
+					end
+					return openPCBox(getCurrentPCBoxId()+1)
+				end
+			else
+				return
+			end
+		else
+			return usePC()
+		end
 	else
 		self:pokecenter("Route 3")
 	end

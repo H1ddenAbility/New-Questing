@@ -38,7 +38,7 @@ function HmSurfQuest:SafariStop()
 end
 
 function HmSurfQuest:SafariEntrance()
-	if getTeamSize() == 2  then 
+	if getTeamSize() == 3  then 
 		if getPlayerX() == 31 and getPlayerY() == 16 then
             return useItem("Old Rod")
         else

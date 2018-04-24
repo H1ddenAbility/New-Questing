@@ -40,7 +40,7 @@ function SoulBadgeQuest:isDoable()
 end
 
 function SoulBadgeQuest:isDone()
-	if ( hasItem("RainBow Badge") and getMapName() == "Saffron City") or getMapName() == "Safari Entrance" or getMapName() == "Route 20" or getMapName() == "Vermilion City" or getMapName() == "Route 7" then
+	if  getMapName() == "Safari Entrance" or getMapName() == "Route 20" or getMapName() == "Vermilion City" or getMapName() == "Route 7" then
 		return true
 	else
 		return false
@@ -110,7 +110,7 @@ function SoulBadgeQuest:PokecenterFuchsia()
 			return talkToNpcOnCell(9,15)
 	elseif not hasPokemonInTeam("Ditto") and getTeamSize() == 6 and getMoney() >= 50000 then
 			if isPCOpen() then
-				depositPokemonToPC(2)
+				depositPokemonToPC(5)
 			else
 				return usePC()
 			end
@@ -283,14 +283,14 @@ function SoulBadgeQuest:FuchsiaCity()
 		return moveToMap("Route 15 Stop House")
 	elseif getMoney() <= 5000 and not hasItem("HM03 - Surf") then
 		return moveToMap("Route 18")
+	elseif not hasItem("Soul Badge")  then 
+		return moveToMap("Fuchsia Gym")
 	elseif not hasItem("HM03 - Surf") then
 		if not dialogs.questSurfAccept.state then
 			return moveToMap("Fuchsia City Stop House")
 		else
 			return moveToMap("Safari Stop")
 		end
-	elseif not hasItem("Soul Badge") and getMoney() >= 55000 then 
-		return moveToMap("Fuchsia Gym")
 	elseif hasItem("Soul Badge") and getMoney() >= 55000 then
 		return moveToMap("Route 15 Stop House")
 	else
@@ -352,7 +352,7 @@ function SoulBadgeQuest:Route19()
 		else
 			return talkToNpcOnCell(33,19)
 		end
-	elseif hasItem("HM03 - Surf") and not game.hasPokemonWithMove("Surf") and getTeamSize() >= 3 then
+	elseif hasItem("HM03 - Surf") and not game.hasPokemonWithMove("Surf") and getTeamSize() >= 4 then
 		if not game.hasPokemonWithMove("Surf") then
 			if self.pokemonId <= getTeamSize() then					
 				useItemOnPokemon("HM03 - Surf", self.pokemonId)
@@ -399,6 +399,8 @@ function SoulBadgeQuest:FuchsiaGym()
 	if not hasItem("Soul Badge") then
 		if game.inRectangle(6,16,7,16) then -- Antistuck NearLinkExitCell (7,16) Pathfind Return move on this cell
 			return moveToCell(6,15)
+		elseif not game.isTeamFullyHealed()  then
+			return moveToMap("Fuchsia City")
 		else
 			return talkToNpcOnCell(7,10)
 		end

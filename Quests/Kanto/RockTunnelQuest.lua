@@ -21,7 +21,7 @@ function RockTunnelQuest:new()
 end
 
 function RockTunnelQuest:isDoable()
-	if self:hasMap() and hasItem("Rainbow Badge") then
+	if self:hasMap() and hasItem("Rainbow Badge") and hasItem("Poke Flute")  and not hasItem("Soul Badge") then
 		return true
 	end
 	return false
@@ -110,7 +110,11 @@ end
 
 
 function RockTunnelQuest:Route12()
-	return moveToMap("Route 13")
+	if isNpcOnCell(18,47) then
+		return talkToNpcOnCell(18,47)
+	else
+		return moveToMap("Route 13")
+	end
 end
 
 function RockTunnelQuest:Route13()
