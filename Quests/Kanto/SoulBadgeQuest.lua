@@ -32,7 +32,7 @@ function SoulBadgeQuest:new()
 end
 
 function SoulBadgeQuest:isDoable()	
-	if self:hasMap() and not hasItem("Marsh Badge") and not ( hasItem("Bicycle") or hasItem("Yellow Bicycle") or hasItem("Blue Bicycle") or hasItem("Green Bicycle") ) then
+	if self:hasMap() and hasItem("Poke Flute") and not hasItem("Marsh Badge") and not ( hasItem("Bicycle") or hasItem("Yellow Bicycle") or hasItem("Blue Bicycle") or hasItem("Green Bicycle") ) then
 			return true
 	
 	end
@@ -291,7 +291,7 @@ function SoulBadgeQuest:FuchsiaCity()
 		else
 			return moveToMap("Safari Stop")
 		end
-	elseif hasItem("Soul Badge") and getMoney() >= 55000 then
+	elseif hasItem("Soul Badge") and getMoney() >= 65000 then
 		return moveToMap("Route 15 Stop House")
 	else
 		return moveToMap("Fuchsia City Stop House")
@@ -316,7 +316,7 @@ end
 function SoulBadgeQuest:Route15StopHouse()
 	if not self:isTrainingOver() then
 		return moveToMap("Route 15")
-	elseif getMoney() >= 55000 then
+	elseif getMoney() >= 65000 then
 		return moveToMap("Route 15")
 	else 
 		return moveToMap("Fuchsia City")
@@ -388,7 +388,7 @@ end
 function SoulBadgeQuest:Route15()
 	if not self:isTrainingOver() then
 		return moveToGrass()
-	elseif getMoney() >= 55000 then
+	elseif getMoney() >= 65000 then
 		return moveToMap("Route 14")
 	else
 		return moveToMap("Route 15 Stop House")

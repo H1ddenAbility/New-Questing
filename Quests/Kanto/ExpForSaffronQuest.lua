@@ -58,14 +58,14 @@ function ExpForSaffronQuest:SeafoamB2F()
 end
 
 function ExpForSaffronQuest:SeafoamB3F()
-	log("Training until 55000$")
+	log("Training until 65000$")
 	return moveToCell(57,26) --Seafom B4F
 end
 
 function ExpForSaffronQuest:SeafoamB4F()
 	if isNpcOnCell(57,20) then --Item: Nugget (15000 Money)
 		return talkToNpcOnCell(57,20)
-	elseif  getMoney() <= 55000 then
+	elseif  getMoney() <= 66000 then
 		return moveToRectangle(50,10,62,32)
 	elseif hasItem("Escape Rope") then
 		useItem("Escape Rope")
