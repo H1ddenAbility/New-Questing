@@ -60,7 +60,7 @@ function BoulderBadgeQuest:ViridianMaze()
 	if not game.hasPokemonWithMove("Dragon Rage") and not hasItem("TM23") then
 		log("Getting tm23-DragonRage for charmander")
 		return talkToNpcOnCell(199,32)
-	elseif hasItem("TM23")then 
+	elseif hasItem("TM23") and not game.hasPokemonWithMove("Dragon Rage") then 
 		return useItemOnPokemon("TM23", 1)
 	elseif isNpcOnCell(186,52) then
 		return talkToNpcOnCell(186,52)
