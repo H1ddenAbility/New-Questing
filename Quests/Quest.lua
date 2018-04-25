@@ -585,7 +585,11 @@ local hmMoves = {
 
 
 function Quest:learningMove(moveName, pokemonIndex)
-	return forgetAnyMoveExcept({"Dragon Rage", "Crunch", "Aqua Tail", "Surf", "Ice Fang", "Air Slash", "Cut", "Acrobatics", "Poison Fang", "Bite", }) 
+	if getTeamSize() >= 1 and getPokemonName(1) == "Gyarados" then
+		return forgetAnyMoveExcept({"Dragon Rage", "Crunch", "Aqua Tail", "Surf", "Ice Fang", "Air Slash", "Cut", "Acrobatics", "Poison Fang", "Bite", }) 
+	else
+		return forgetAnyMoveExcept({"Crunch", "Aqua Tail", "Surf", "Ice Fang", "Air Slash", "Cut", "Acrobatics", "Poison Fang", "Bite", }) 
+	end
 end
 
 return Quest
