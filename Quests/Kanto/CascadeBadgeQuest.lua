@@ -52,7 +52,7 @@ function CascadeBadgeQuest:CeruleanCity()
 		return moveToMap("Pokecenter Cerulean")
 	elseif self:needPokemart() then
 		return moveToMap("Cerulean Pokemart")
-	elseif not hasItem("Cascade Badge") and getTeamSize() >= 2 and  hasPokemonInTeam("Gyarados")  and getMoney() > 6000 and not game.hasPokemonWithMove("Bite") then
+	elseif getTeamSize() >= 2 and  hasPokemonInTeam("Gyarados")  and getMoney() > 6000 and not game.hasPokemonWithMove("Bite") then
 		if not isRelearningMoves() then
 			pushDialogAnswer(1)
 			return talkToNpcOnCell(25, 11)
